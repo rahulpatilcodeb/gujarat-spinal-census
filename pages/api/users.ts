@@ -3,7 +3,7 @@ import User from '@/models/UserModel';
 import type { NextApiRequest, NextApiResponse } from 'next'
 const mongoose = require("mongoose");
 
-const url =process.env.DATABASE_URL
+const url =process.env.NEXT_PUBLIC_DATABASE_URL
     
 
 mongoose.connect(url);

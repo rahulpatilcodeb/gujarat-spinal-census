@@ -113,7 +113,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               />
             </div>
             <div className="col">
-              <label htmlFor="lname" className="form-label">
+              <label htmlFor="lname" className={"form-label"}>
                 Last Name
               </label>
               <input required
@@ -121,7 +121,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 value={values.lname}
                 onChange={handleFormData('lname')}
                 type="text"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="Lname"
                 placeholder="Last name"
                 aria-label="Last name"
@@ -130,7 +130,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
           </div>
 
           <div className="row mb-4">
-            <label htmlFor="fname" className="form-label ">
+            <label htmlFor="fname" className={"form-label"}>
               Date of Birth
             </label>
             <div className="col">
@@ -139,7 +139,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 onChange={handleFormData("dob")}
                 id="day"
                 name="dob"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 value={values.dob}
               />
                 
@@ -276,7 +276,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <textarea required
               onChange={handleFormData("address")}
               name="address"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="address"
               rows={1}
               value={values.address}
@@ -291,7 +291,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               onChange={handleFormData("district")}
               id="District"
               name="district"
-              className="form-select tcolor"
+              className={`form-select ${styles.tcolor}`}
               // value={values.district}
             >
               <option defaultChecked  value="">District</option>
@@ -312,7 +312,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 name="contact"
                 value={values.contact}
                 type="text"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="Mnumber"
               />
             </div>
@@ -326,7 +326,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               value={values.email}
               name="email"
               type="email"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="Email"
               placeholder="name@example.com"
             />
@@ -339,7 +339,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <textarea required
               onChange={handleFormData("qualification")}
               name="qualification"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="Qualification"
               value={values.qualification}
               rows={1}
@@ -383,7 +383,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               <textarea required
                 onChange={handleFormData("description")}
                 name="description"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="Description"
                 rows={1}
                 value={values.description}

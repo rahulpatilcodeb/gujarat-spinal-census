@@ -29,14 +29,14 @@ function Common() {
     financialStatus: "",
   });
   console.log("hzsudhui", formData);
-  const onsubmit = () => {
-    axios
-      .post(process.env.API_URL as string, formData)
+
+  const onsubmit = async () => {
+    const response = await axios
+      .post(process.env.NEXT_PUBLIC_API_URL as string, formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);
       });
-    console.log("data added");
   };
   // function for going to next step by increasing step state by 1
   const nextStep = () => {
@@ -47,7 +47,7 @@ function Common() {
     setstep(step - 1);
   };
   // handling form input data by taking onchange value and updating our previous form data state
-  const handleInputData = (input:any) => (e:any) => {
+  const handleInputData = (input: any) => (e: any) => {
     // input value from the form
     const { value } = e.target;
     //updating for data state taking previous state and then adding new value to create new object

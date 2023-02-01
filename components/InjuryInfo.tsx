@@ -1,5 +1,5 @@
 import React from "react";
-import "@/styles/Home.module.css";
+import styles from  "@/styles/Home.module.css";
 
 const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => {
 
@@ -62,7 +62,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
             type="text"
             name="injuryYear"
               id="InjuryYear"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
             />
              
           </div>
@@ -74,7 +74,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               onChange={handleFormData("injuryReason")}
               name="injuryReason"
               value={values.injuryReason}
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="Ireason"
               rows={1}
             ></textarea>
@@ -125,9 +125,9 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               onChange={handleFormData("injuryLevel")}
               name="injuryLevel"
               id="Ilevel"
-              className="form-select tcolor"
+              className={`form-select ${styles.tcolor}`}
             >
-              <option defaultChecked disabled value=''>Selected</option>
+              <option defaultChecked value=''>Selected</option>
               <option value="high">high</option>
               <option value="medium">medium</option>
               <option value="low">low</option>
