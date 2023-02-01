@@ -31,7 +31,7 @@ function Common() {
   console.log("hzsudhui", formData);
   const onsubmit = () => {
     axios
-      .post("http://localhost:3000/api/users", formData)
+      .post("https://gujarat-spinal-census.vercel.app/api/users", formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);
