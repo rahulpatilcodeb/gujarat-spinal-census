@@ -3,12 +3,7 @@ import "@/styles/Home.module.css";
 import regi from "@/public/regi.png"
 
 const Register =() => {
-  // const [formData, setFormData] = useState({});
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   // send formData to the API
-  // };
 
   function registered(){
     window.location.href="/"

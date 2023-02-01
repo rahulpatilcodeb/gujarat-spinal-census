@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useState } from "react";
-import Home from "@/components/Home";
-import Login from "@/components/Login";
+import Home from "@/components/UserRegister";
+import Login from "@/components/InjuryInfo";
 import Register from "@/components/Register";
 import axios from "axios";
 
@@ -31,7 +31,7 @@ function Common() {
   console.log("hzsudhui", formData);
   const onsubmit = () => {
     axios
-      .post("https://gujarat-spinal-census.vercel.app/api/users", formData)
+      .post(process.env.API_URL as string, formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);
