@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import bimg from "@/public/bimage.png";
-import "@/styles/Home.module.css";
+import styles from "@/styles/Home.module.css";
 // import {useFormData} from "./Formdata"
 
 const Home = ({nextStep,handleFormData, values}:any) => {
@@ -106,7 +106,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 value={values.fname}
                 onChange={handleFormData("fname")}
                 type="text"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="fname"
                 placeholder="First name"
                 aria-label="First name"
