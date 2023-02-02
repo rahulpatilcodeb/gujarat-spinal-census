@@ -1,21 +1,8 @@
-import React, { useState } from "react";
-import "@/styles/Home.module.css";
+import React from "react";
+import styles from  "@/styles/Home.module.css";
 
 const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => {
-  // const [data, FormData] = useState({});
 
-  // const handleSubmit = (event) => {
-  //   console.log("in handle submit");
-  //   event.preventDefault();
-  //   console.log(data);
-  // };
-
-  // function handleFormData(event) {
-  //   return FormData({
-  //     ...data,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // }
   const submitFormData = async (e:any) => {
     e.preventDefault();
     console.log("FormData")
@@ -70,12 +57,12 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
             <label htmlFor="InjuryYear" className="form-label">
               Injury Year
             </label>
-            <input
+            <input required
             onChange={handleFormData("injuryYear")}
             type="text"
             name="injuryYear"
               id="InjuryYear"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
             />
              
           </div>
@@ -83,11 +70,11 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
             <label htmlFor="Ireason" className="form-label">
               Injury Reason
             </label>
-            <textarea
+            <textarea required
               onChange={handleFormData("injuryReason")}
               name="injuryReason"
               value={values.injuryReason}
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="Ireason"
               rows={1}
             ></textarea>
@@ -103,7 +90,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               >
                 Paraplagia
               </label>
-              <input
+              <input required
                 onChange={handleFormData("injuryType")}
                 type="radio"
                 name="injuryType"
@@ -119,7 +106,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               >
                 Quadriplegia
               </label>
-              <input
+              <input required
                 onChange={handleFormData("injuryType")}
                 type="radio"
                 name="injuryType"
@@ -134,12 +121,13 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
             <label htmlFor="Ilevel" className="form-label">
               Injury Level
             </label>
-            <select
+            <select required
               onChange={handleFormData("injuryLevel")}
               name="injuryLevel"
               id="Ilevel"
-              className="form-select tcolor"
+              className={`form-select ${styles.tcolor}`}
             >
+              <option defaultChecked value=''>Selected</option>
               <option value="high">high</option>
               <option value="medium">medium</option>
               <option value="low">low</option>
@@ -153,7 +141,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="ImplantFix">
                 Operated
               </label>
-              <input
+              <input required
                 onChange={handleFormData("implantFixation")}
                 type="radio"
                 name="implantFixation"
@@ -166,7 +154,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="Implant-Fix-No">
                 Not Operated
               </label>
-              <input
+              <input required
                 onChange={handleFormData("implantFixation")}
                 type="radio"
                 name="implantFixation"
@@ -182,7 +170,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="Istatus">
                 Compled
               </label>
-              <input
+              <input required
                 onChange={handleFormData("injuryStatus")}
                 type="radio"
                 name="injuryStatus"
@@ -195,7 +183,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="Istatus-no">
                 Incomplete
               </label>
-              <input
+              <input required
                 onChange={handleFormData("injuryStatus")}
                 type="radio"
                 name="injuryStatus"
@@ -213,7 +201,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="PhysicalStatus">
                 Dependent
               </label>
-              <input
+              <input required
                 onChange={handleFormData("physicalStatus")}
                 type="radio"
                 name="physicalStatus"
@@ -229,7 +217,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               >
                 Not Dependent
               </label>
-              <input
+              <input required
                 onChange={handleFormData("physicalStatus")}
                 type="radio"
                 name="physicalStatus"
@@ -245,7 +233,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="Financialdep">
                 Dependent
               </label>
-              <input
+              <input required
                 onChange={handleFormData("financialStatus")}
                 type="radio"
                 name="financialStatus"
@@ -258,7 +246,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="FinancialInd">
                 Independent
               </label>
-              <input
+              <input required
                 onChange={handleFormData("financialStatus")}
                 type="radio"
                 name="financialStatus"
@@ -273,7 +261,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="FinancialJob">
                 Job
               </label>
-              <input
+              <input required
                 onChange={handleFormData("financialStatus")}
                 type="radio"
                 name="financialStatus"
@@ -286,7 +274,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
               <label className="custom-control-label" htmlFor="FinancialBus">
                 Business
               </label>
-              <input
+              <input required
                 onChange={handleFormData("financialStatus")}
                 type="radio"
                 name="financialStatus"

@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useState } from "react";
-import Home from "@/components/Home";
-import Login from "@/components/Login";
+import Home from "@/components/UserRegister";
+import Login from "@/components/InjuryInfo";
 import Register from "@/components/Register";
 import axios from "axios";
 
@@ -29,14 +29,14 @@ function Common() {
     financialStatus: "",
   });
   console.log("hzsudhui", formData);
-  const onsubmit = () => {
-    axios
-      .post("https://gujarat-spinal-census.vercel.app/api/users", formData)
+
+  const onsubmit = async () => {
+    const response = await axios
+      .post(process.env.NEXT_PUBLIC_API_URL as string, formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);
       });
-    console.log("data added");
   };
   // function for going to next step by increasing step state by 1
   const nextStep = () => {
@@ -47,7 +47,7 @@ function Common() {
     setstep(step - 1);
   };
   // handling form input data by taking onchange value and updating our previous form data state
-  const handleInputData = (input:any) => (e:any) => {
+  const handleInputData = (input: any) => (e: any) => {
     // input value from the form
     const { value } = e.target;
     //updating for data state taking previous state and then adding new value to create new object

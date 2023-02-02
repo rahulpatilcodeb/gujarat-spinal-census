@@ -86,7 +86,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <span>
               <img src="upload.png" alt="" />
             </span>
-            <input
+            <input 
               onChange={handleFormData}
               style={{ marginLeft: "10px " }}
               type="file"
@@ -101,7 +101,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               <label htmlFor="fname" className="form-label">
                 First Name
               </label>
-              <input
+              <input required
                 name="fname"
                 value={values.fname}
                 onChange={handleFormData("fname")}
@@ -113,15 +113,15 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               />
             </div>
             <div className="col">
-              <label htmlFor="lname" className="form-label">
+              <label htmlFor="lname" className={"form-label"}>
                 Last Name
               </label>
-              <input
+              <input required
                 name="Lname"
                 value={values.lname}
                 onChange={handleFormData('lname')}
                 type="text"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="Lname"
                 placeholder="Last name"
                 aria-label="Last name"
@@ -130,16 +130,16 @@ const Home = ({nextStep,handleFormData, values}:any) => {
           </div>
 
           <div className="row mb-4">
-            <label htmlFor="fname" className="form-label ">
+            <label htmlFor="fname" className={"form-label"}>
               Date of Birth
             </label>
             <div className="col">
-              <input
+              <input required
               type="date"
                 onChange={handleFormData("dob")}
                 id="day"
                 name="dob"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 value={values.dob}
               />
                 
@@ -230,7 +230,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                   <label className="custom-control-label" htmlFor="male">
                     Male
                   </label>
-                  <input
+                  <input required
                     onChange={handleFormData("gender")}
                     value="male"
                     type="radio"
@@ -243,7 +243,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                   <label className="custom-control-label" htmlFor="female">
                     Female
                   </label>
-                  <input
+                  <input required
                     onChange={handleFormData("gender")}
                     value="Female"
                     type="radio"
@@ -256,7 +256,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                   <label className="custom-control-label" htmlFor="others">
                     Others
                   </label>
-                  <input
+                  <input required
                     value="other"
                     onChange={handleFormData("gender")}
                     type="radio"
@@ -273,10 +273,10 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="address" className="form-label">
               Address
             </label>
-            <textarea
+            <textarea required
               onChange={handleFormData("address")}
               name="address"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="address"
               rows={1}
               value={values.address}
@@ -287,11 +287,11 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="District" className="form-label">
               District
             </label>
-            <select
+            <select required
               onChange={handleFormData("district")}
               id="District"
               name="district"
-              className="form-select tcolor"
+              className={`form-select ${styles.tcolor}`}
               // value={values.district}
             >
               <option defaultChecked  value="">District</option>
@@ -307,12 +307,12 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               <span className="input-group-text" id="basic-addon1">
                 +91
               </span>
-              <input
+              <input required
                 onChange={handleFormData("contact")}
                 name="contact"
                 value={values.contact}
                 type="text"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="Mnumber"
               />
             </div>
@@ -321,12 +321,12 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="Email" className="form-label">
               Email address
             </label>
-            <input
+            <input required
               onChange={handleFormData("email")}
               value={values.email}
               name="email"
               type="email"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="Email"
               placeholder="name@example.com"
             />
@@ -336,10 +336,10 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="Qualification" className="form-label">
               Qualification
             </label>
-            <textarea
+            <textarea required
               onChange={handleFormData("qualification")}
               name="qualification"
-              className="form-control tcolor"
+              className={`form-control ${styles.tcolor}`}
               id="Qualification"
               value={values.qualification}
               rows={1}
@@ -353,7 +353,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 <label className="custom-control-label" htmlFor="bpl">
                   Yes
                 </label>
-                <input
+                <input required
                   onChange={handleFormData("bpl")}
                   type="radio"
                   name="bpl"
@@ -366,7 +366,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 <label className="custom-control-label" htmlFor="bplNo">
                   No
                 </label>
-                <input
+                <input required
                   onChange={handleFormData("bpl")}
                   type="radio"
                   name="bpl"
@@ -380,10 +380,10 @@ const Home = ({nextStep,handleFormData, values}:any) => {
               <label htmlFor="Description" className="form-label">
                 Description
               </label>
-              <textarea
+              <textarea required
                 onChange={handleFormData("description")}
                 name="description"
-                className="form-control tcolor"
+                className={`form-control ${styles.tcolor}`}
                 id="Description"
                 rows={1}
                 value={values.description}

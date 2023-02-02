@@ -3,8 +3,8 @@ import User from '@/models/UserModel';
 import type { NextApiRequest, NextApiResponse } from 'next'
 const mongoose = require("mongoose");
 
-const url =
-    "mongodb://afrin:code-b@ac-l0ameik-shard-00-00.kijruwx.mongodb.net:27017,ac-l0ameik-shard-00-01.kijruwx.mongodb.net:27017,ac-l0ameik-shard-00-02.kijruwx.mongodb.net:27017/posts?ssl=true&replicaSet=atlas-z70j6v-shard-0&authSource=admin&retryWrites=true&w=majority";
+const url =process.env.NEXT_PUBLIC_DATABASE_URL
+    
 
 mongoose.connect(url);
 
