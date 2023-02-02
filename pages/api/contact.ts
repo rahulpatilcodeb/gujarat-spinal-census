@@ -1,13 +1,44 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import Contact from "@/models/ContactModel";
+import type { NextApiRequest, NextApiResponse } from "next";
+const mongoose = require("mongoose");
 
-type Data = {
-  name: string
-}
+const url = process.env.NEXT_PUBLIC_DATABASE_URL;
 
-export default function handler(
+mongoose.connect(url);
+
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
-  res.status(200).json({ name: 'John Doe' })
+  switch (req.method) {
+    case "GET":
+      const posts = await Contact.find();
+      res.json({
+        data: posts,
+      });
+    case "POST":
+      const contact = new Contact({
+        contact: req.body.contact,
+        email: req.body.email,
+        description: req.body.description
+      });
+      await contact.save();
+      console.log("Contact", contact);
+      return res.send("data saved");
+  }
 }
+
+// // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+// import type { NextApiRequest, NextApiResponse } from 'next'
+
+// type Data = {
+//   name: string
+// }
+
+// export default function handler(
+//   req: NextApiRequest,
+//   res: NextApiResponse<Data>
+// ) {
+//   res.status(200).json({ name: 'John Doe' })
+// }
