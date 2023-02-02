@@ -23,7 +23,7 @@ function Navbars() {
             </Link>
             <Link
               className="ms-2"
-              href="/Contact"
+              href="/contact"
               style={{ color: "rgba(0, 0, 0)" }}
             >
               Contact
