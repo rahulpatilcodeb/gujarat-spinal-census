@@ -1,7 +1,7 @@
 import React from "react";
 import styles from  "@/styles/Home.module.css";
 
-const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => {
+const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => {
 
   const submitFormData = async (e:any) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
   return (
     <>
       <div className="mb-5 d-flex justify-content-center">
-        <div style={{ marginRight: "50px" }}>
+        <div>
           <div className="col">
             <span
               style={{
@@ -50,7 +50,6 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
       <form
         name="form"
         onSubmit={submitFormData}
-        style={{ margin: "0px 339px " }}
       >
         <div className="container mb-4">
           <div className="mb-4">
@@ -316,4 +315,4 @@ const Login = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => 
   );
 };
 
-export default Login;
+export default InjuryInfo;

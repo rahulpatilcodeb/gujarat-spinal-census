@@ -3,7 +3,7 @@ import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
 // import {useFormData} from "./Formdata"
 
-const Home = ({nextStep,handleFormData, values}:any) => {
+const UserRegister = ({nextStep,handleFormData, values}:any) => {
   // const [data, FormData] = useState({});
 
   // const handleSubmit = (event) => {
@@ -44,7 +44,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
             <span>Personal Details -</span>
           </div>
         </div>
-        <div style={{ marginLeft: "50px " }}>
+        <div >
           <div className="col">
             <span
               style={{
@@ -61,7 +61,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
           </div>
         </div>
       </div>
-      <form name="formhome" onSubmit={submitFormData} style={{ margin: "0px 339px " }}>
+      <form name="formhome" onSubmit={submitFormData}>
         <div className="d-flex justify-content-center">
           <div>
             <img
@@ -389,7 +389,7 @@ const Home = ({nextStep,handleFormData, values}:any) => {
                 value={values.description}
               ></textarea>
             </div>
-            <div className="d-md-flex justify-content-md-end mb-5">
+            <div className="d-flex justify-content-end mb-5">
               <button
                 type="submit"
                 style={{
@@ -409,4 +409,4 @@ const Home = ({nextStep,handleFormData, values}:any) => {
   );
 };
 
-export default Home;
+export default UserRegister;

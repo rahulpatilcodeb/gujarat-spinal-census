@@ -12,7 +12,7 @@ const Register =() => {
 
   return (
     <>
-      <div className="mb-4" style={{marginLeft: "190px", marginTop: "20px"}}>
+      <div className="mb-4 d-flex justify-content-center">
         Registration Done.
       </div>
 
