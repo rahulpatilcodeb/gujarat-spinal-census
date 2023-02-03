@@ -1,9 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useState } from "react";
-import Home from "@/components/UserRegister";
-import Login from "@/components/InjuryInfo";
 import Register from "@/components/Register";
 import axios from "axios";
+import InjuryInfo from "@/components/InjuryInfo";
+import UserRegister from "@/components/UserRegister";
 
 function Common() {
   const [step, setstep] = useState(1);
@@ -65,7 +65,7 @@ function Common() {
           <Container>
             <Row>
               <Col className="custom-margin">
-                <Home
+                <UserRegister
                   nextStep={nextStep}
                   handleFormData={handleInputData}
                   values={formData}
@@ -82,7 +82,7 @@ function Common() {
           <Container>
             <Row>
               <Col className="custom-margin">
-                <Login
+                <InjuryInfo
                   nextStep={nextStep}
                   prevStep={prevStep}
                   handleFormData={handleInputData}
