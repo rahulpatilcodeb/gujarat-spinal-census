@@ -17,6 +17,7 @@ export default async function handler(
       res.json({
         data: posts,
       });
+      break;
     case "POST":
       const contact = new Contact({
         contact: req.body.contact,
@@ -28,17 +29,3 @@ export default async function handler(
       return res.send("data saved");
   }
 }
-
-// // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// import type { NextApiRequest, NextApiResponse } from 'next'
-
-// type Data = {
-//   name: string
-// }
-
-// export default function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<Data>
-// ) {
-//   res.status(200).json({ name: 'John Doe' })
-// }

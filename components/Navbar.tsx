@@ -1,15 +1,22 @@
 import logo from "@/public/logo.png";
 import "@/styles/Home.module.css";
 import Link from "next/link";
-
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 function Navbars() {
+  let {
+    user: users,
+    islogin: Ilogin,
+    token,
+  } = useSelector((state: RootState) => state.users);
+
   return (
     <>
       <div className="my-3 d-flex justify-content-between">
         <div className="col ms-5">
           <span>
-            <img
+            <img 
               style={{ height: "100px ", width: "120px " }}
               alt=""
               src={logo.src}

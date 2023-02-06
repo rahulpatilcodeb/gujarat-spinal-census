@@ -18,6 +18,7 @@ export default async function handler(
             res.json({
                 data: posts,
             });
+            break;
         case 'POST':
             const user = new User({
                 fname: req.body.fname,
