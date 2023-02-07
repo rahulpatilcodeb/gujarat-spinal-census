@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
 // import { setCookie, getCookie } from "cookies-next";
 import { RootState } from "@/store/store";
-import axiosInstance from "@/components/axiosapi";
 import Style from "@/styles/loader.module.scss";
 
 const Login = () => {

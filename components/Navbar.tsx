@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { logout } from "@/store/userSlice";
-import router from "next/router";
-import { useState, useEffect } from "react";
 
 function Navbars() {
   const dispatch = useDispatch();
