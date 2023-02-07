@@ -1,15 +1,37 @@
 import logo from "@/public/logo.png";
 import "@/styles/Home.module.css";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { logout } from "@/store/userSlice";
+import router from "next/router";
+import { useState, useEffect } from "react";
 
 function Navbars() {
+  const dispatch = useDispatch();
+ 
   let {
     user: users,
     islogin: Ilogin,
-    token,
+    
   } = useSelector((state: RootState) => state.users);
+  // const [signin, setSignin] = useState(false);
+
+
+  function handleClick(e:any){
+    e.preventDefault()
+
+    dispatch(logout())
+
+  }
+  
+  // useEffect(() => {
+  //   console.log(Ilogin);
+  //   setSignin(Ilogin);
+  //   if (Ilogin) {
+  //     router.push("/admin/patients");
+  //   }
+  // }, [Ilogin]);
 
   return (
     <>
@@ -35,6 +57,7 @@ function Navbars() {
             >
               Contact
             </Link>
+            <button style={{display:Ilogin? "inline":"none"}} className="btn btn-sm btn-primary ms-2 " onClick={handleClick}> Logout</button>
           </span>
         </div>
       </div>

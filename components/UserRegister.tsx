@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
+
 // import {useFormData} from "./Formdata"
 
 const UserRegister = ({nextStep,handleFormData, values}:any) => {

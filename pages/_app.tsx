@@ -7,9 +7,13 @@ import Contact from '@/components/Contact';
 import { Provider } from 'react-redux';
 import {persistor, store } from '../store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+// import style from "@/styles/loader.css"
 
 
 export default function App({ Component, pageProps }: AppProps) {
+
+
+
   return (
     <>
      <Provider store={store}>
@@ -17,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
       
       <Navbars />
       <Component {...pageProps} />
+      {/* <div className="lds-ring"><div></div><div></div><div></div><div></div></div> */}
       <Footer />
       
       </PersistGate>

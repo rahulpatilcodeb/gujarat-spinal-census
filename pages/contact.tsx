@@ -32,7 +32,7 @@ const Contact = () => {
     //updating for data state taking previous state and then adding new value to create new object
     setFormData(() => ({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name] : e.target.value,
     }));
   };
 
@@ -106,6 +106,7 @@ const Contact = () => {
         </button>
       </div>
     </form>
+    
   );
 };
 
