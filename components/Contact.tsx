@@ -14,7 +14,7 @@ function Contact() {
 
   const onsubmit = () => {
     axios
-      .post(process.env.NEXT_PUBLIC_API_URL_Contact as string, formData)
+      .post(` ${process.env.NEXT_PUBLIC_API_URL}/contact`, formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);

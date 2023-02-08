@@ -47,7 +47,7 @@ const Login = () => {
       setLoading(false);
       // Send a request to the server to check the username and password
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL_ADMIN as string,
+        `${process.env.NEXT_PUBLIC_API_URL}/adminlogin`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -55,7 +55,7 @@ const Login = () => {
         }
       );
       const datadb = await response.json();
-      console.log(datadb)
+      console.log(datadb);
       setLoading(true);
       alert(datadb.msg);
 
@@ -66,14 +66,16 @@ const Login = () => {
           // console.log("second if");
           // console.log(datadb);
           // setCookie("token", datadb.key);
-          dispatch(login({ user: datadb.payload.name, token: datadb.payload.key }));
+          dispatch(
+            login({ user: datadb.payload.name, token: datadb.payload.key })
+          );
           // console.log(response);
           // axios.defaults.headers.common.Authorization = `Bearer ${datadb.key}`;
           // return true;
           router.push("/admin/patients");
         }
       } else {
-        return alert("invalid input")
+        return alert("invalid input");
       }
     } catch (error) {
       alert(`\n Please provide correct input.\n  \n thank you!`);

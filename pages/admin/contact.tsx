@@ -4,7 +4,7 @@ import Pagination from "../../components/Pagination";
 import { paginate } from "../../components/paginate";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 // const axiosInstance = axios.create({
 //   baseURL: process.env.,
@@ -17,6 +17,7 @@ const Home = () => {
 
   const router = useRouter();
   const [posts, setPosts] = useState([]);
+  
   const pageSize = 10;
 
   const {
@@ -32,12 +33,12 @@ const Home = () => {
     const getPosts = async () => {
       if (Ilogin) {
         const { data: res } = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL_Contact as string,
+          `${process.env.NEXT_PUBLIC_API_URL}/users`,
           { headers: { Authorization: `${token}` } }
         );
         console.log(res);
         setPosts(res.data);
-      } 
+      }
       if (!Ilogin) {
         router.push("/admin/login");
       }

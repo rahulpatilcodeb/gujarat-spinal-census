@@ -18,7 +18,7 @@ const Contact = () => {
     e.preventDefault();
     // console.log(formData);
     await axios
-      .post(process.env.NEXT_PUBLIC_API_URL_Contact as string, formData)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formData)
       .then(() => alert("data addad"))
       .catch((err: any) => {
         console.error(err);
