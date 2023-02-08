@@ -5,7 +5,7 @@ import Pagination from "@/components/Pagination";
 import { paginate } from "@/components/paginate";
 import { useRouter } from "next/router";
 
-export default function AllUser() {
+export default function Patients() {
   const router = useRouter();
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
@@ -124,7 +124,7 @@ export default function AllUser() {
 
   return (
     <div style={{ padding: 20 }}>
-      <div style={{display:"flex"}}>
+      <div style={{ display: "flex" }}>
         <Input
           icon="search"
           placeholder="Search..."
@@ -153,7 +153,7 @@ export default function AllUser() {
         districtDrop.length > 1
           ? filteredPosts.map((item: any) => {
               return (
-                <div>
+                <div key={item._id}>
                   <Card
                     style={{
                       width: "18rem",

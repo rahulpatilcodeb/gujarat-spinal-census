@@ -12,7 +12,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
   const router = useRouter();
 
   const onclick = () => {
-    router.push("/admin/Alluser");
+    router.push("/admin/patients");
   };
 
   return (
