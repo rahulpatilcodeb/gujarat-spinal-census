@@ -23,7 +23,7 @@ const Patients = () => {
   useEffect(() => {
     const getPosts = async () => {
       const { data: res } = await axios.get(
-       ` ${process.env.NEXT_PUBLIC_API_URL}/users`
+       `${process.env.NEXT_PUBLIC_API_URL}/users`
       );
       console.log(res);
       setPosts(res.data);

@@ -19,7 +19,7 @@ export default function AllUser() {
     try {
       const getPosts = async () => {
         const { data: res } = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL as string
+          `${process.env.NEXT_PUBLIC_API_URL}/users`,
         );
         console.log("console msg", res);
         setAPIData(res.data);
