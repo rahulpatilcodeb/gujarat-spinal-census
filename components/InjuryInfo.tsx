@@ -57,6 +57,8 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               Injury Year
             </label>
             <input required
+            maxLength={4}
+            minLength={4}
             onChange={handleFormData("injuryYear")}
             type="text"
             name="injuryYear"
