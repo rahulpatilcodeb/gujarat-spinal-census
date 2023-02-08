@@ -32,7 +32,7 @@ function Common() {
 
   const onsubmit = async () => {
     const response = await axios
-      .post(process.env.NEXT_PUBLIC_API_URL as string, formData)
+      .post(` ${process.env.NEXT_PUBLIC_API_URL}/users`, formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);

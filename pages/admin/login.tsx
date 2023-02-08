@@ -47,7 +47,7 @@ const Login = () => {
       setLoading(false);
       // Send a request to the server to check the username and password
       const response = await fetch(
-        process.env.NEXT_PUBLIC_API_URL_ADMIN as string,
+        ` ${process.env.NEXT_PUBLIC_API_URL}/adminlogin`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
