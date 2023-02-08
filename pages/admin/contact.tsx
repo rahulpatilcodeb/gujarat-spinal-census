@@ -13,9 +13,7 @@ import { Router, useRouter } from "next/router";
 // import "../../styles/Home.mod.css"
 
 const Home = () => {
-
   const [loading, setLoading] = useState(false);
-
 
   const router = useRouter();
   const [posts, setPosts] = useState([]);
@@ -30,20 +28,20 @@ const Home = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  
   useEffect(() => {
     const getPosts = async () => {
-      
-      const { data: res } = await axios.get(
-        process.env.NEXT_PUBLIC_API_URL_Contact as string
-        // { headers: { Authorization: `${token}` } }
-      );
-      console.log(res);
-      setPosts(res.data);
+      if (Ilogin) {
+        const { data: res } = await axios.get(
+          process.env.NEXT_PUBLIC_API_URL_Contact as string,
+          { headers: { Authorization: `${token}` } }
+        );
+        console.log(res);
+        setPosts(res.data);
+      } 
       if (!Ilogin) {
         router.push("/admin/login");
       }
-      setLoading(true)
+      setLoading(true);
     };
     getPosts();
     // paginatePosts.map((posts)=>{

@@ -28,74 +28,45 @@ export default async function handler(
         email: req.body.email,
         password: req.body.password,
       });
+      console.log(req.body.email, req.body.password);
       const user = await admin.findOne({ email: req.body.email });
       console.log(user);
-      if (user) {
-        bcrypt.compare(Admin.password, user.password).then(() => {
-          let useris, Payload;
-          try {
-            if (user) {
-              console.log("in the try block");
-              // const secret = new TextEncoder().encode(
-              //     'cc7e0d44fd473002f1c42167459001140ec6389b7353f8088f4d9a95f2f596f2',
-              //   );
-              //   const alg = 'HS256';
-              // const secret =
+      const valid = await bcrypt.compare(Admin.password, user.password);
+      console.log(valid);
 
-              const jtoken = jwt.sign({ email: user.email }, secretKey, {
-                expiresIn: "1h",
-              });
-              useris = {
-                name: user.email,
-                key: jtoken,
-              };
+      if (req.body.email != undefined && user !== null && valid) {
+        let useris, Payload;
+        try {
+          if (user) {
+            console.log("in the try block");
 
-              Payload = useris;
-              console.log(Payload);
-            }
+            const jtoken = jwt.sign({ email: user.email }, secretKey, {
+              expiresIn: "1h",
+            });
+            useris = {
+              name: user.email,
+              key: jtoken,
+            };
 
-            return res.send(Payload);
-          } catch (error) {
-            console.log("in catch block");
-            return error;
+            Payload = useris;
+            console.log(Payload);
+
+            return res.json({
+              payload: Payload,
+              msg: `welcome ${Payload.name}`,
+            });
           }
-          // return console.log("loged in");
-          // result == true
-        });
+        } catch {
+          console.log("in catch block");
+          return res.json({ msg: "not valid user" });
+        }
+        // return console.log("loged in");
+        // result == true
+
         // return console.error("not matched");
       } else {
-        return console.log("not matched");
+        return res.json({ msg: "not matched" });
       }
-      console.log("in api", user);
-    //   await Admin.save();
-    //   console.log("admin", Admin);
-    // return res.send(user);
-    // let useris, Payload;
-    // try {
-    //   if (user) {
-    //     console.log("in the try block");
-    //     // const secret = new TextEncoder().encode(
-    //     //     'cc7e0d44fd473002f1c42167459001140ec6389b7353f8088f4d9a95f2f596f2',
-    //     //   );
-    //     //   const alg = 'HS256';
-    //     // const secret =
-
-    //     const token = jwt.sign({ email: user.email }, { expiresIn: '1h' });
-    //     useris = {
-    //       name: user.email,
-    //       key: token,
-    //     };
-
-    //     Payload = useris;
-    //     console.log(Payload);
-    //   }
-
-    //   return res.send(Payload);
-    // } catch (error) {
-    //   console.log("in catch block");
-    //   return error;
-    // }
-
-    // const jwt = await new jose.EncryptJWT({})
+    // console.log("in api", user);
   }
 }

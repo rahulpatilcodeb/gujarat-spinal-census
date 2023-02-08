@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { logout } from "@/store/userSlice";
@@ -56,26 +55,28 @@ const Login = () => {
         }
       );
       const datadb = await response.json();
-      console.log(datadb);
+      console.log(datadb)
+      setLoading(true);
+      alert(datadb.msg);
 
       // if success
       if (response.ok) {
-        console.log("first if", datadb.name);
-        if (datadb.name != undefined) {
+        console.log("first if", datadb.payload.name);
+        if (datadb.payload.name != undefined) {
           // console.log("second if");
           // console.log(datadb);
           // setCookie("token", datadb.key);
-          dispatch(login({ user: datadb.name, token: datadb.key }));
+          dispatch(login({ user: datadb.payload.name, token: datadb.payload.key }));
           // console.log(response);
           // axios.defaults.headers.common.Authorization = `Bearer ${datadb.key}`;
           // return true;
           router.push("/admin/patients");
         }
       } else {
-        throw new Error(datadb.message);
+        return alert("invalid input")
       }
     } catch (error) {
-      alert(`\n Please provide correct input.\n ${error} \n thank you!`);
+      alert(`\n Please provide correct input.\n  \n thank you!`);
     }
   }
 
@@ -90,7 +91,7 @@ const Login = () => {
   return (
     <>
       {loading ? (
-        <form className="container mb-5">
+        <form onSubmit={onSubmit} className="container mb-5">
           <div className="col d-flex justify-content-center">
             <span>
               <b>--Admin Login --</b>
@@ -133,7 +134,6 @@ const Login = () => {
             </button>
             <button
               type="submit"
-              onClick={onSubmit}
               style={{
                 backgroundColor: "rgba(193, 107, 178, 1)",
                 color: "white",
