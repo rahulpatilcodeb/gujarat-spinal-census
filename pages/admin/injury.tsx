@@ -4,9 +4,6 @@ import { useRouter } from "next/router";
 
 const Injury = ({ nextStep, prevStep, value }: any) => {
   const submitFormData = async (e: any) => {
-    e.preventDefault();
-    console.log("FormData");
-    console.log("after");
     nextStep();
   };
   const router = useRouter();
@@ -56,7 +53,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
           {value && value.length > 0 ? (
             value.map((user: any) => {
               return (
-                <form name="form" onSubmit={submitFormData}>
+                <form name="form" key={user._id}>
                   <div className="container mb-4">
                     <div className="mb-4">
                       <label htmlFor="InjuryYear" className="form-label">

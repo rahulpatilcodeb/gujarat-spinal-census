@@ -4,7 +4,6 @@ import styles from "@/styles/Home.module.css";
 const Personal = ({ nextStep, value }: any) => {
   console.log("personal value", value);
   function submitFormData(e: any) {
-    e.preventDefault();
     nextStep();
   }
 
