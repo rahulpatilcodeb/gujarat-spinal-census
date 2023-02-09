@@ -25,10 +25,9 @@ function UserDetail() {
         .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
         .then((response) => {
           setUserData(response.data.data);
-          console.log("userdata info", response);
+          // console.log("userdata info", response);
         })
         .catch((err) => console.log(err));
-        console.log("axiosssssss",userData)
     } catch (err) {
       console.log(`error`, err);
     }

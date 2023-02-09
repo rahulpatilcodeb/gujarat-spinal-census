@@ -66,7 +66,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                         type="text"
                         name="injuryYear"
                         id="InjuryYear"
-                        value={user.injuryYear}
+                        defaultValue={user.injuryYear}
                         className={`form-control ${styles.tcolor}`}
                       />
                     </div>
@@ -76,7 +76,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                       </label>
                       <textarea
                         name="injuryReason"
-                        value={user.injuryReason}
+                        defaultValue={user.injuryReason}
                         className={`form-control ${styles.tcolor}`}
                         id="Ireason"
                         rows={1}
@@ -139,7 +139,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                       <select
                         name="injuryLevel"
                         id="Ilevel"
-                        value={user.injuryLevel}
+                        defaultValue={user.injuryLevel}
                         className={`form-select ${styles.tcolor}`}
                       >
                         <option defaultChecked value="">

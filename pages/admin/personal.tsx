@@ -57,7 +57,7 @@ const Personal = ({ nextStep, value }: any) => {
                       </label>
                       <input
                         name="fname"
-                        value={user.fname}
+                        defaultValue={user.fname}
                         type="text"
                         className={`form-control ${styles.tcolor}`}
                         id="fname"
@@ -69,7 +69,7 @@ const Personal = ({ nextStep, value }: any) => {
                       </label>
                       <input
                         name="Lname"
-                        value={user.lname}
+                        defaultValue={user.lname}
                         type="text"
                         className={`form-control ${styles.tcolor}`}
                         id="Lname"
@@ -89,7 +89,7 @@ const Personal = ({ nextStep, value }: any) => {
                         id="day"
                         name="dob"
                         className={`form-control ${styles.tcolor}`}
-                        value={user.dob}
+                        defaultValue={user.dob}
                       />
                     </div>
                   </div>
@@ -175,7 +175,7 @@ const Personal = ({ nextStep, value }: any) => {
                       className={`form-control ${styles.tcolor}`}
                       id="address"
                       rows={1}
-                      value={user.address}
+                      defaultValue={user.address}
                     ></textarea>
                   </div>
 
@@ -187,7 +187,7 @@ const Personal = ({ nextStep, value }: any) => {
                       id="District"
                       name="district"
                       className={`form-select ${styles.tcolor}`}
-                      value={user.district}
+                      defaultValue={user.district}
                     >
                       <option defaultChecked value="">
                         District
@@ -206,7 +206,7 @@ const Personal = ({ nextStep, value }: any) => {
                       </span>
                       <input
                         name="contact"
-                        value={user.contact}
+                        defaultValue={user.contact}
                         type="text"
                         className={`form-control ${styles.tcolor}`}
                         id="Mnumber"
@@ -218,7 +218,7 @@ const Personal = ({ nextStep, value }: any) => {
                       Email address
                     </label>
                     <input
-                      value={user.email}
+                      defaultValue={user.email}
                       name="email"
                       type="email"
                       className={`form-control ${styles.tcolor}`}
@@ -235,7 +235,7 @@ const Personal = ({ nextStep, value }: any) => {
                       name="qualification"
                       className={`form-control ${styles.tcolor}`}
                       id="Qualification"
-                      value={user.qualification}
+                      defaultValue={user.qualification}
                       rows={1}
                     ></textarea>
                   </div>
@@ -289,7 +289,7 @@ const Personal = ({ nextStep, value }: any) => {
                         className={`form-control ${styles.tcolor}`}
                         id="Description"
                         rows={1}
-                        value={user.description}
+                        defaultValue={user.description}
                       ></textarea>
                     </div>
                     <div className="d-flex justify-content-end mb-5">
