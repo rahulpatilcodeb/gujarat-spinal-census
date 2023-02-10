@@ -5,15 +5,28 @@ import Pagination from "@/components/Pagination";
 import { paginate } from "@/components/paginate";
  import { RootState } from "@/store/store";
  import { stat } from "fs";
- import { useSelector } from "react-redux";
+ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { isEmpty } from "lodash";
+import { searchData, typeData, districtData } from "@/store/filterSlice";
 
 export default function Patients() {
    const { user: user, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
   );
+  const dispatch = useDispatch();
+  const searchDataRedux = useSelector(
+    (state:RootState) => state.filter.searchData
+  );
+  console.log("redux",searchDataRedux)
+  const typeDataRedux = useSelector(
+    (state: RootState) => state.filter.typeData
+  );
+  const districtDataRedux = useSelector(
+    (state: RootState) => state.filter.districtData
+  );
   const router = useRouter();
+  const [loading,setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -27,6 +40,7 @@ export default function Patients() {
       if (!Ilogin) {
         router.push("/admin/login");
       } else {
+        setLoading(true)
         const getPosts = async () => {
           const { data: res } = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/users`
@@ -37,7 +51,7 @@ export default function Patients() {
       }
     } catch (err) {
       console.log(`error`, err);
-    }
+    } 
   }, [Ilogin]);
 
   const handlePageChange = (page: any) => {
@@ -115,180 +129,189 @@ export default function Patients() {
 
   return (
     <>
-      <div style={{ padding: 20 }}>
-        <div
-          style={{
-            display: "flex",
-            padding: "2%",
-            background: "#F7FCF8",
-            borderRadius: "5px",
-          }}
-        >
+      {loading ? (
+        <div style={{ padding: 20 }}>
           <div
             style={{
-              width: "60%",
-              marginRight: "2%",
-              marginLeft: "2%",
+              display: "flex",
+              padding: "2%",
+              background: "#F7FCF8",
+              borderRadius: "5px",
+              justifyContent: "center",
             }}
           >
-            <input
+            <div
               style={{
-                width: "100%",
-                background: "#FFFFFF",
-                border: "1px solid rgba(181, 181, 195, 0.4)",
-                borderRadius: "10px",
+                width: "60%",
               }}
-              placeholder="Search..."
-              onChange={(e) => searchItems(e.target.value)}
-            />
+            >
+              <input
+                style={{
+                  width: "100%",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(181, 181, 195, 0.4)",
+                  borderRadius: "10px",
+                }}
+                placeholder="Search..."
+                onChange={(e) => searchItems(e.target.value)}
+              />
+            </div>
+            <div
+              style={{
+                width: "15%",
+              }}
+            >
+              <select
+                onChange={onOptionChangeType}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(181, 181, 195, 0.4)",
+                  borderRadius: "10px",
+                }}
+              >
+                <option defaultChecked value="">
+                  Type
+                </option>
+                <option value="Paraplagia">Paraplegia</option>
+                <option value="Quadriplegia">Quadriplegia</option>
+              </select>
+            </div>
+            <div style={{ width: "15%" }}>
+              <select
+                onChange={onOptionChangeDistrict}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  background: "#FFFFFF",
+                  border: "1px solid rgba(181, 181, 195, 0.4)",
+                  borderRadius: "10px",
+                }}
+              >
+                <option defaultChecked value="">
+                  District
+                </option>
+                <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Amreli">Amreli</option>
+              </select>
+            </div>
           </div>
+
           <div
-            style={{
-              width: "15%",
-              marginRight: "2%",
-            }}
+            style={{ marginTop: 20, justifyContent: "center" }}
+            className="row pb-5"
           >
-            <select
-              onChange={onOptionChangeType}
-              style={{
-                width: "100%",
-                height: "100%",
-                background: "#FFFFFF",
-                border: "1px solid rgba(181, 181, 195, 0.4)",
-                borderRadius: "10px",
-              }}
-            >
-              <option defaultChecked value="">
-                Type
-              </option>
-              <option value="Paraplagia">Paraplegia</option>
-              <option value="Quadriplegia">Quadriplegia</option>
-            </select>
-          </div>
-          <div style={{ width: "15%" }}>
-            <select
-              onChange={onOptionChangeDistrict}
-              style={{
-                width: "100%",
-                height: "100%",
-                background: "#FFFFFF",
-                border: "1px solid rgba(181, 181, 195, 0.4)",
-                borderRadius: "10px",
-              }}
-            >
-              <option defaultChecked value="">
-                District
-              </option>
-              <option value="Ahmedabad">Ahmedabad</option>
-              <option value="Amreli">Amreli</option>
-            </select>
-          </div>
-        </div>
-
-        <div
-          style={{ marginTop: 20, justifyContent: "center" }}
-          className="row"
-        >
-          {searchInput.length > 1 || filteredResults.length > 1
-            ? filteredPosts.map((item: any) => {
-                return (
-                  <Card
-                    key={item._id}
-                    style={{
-                      width: "18rem",
-                      padding: "2%",
-                      margin: "1.5%",
-                      background: "#FFFFFF",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <Card.Content
-                      onClick={() => {
-                        Details(item);
+            {searchInput.length > 1 || filteredResults.length > 1
+              ? filteredPosts.map((item: any) => {
+                  return (
+                    <Card
+                      key={item._id}
+                      style={{
+                        width: "18rem",
+                        padding: "2%",
+                        margin: "1.5%",
+                        background: "#FFFFFF",
+                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                        borderRadius: "10px",
                       }}
                     >
-                      <div>
-                        <img
-                          style={{
-                            height: "10rem",
-                            width: "14rem",
-                          }}
-                          src="/user.png"
-                          alt="image"
-                        />
-                      </div>
+                      <Card.Content
+                        onClick={() => {
+                          Details(item);
+                        }}
+                      >
+                        <div>
+                          <img
+                            style={{
+                              height: "10rem",
+                              width: "14rem",
+                            }}
+                            src="/user.png"
+                            alt="image"
+                          />
+                        </div>
 
-                      <Card.Header>
-                        {item.fname} {item.lname}
-                      </Card.Header>
-                      <br />
-                      <Card.Description>{item.description}</Card.Description>
-                    </Card.Content>
-                  </Card>
-                );
-              })
-            : paginatePosts.map((item: any) => {
-                return (
-                  <Card
-                    key={item._id}
-                    style={{
-                      width: "18rem",
-                      padding: "2%",
-                      margin: "1.5%",
-                      background: "#FFFFFF",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <Card.Content
-                      onClick={() => {
-                        Details(item);
+                        <Card.Header>
+                          {item.fname} {item.lname}
+                        </Card.Header>
+                        <br />
+                        <Card.Description>{item.description}</Card.Description>
+                      </Card.Content>
+                    </Card>
+                  );
+                })
+              : paginatePosts.map((item: any) => {
+                  return (
+                    <Card
+                      key={item._id}
+                      style={{
+                        width: "18rem",
+                        padding: "2%",
+                        margin: "1.5%",
+                        background: "#FFFFFF",
+                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                        borderRadius: "10px",
                       }}
                     >
-                      <div>
-                        <img
-                          style={{
-                            height: "10rem",
-                            width: "14rem",
-                          }}
-                          src="/user.png"
-                          alt="image"
-                        />
-                      </div>
+                      <Card.Content
+                        onClick={() => {
+                          Details(item);
+                        }}
+                      >
+                        <div>
+                          <img
+                            style={{
+                              height: "10rem",
+                              width: "14rem",
+                            }}
+                            src="/user.png"
+                            alt="image"
+                          />
+                        </div>
 
-                      <Card.Header className="headText">
-                        {item.fname} {item.lname}
-                      </Card.Header>
-                      <br />
-                      <Card.Description className="descText">
-                        {item.description}
-                      </Card.Description>
-                    </Card.Content>
-                  </Card>
-                );
-              })}
-          {searchInput.length > 1 || filteredResults.length > 1 ? (
-            <div>
-              <Pagination
-                items={filteredResults.length}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          ) : (
-            <div>
-              <Pagination
-                items={APIData.length}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          )}
+                        <Card.Header className="headText">
+                          {item.fname} {item.lname}
+                        </Card.Header>
+                        <br />
+                        <Card.Description className="descText">
+                          {item.description}
+                        </Card.Description>
+                      </Card.Content>
+                    </Card>
+                  );
+                })}
+            {searchInput.length > 1 || filteredResults.length > 1 ? (
+              <div>
+                <Pagination
+                  items={filteredResults.length}
+                  pageSize={pageSize}
+                  currentPage={currentPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            ) : (
+              <div>
+                <Pagination
+                  items={APIData.length}
+                  pageSize={pageSize}
+                  currentPage={currentPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <center>
+          <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </center>
+      )}
     </>
   );
 }

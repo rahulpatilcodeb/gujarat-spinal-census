@@ -50,6 +50,7 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
       <form
         name="form"
         onSubmit={submitFormData}
+        className="pb-3"
       >
         <div className="container mb-4">
           <div className="mb-4">

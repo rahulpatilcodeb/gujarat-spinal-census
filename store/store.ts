@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import userSlice from "./userSlice";
+import filterSlice from "./filterSlice";
 
 // for storing in local storage
 const persistConfig = {
@@ -18,6 +19,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   users: userSlice,
+  filter:filterSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

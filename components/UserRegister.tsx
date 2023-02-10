@@ -62,7 +62,7 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
           </div>
         </div>
       </div>
-      <form name="formhome" onSubmit={submitFormData}>
+      <form name="formhome" onSubmit={submitFormData} className="pb-3">
         <div className="d-flex justify-content-center">
           <div>
             <img
