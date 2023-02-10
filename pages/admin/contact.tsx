@@ -33,7 +33,7 @@ const Home = () => {
     const getPosts = async () => {
       if (Ilogin) {
         const { data: res } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/users`,
+          `${process.env.NEXT_PUBLIC_API_URL}/contact`,
           { headers: { Authorization: `${token}` } }
         );
         console.log(res);
@@ -59,23 +59,40 @@ const Home = () => {
   return (
     <>
       {loading ? (
-        <div className="container">
-          <table className="table">
+        <div className="container pb-3">
+          <table className="table border">
             <thead>
               <tr>
-                <th>no</th>
-                <th>email</th>
-                <th>contactco</th>
-                <th>description</th>
+                <th>
+                  <center>Sr.No.</center>
+                </th>
+                <th>
+                  <center>Email</center>
+                </th>
+                <th>
+                  <center>Contact No.</center>
+                </th>
+                <th>
+                  <center>Description</center>
+                </th>
               </tr>
             </thead>
             <tbody>
               {paginatePosts.map((post, index) => (
                 <tr key={post._id}>
-                  <td>{index + 1}</td>
-                  <td> {post.email} </td>
-                  <td> {post.contact} </td>
-                  <td>{post.description}</td>
+                  <td>
+                    <center></center>
+                    {index + 1}
+                  </td>
+                  <td>
+                    <center> {post.email}</center>
+                  </td>
+                  <td>
+                    <center> {post.contact}</center>
+                  </td>
+                  <td>
+                    <center> {post.description}</center>
+                  </td>
                 </tr>
               ))}
             </tbody>

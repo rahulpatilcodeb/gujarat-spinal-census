@@ -93,7 +93,7 @@ const Login = () => {
   return (
     <>
       {loading ? (
-        <form onSubmit={onSubmit} className="container mb-5">
+        <form onSubmit={onSubmit} className="container w-50 mb-5">
           <div className="col d-flex justify-content-center">
             <span>
               <b>--Admin Login --</b>

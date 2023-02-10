@@ -11,12 +11,13 @@ function Footer() {
       <footer
         className="d-flex justify-content-between"
         style={{
-          // position: "fixed",
+          zIndex:10,
+          position: "fixed",
           left: "0",
           bottom: "0",
           width: "100%",
           height: "50px",
-          backgroundColor: "rgb(252, 249, 249)",
+          backgroundColor: "#FFFFFF",
         }}
       >
         <h6 className="d-none   my-2 ms-5 d-sm-block">

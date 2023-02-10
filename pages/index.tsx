@@ -62,7 +62,7 @@ function Common() {
     case 1:
       return (
         <div>
-          <Container>
+          <Container className="w-75">
             <Row>
               <Col className="custom-margin">
                 <UserRegister
@@ -79,7 +79,7 @@ function Common() {
     case 2:
       return (
         <div>
-          <Container>
+          <Container className="w-75">
             <Row>
               <Col className="custom-margin">
                 <InjuryInfo
@@ -98,7 +98,7 @@ function Common() {
     case 3:
       return (
         <div className="App">
-          <Container>
+          <Container className="w-75">
             <Row>
               <Col md={{ span: 6, offset: 3 }} className="custom-margin">
                 <Register />
