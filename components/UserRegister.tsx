@@ -1,16 +1,31 @@
 import React from "react";
 import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
+// const express = require('express')
+// const multer  = require('multer')
+// const upload = multer({ dest: 'uploads/' })
+
+// const app = express()
+
+// app.post('/profile', upload.single('avatar'), function (req, res, next) {
+//   // req.file is the `avatar` file
+//   // req.body will hold the text fields, if there were any
+// })
 
 // import {useFormData} from "./Formdata"
 
-const UserRegister = ({nextStep,handleFormData, values}:any) => {
+const UserRegister = ({
+  nextStep,
+  handleFormData,
+  values,
+  selectedFile,
+}: any) => {
   // const [data, FormData] = useState({});
 
   // const handleSubmit = (event) => {
   //   console.log("in handle submit");
   //   event.preventDefault();
-    
+
   //   console.log(data);
   // };
 
@@ -21,8 +36,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
   //   });
   // }
 
-  function submitFormData(e:any){
-    e.preventDefault()
+  function submitFormData(e: any) {
+    e.preventDefault();
     nextStep();
   }
 
@@ -45,7 +60,7 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
             <span>Personal Details -</span>
           </div>
         </div>
-        <div >
+        <div>
           <div className="col">
             <span
               style={{
@@ -56,13 +71,18 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
                 marginRight: "10px",
               }}
             >
-              2
+              {/* //style={{padding:"0px 200px"}} */}2
             </span>
             <span>Injury Details -</span>
           </div>
         </div>
       </div>
-      <form name="formhome" onSubmit={submitFormData} className="pb-3">
+      <form
+        name="formhome"
+        onSubmit={submitFormData}
+        className="pb-3"
+        encType="multipart/jpeg"
+      >
         <div className="d-flex justify-content-center">
           <div>
             <img
@@ -87,10 +107,12 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
             <span>
               <img src="upload.png" alt="" />
             </span>
-            <input 
-              onChange={handleFormData}
+            <input
+              // onChange={}
+              onChange={(e)=>{handleFormData("avatar"); selectedFile(e);}}
               style={{ marginLeft: "10px " }}
               type="file"
+              name="avatar"
               className="form-control"
             />
           </div>
@@ -102,7 +124,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
               <label htmlFor="fname" className="form-label">
                 First Name
               </label>
-              <input required
+              <input
+                required
                 name="fname"
                 value={values.fname}
                 onChange={handleFormData("fname")}
@@ -117,10 +140,11 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
               <label htmlFor="lname" className={"form-label"}>
                 Last Name
               </label>
-              <input required
+              <input
+                required
                 name="Lname"
                 value={values.lname}
-                onChange={handleFormData('lname')}
+                onChange={handleFormData("lname")}
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="Lname"
@@ -135,15 +159,15 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
               Date of Birth
             </label>
             <div className="col">
-              <input required
-              type="date"
+              <input
+                required
+                type="date"
                 onChange={handleFormData("dob")}
                 id="day"
                 name="dob"
                 className={`form-control ${styles.tcolor}`}
                 value={values.dob}
               />
-                
             </div>
             {/* <div className="col">
               <select
@@ -231,7 +255,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
                   <label className="custom-control-label" htmlFor="male">
                     Male
                   </label>
-                  <input required
+                  <input
+                    required
                     onChange={handleFormData("gender")}
                     value="male"
                     type="radio"
@@ -244,7 +269,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
                   <label className="custom-control-label" htmlFor="female">
                     Female
                   </label>
-                  <input required
+                  <input
+                    required
                     onChange={handleFormData("gender")}
                     value="Female"
                     type="radio"
@@ -257,7 +283,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
                   <label className="custom-control-label" htmlFor="others">
                     Others
                   </label>
-                  <input required
+                  <input
+                    required
                     value="other"
                     onChange={handleFormData("gender")}
                     type="radio"
@@ -274,7 +301,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="address" className="form-label">
               Address
             </label>
-            <textarea required
+            <textarea
+              required
               onChange={handleFormData("address")}
               name="address"
               className={`form-control ${styles.tcolor}`}
@@ -288,14 +316,17 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="District" className="form-label">
               District
             </label>
-            <select required
+            <select
+              required
               onChange={handleFormData("district")}
               id="District"
               name="district"
               className={`form-select ${styles.tcolor}`}
               // value={values.district}
             >
-              <option defaultChecked  value="">District</option>
+              <option defaultChecked value="">
+                District
+              </option>
               <option value="Ahmedabad">Ahmedabad</option>
               <option value="Amreli">Amreli</option>
             </select>
@@ -308,7 +339,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
               <span className="input-group-text" id="basic-addon1">
                 +91
               </span>
-              <input required
+              <input
+                required
                 onChange={handleFormData("contact")}
                 name="contact"
                 value={values.contact}
@@ -322,7 +354,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="Email" className="form-label">
               Email address
             </label>
-            <input required
+            <input
+              required
               onChange={handleFormData("email")}
               value={values.email}
               name="email"
@@ -337,7 +370,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
             <label htmlFor="Qualification" className="form-label">
               Qualification
             </label>
-            <textarea required
+            <textarea
+              required
               onChange={handleFormData("qualification")}
               name="qualification"
               className={`form-control ${styles.tcolor}`}
@@ -354,7 +388,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
                 <label className="custom-control-label" htmlFor="bpl">
                   Yes
                 </label>
-                <input required
+                <input
+                  required
                   onChange={handleFormData("bpl")}
                   type="radio"
                   name="bpl"
@@ -367,7 +402,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
                 <label className="custom-control-label" htmlFor="bplNo">
                   No
                 </label>
-                <input required
+                <input
+                  required
                   onChange={handleFormData("bpl")}
                   type="radio"
                   name="bpl"
@@ -381,7 +417,8 @@ const UserRegister = ({nextStep,handleFormData, values}:any) => {
               <label htmlFor="Description" className="form-label">
                 Description
               </label>
-              <textarea required
+              <textarea
+                required
                 onChange={handleFormData("description")}
                 name="description"
                 className={`form-control ${styles.tcolor}`}
