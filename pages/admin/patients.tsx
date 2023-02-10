@@ -38,7 +38,7 @@ export default function Patients() {
     } catch (err) {
       console.log(`error`, err);
     }
-  }, []);
+  }, [Ilogin]);
 
   const handlePageChange = (page: any) => {
     setCurrentPage(page);

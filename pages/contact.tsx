@@ -37,7 +37,7 @@ const Contact = () => {
   };
 
   return (
-    <form className="container mb-5">
+    <form className="container mb-5 w-50">
       <div className="col d-flex justify-content-center">
         <span ><b>--Contact Us --</b></span>
       </div>

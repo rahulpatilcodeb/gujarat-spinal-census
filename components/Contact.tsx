@@ -34,7 +34,7 @@ function Contact() {
 
   return (
     <>
-      <div>
+      <div >
         <div>
           <p
             style={{
@@ -47,7 +47,7 @@ function Contact() {
             Contact Form
           </p>
         </div>
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center ">
           <form onSubmit={onsubmit}>
             <div className="mb-4">
               <label htmlFor="Mnumber" className="form-label">
