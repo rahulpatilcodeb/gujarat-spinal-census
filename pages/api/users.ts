@@ -9,7 +9,7 @@ const url = process.env.NEXT_PUBLIC_DATABASE_URL;
 mongoose.connect(url);
 
 const s3 = new S3({
-  region: "eu-mumbai-1",
+  region: "ap-south-1",
   accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY,
   secretAccessKey: process.env.NEXT_PUBLIC_SECRET_KEY,
   signatureVersion: "v4",
@@ -35,7 +35,9 @@ export default async function handler(
       });
       break;
     case "POST":
+      
       const user = new User({
+        image:req.body.image,
         fname: req.body.fname,
         lname: req.body.lname,
         dob: req.body.dob,

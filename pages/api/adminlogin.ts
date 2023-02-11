@@ -15,6 +15,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  try{
   switch (req.method) {
     case "GET":
       const posts = await admin.find();
@@ -69,4 +70,8 @@ export default async function handler(
       }
     // console.log("in api", user);
   }
+}
+catch(error){
+  console.error(error);
+}
 }

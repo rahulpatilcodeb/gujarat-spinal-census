@@ -64,6 +64,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                         name="injuryYear"
                         id="InjuryYear"
                         defaultValue={user.injuryYear}
+                        readOnly
                         className={`form-control ${styles.tcolor}`}
                       />
                     </div>
@@ -77,6 +78,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                         className={`form-control ${styles.tcolor}`}
                         id="Ireason"
                         rows={1}
+                        readOnly
                       ></textarea>
                     </div>
                     <label htmlFor="Itype" className="form-label">
@@ -129,22 +131,20 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                       </div>
                     </div>
 
-                    <div className="mb-4">
+                    <div className="mb-4" aria-readonly>
                       <label htmlFor="Ilevel" className="form-label">
                         Injury Level
                       </label>
                       <select
+                      
                         name="injuryLevel"
                         id="Ilevel"
                         defaultValue={user.injuryLevel}
                         className={`form-select ${styles.tcolor}`}
                       >
-                        <option defaultChecked value="">
-                          Selected
-                        </option>
-                        <option value="high">high</option>
-                        <option value="medium">medium</option>
-                        <option value="low">low</option>
+                        <option value="high">High</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
                       </select>
                     </div>
                     <label htmlFor="ImplantFix" className="form-label">

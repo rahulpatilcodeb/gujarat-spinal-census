@@ -60,6 +60,7 @@ const Personal = ({ nextStep, value }: any) => {
                         type="text"
                         className={`form-control ${styles.tcolor}`}
                         id="fname"
+                        readOnly
                       />
                     </div>
                     <div className="col">
@@ -74,6 +75,7 @@ const Personal = ({ nextStep, value }: any) => {
                         id="Lname"
                         placeholder="Last name"
                         aria-label="Last name"
+                        readOnly
                       />
                     </div>
                   </div>
@@ -89,6 +91,7 @@ const Personal = ({ nextStep, value }: any) => {
                         name="dob"
                         className={`form-control ${styles.tcolor}`}
                         defaultValue={user.dob}
+                        readOnly
                       />
                     </div>
                   </div>
@@ -175,6 +178,7 @@ const Personal = ({ nextStep, value }: any) => {
                       id="address"
                       rows={1}
                       defaultValue={user.address}
+                      readOnly
                     ></textarea>
                   </div>
 
@@ -187,6 +191,7 @@ const Personal = ({ nextStep, value }: any) => {
                       name="district"
                       className={`form-select ${styles.tcolor}`}
                       defaultValue={user.district}
+                      readOnly
                     >
                       <option defaultChecked value="">
                         District
@@ -209,6 +214,7 @@ const Personal = ({ nextStep, value }: any) => {
                         type="text"
                         className={`form-control ${styles.tcolor}`}
                         id="Mnumber"
+                        readOnly
                       />
                     </div>
                   </div>
@@ -223,6 +229,7 @@ const Personal = ({ nextStep, value }: any) => {
                       className={`form-control ${styles.tcolor}`}
                       id="Email"
                       placeholder="name@example.com"
+                      readOnly
                     />
                   </div>
 
@@ -236,6 +243,7 @@ const Personal = ({ nextStep, value }: any) => {
                       id="Qualification"
                       defaultValue={user.qualification}
                       rows={1}
+                      readOnly
                     ></textarea>
                   </div>
 
@@ -289,6 +297,7 @@ const Personal = ({ nextStep, value }: any) => {
                         id="Description"
                         rows={1}
                         defaultValue={user.description}
+                        readOnly
                       ></textarea>
                     </div>
                     <div className="d-flex justify-content-end mb-5">

@@ -1,40 +1,18 @@
 import React from "react";
 import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
-// const express = require('express')
-// const multer  = require('multer')
-// const upload = multer({ dest: 'uploads/' })
+import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 
-// const app = express()
-
-// app.post('/profile', upload.single('avatar'), function (req, res, next) {
-//   // req.file is the `avatar` file
-//   // req.body will hold the text fields, if there were any
-// })
-
-// import {useFormData} from "./Formdata"
+const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
 const UserRegister = ({
   nextStep,
   handleFormData,
+  img,
   values,
   selectedFile,
 }: any) => {
-  // const [data, FormData] = useState({});
-
-  // const handleSubmit = (event) => {
-  //   console.log("in handle submit");
-  //   event.preventDefault();
-
-  //   console.log(data);
-  // };
-
-  // function handleFormData(event) {
-  //   return FormData({
-  //     ...data,
-  //     [event.target.name]: event.target.value,
-  //   });
-  // }
+  console.log("image is ", url, img);
 
   function submitFormData(e: any) {
     e.preventDefault();
@@ -87,9 +65,9 @@ const UserRegister = ({
           <div>
             <img
               className="manImg"
-              style={{ height: "93px ", width: "75px ", marginRight: "15px " }}
+              style={{ height: "80px ", marginRight: "15px " }}
               alt=""
-              src={bimg.src}
+              src={img?`${url}${img}`:bimg.src}
             />
           </div>
           <div
@@ -109,7 +87,10 @@ const UserRegister = ({
             </span>
             <input
               // onChange={}
-              onChange={(e)=>{handleFormData("avatar"); selectedFile(e);}}
+              onChange={(e) => {
+                handleFormData("avatar");
+                selectedFile(e);
+              }}
               style={{ marginLeft: "10px " }}
               type="file"
               name="avatar"

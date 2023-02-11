@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = {
+    image: String,
     fname: String,
     lname: String,
     dob: Date,
