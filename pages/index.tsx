@@ -7,7 +7,7 @@ import UserRegister from "@/components/UserRegister";
 
 function Common() {
   const [step, setstep] = useState(1);
-  const [file, setFile] = useState();
+  const [file, setFile] = useState<any>();
   const [formData, setFormData] = useState<any>({
     avatar: null,
     fname: "",
