@@ -8,8 +8,7 @@ import UserRegister from "@/components/UserRegister";
 function Common() {
   const [step, setstep] = useState(1);
   const [file, setFile] = useState();
-  const [img, setImg] = useState(null);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     avatar: null,
     fname: "",
     lname: "",
@@ -34,6 +33,7 @@ function Common() {
   console.log("hzsudhui", formData);
 
   const onsubmit = async () => {
+    fileupload(file);
     const response = await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, formData)
       .then(() => console.log("User Added"))
@@ -46,23 +46,37 @@ function Common() {
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/image`,
-        { name: file.name, type: file.type }
+        { name: file.name, type: file.type, email:formData.email }
       );
       console.log(data);
 
       const url = data.url;
-      setImg(file.name);
       const resp1 = await axios.put(url, file);
       console.log("resp1", resp1);
     } catch (error) {
       console.log("error", error);
     }
   };
+  
+  // useEffect(() => {
+  //   setFile(file)
+  //   if (file) {
+
+      
+  //     console.log("this is in useEffect",file)
+  //     // fileupload(file);
+  //   }
+  // }, [file])
+
   useEffect(() => {
-    if (file) {
-      fileupload(file);
-    }
-  }, [file]);
+   
+    
+
+      
+      console.log("this is in useEffect",file?.name)
+      // fileupload(file);
+    
+  }, [file])
 
   // function for going to next step by increasing step state by 1
   const nextStep = () => {
@@ -81,13 +95,11 @@ function Common() {
 
   // handling form input data by taking onchange value and updating our previous form data state
   const handleInputData = (input: any) => (e: any) => {
-  
-
     const { value } = e.target;
     //updating for data state taking previous state and then adding new value to create new object
-    setFormData((prevState) => ({
+    setFormData((prevState:any) => ({
       ...prevState,
-      avatar: img,
+      avatar: file?.name,
       [input]: value,
     }));
   };
@@ -97,14 +109,13 @@ function Common() {
     case 1:
       return (
         <div>
-          <Container className="w-75">
+          <Container className="w-50">
             <Row>
               <Col className="custom-margin">
                 <UserRegister
+                Ifile={file}
                   nextStep={nextStep}
-                  img={img}
-                  setImg={setImg}
-                  handleFormData={handleInputData}
+                    handleFormData={handleInputData}
                   selectedFile={selectedFile}
                   values={formData}
                 />

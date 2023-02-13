@@ -50,7 +50,7 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
       <form
         name="form"
         onSubmit={submitFormData}
-        className="pb-3"
+        className="pb-5 was-validated"
       >
         <div className="container mb-4">
           <div className="mb-4">
@@ -61,11 +61,15 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
             maxLength={4}
             minLength={4}
             onChange={handleFormData("injuryYear")}
-            type="text"
+            type="number"
             name="injuryYear"
+            placeholder="2023"
               id="InjuryYear"
               className={`form-control ${styles.tcolor}`}
             />
+               <div className="invalid-feedback">
+                Please type injury year
+                </div>
              
           </div>
           <div className="mb-4">
@@ -78,16 +82,20 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               value={values.injuryReason}
               className={`form-control ${styles.tcolor}`}
               id="Ireason"
+              placeholder="Road Accident"
               rows={1}
             ></textarea>
+            <div className="invalid-feedback">
+                Please type injury Reson
+                </div>
           </div>
           <label htmlFor="Itype" className="form-label">
             Injury Type
           </label>
           <div className="row mb-4 ">
-            <div className="col d-flex justify-content-between">
+            <div className="col d-flex justify-content">
               <label
-                className="custom-control-label"
+                className="custom-control-label pe-5"
                 htmlFor="ItypeP"
               >
                 Paraplagia
@@ -100,10 +108,13 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Paraplagia"
                 id="ItypeP"
               />
+              <div className="invalid-feedback">
+                *
+                </div>
             </div>
-            <div className="col d-flex justify-content-between">
+            <div className="col d-flex justify-content">
               <label
-                className="custom-control-label"
+                className="custom-control-label pe-5"
                 htmlFor="ItypeQ"
               >
                 Quadriplegia
@@ -116,6 +127,7 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Quadriplegia"
                 id="ItypeQ"
               />
+              <div className="invalid-feedback">*</div>
             </div>
           </div>
 
@@ -134,13 +146,16 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               <option value="medium">medium</option>
               <option value="low">low</option>
             </select>
+            <div className="invalid-feedback">
+                Please select Injury Level
+                </div>
           </div>
           <label htmlFor="ImplantFix" className="form-label">
             Implant Fixation
           </label>
           <div className="row mb-4">
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="ImplantFix">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="ImplantFix">
                 Operated
               </label>
               <input required
@@ -151,9 +166,10 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Operated"
                 id="ImplantFix"
               />
+              <div className="invalid-feedback">*</div>
             </div>
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="Implant-Fix-No">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="Implant-Fix-No">
                 Not Operated
               </label>
               <input required
@@ -164,12 +180,13 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Not Operated"
                 id="Implant-Fix-No"
               />
+              <div className="invalid-feedback">*</div>
             </div>
           </div>
           <label className="form-label">Injury Status:</label>
           <div className="row mb-4">
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="Istatus">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="Istatus">
                 Compled
               </label>
               <input required
@@ -181,8 +198,9 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 id="Istatus"
               />
             </div>
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="Istatus-no">
+            <div className="invalid-feedback">*</div>
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="Istatus-no">
                 Incomplete
               </label>
               <input required
@@ -193,14 +211,15 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Incomplete"
                 id="Istatus-no"
               />
+              <div className="invalid-feedback">*</div>
             </div>
           </div>
           <label htmlFor="exampleFormControlTextarea1" className="form-label">
             Physical Status
           </label>
           <div className="row mb-4">
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="PhysicalStatus">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="PhysicalStatus">
                 Dependent
               </label>
               <input required
@@ -211,10 +230,11 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Dependent"
                 id="PhysicalStatus"
               />
+              <div className="invalid-feedback">*</div>
             </div>
-            <div className="col d-flex justify-content-between">
+            <div className="col d-flex justify-content">
               <label
-                className="custom-control-label"
+                className="custom-control-label pe-5"
                 htmlFor="PhysicalStatusno"
               >
                 Not Dependent
@@ -227,12 +247,13 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Not Dependent"
                 id="PhysicalStatusno"
               />
+              <div className="invalid-feedback">*</div>
             </div>
           </div>
           <label className="form-label">Financial Status</label>
           <div className="row mb-4">
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="Financialdep">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="Financialdep">
                 Dependent
               </label>
               <input required
@@ -243,9 +264,10 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Dependent"
                 id="Financialdep"
               />
+              <div className="invalid-feedback">*</div>
             </div>
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="FinancialInd">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="FinancialInd">
                 Independent
               </label>
               <input required
@@ -256,11 +278,12 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Independent"
                 id="FinancialInd"
               />
+              <div className="invalid-feedback">*</div>
             </div>
           </div>
           <div className="row mb-4">
-            <div className="col d-flex justify-content-between">
-              <label className="custom-control-label" htmlFor="FinancialJob">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="FinancialJob">
                 Job
               </label>
               <input required
@@ -271,9 +294,10 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Job"
                 id="FinancialJob"
               />
+              <div className="invalid-feedback">*</div>
             </div>
-            <div className="col d-flex justify-content-between ">
-              <label className="custom-control-label" htmlFor="FinancialBus">
+            <div className="col d-flex justify-content">
+              <label className="custom-control-label pe-5" htmlFor="FinancialBus">
                 Business
               </label>
               <input required
@@ -284,6 +308,7 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
                 value="Business"
                 id="FinancialBus"
               />
+              <div className="invalid-feedback">*</div>
             </div>
           </div>
           <div className="div d-flex justify-content-between">

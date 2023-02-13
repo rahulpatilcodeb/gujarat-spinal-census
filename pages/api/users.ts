@@ -37,7 +37,7 @@ export default async function handler(
     case "POST":
       
       const user = new User({
-        image:req.body.image,
+        image:req.body.avatar,
         fname: req.body.fname,
         lname: req.body.lname,
         dob: req.body.dob,

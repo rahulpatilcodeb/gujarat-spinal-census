@@ -30,11 +30,11 @@ export default async function handler(
   try {
     {
       console.log(req.body);
-      let { name, type } = req.body;
+      let { name, type, email } = req.body;
 
       const fileParams = {
         Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
-        Key: name,
+        Key: `${email}/${name}`,
         ContentType: type,
         ACL: "public-read",
       };

@@ -1,23 +1,32 @@
 import React from "react";
 import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
-import { imageConfigDefault } from "next/dist/shared/lib/image-config";
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
 const UserRegister = ({
   nextStep,
   handleFormData,
-  img,
+  Ifile,
   values,
   selectedFile,
 }: any) => {
-  console.log("image is ", url, img);
+  // const { register, handleSubmit } = useForm();
+
+  // console.log("image is ", url, img);
 
   function submitFormData(e: any) {
     e.preventDefault();
     nextStep();
   }
+  // var image = document.getElementById("avatar").src
+  console.log("this is values", values);
+
+  // function validate(e:any){
+  //   e.preventDefault()
+
+  // }
+  // console.log("this is image string",img)
 
   return (
     <>
@@ -58,7 +67,7 @@ const UserRegister = ({
       <form
         name="formhome"
         onSubmit={submitFormData}
-        className="pb-3"
+        className="pb-3 form-group needs-validation was-validated"
         encType="multipart/jpeg"
       >
         <div className="d-flex justify-content-center">
@@ -67,7 +76,8 @@ const UserRegister = ({
               className="manImg"
               style={{ height: "80px ", marginRight: "15px " }}
               alt=""
-              src={img?`${url}${img}`:bimg.src}
+              // src={img?`${url}${img}`:bimg.src}
+              src={Ifile ? Ifile[0] : bimg.src}
             />
           </div>
           <div
@@ -86,6 +96,8 @@ const UserRegister = ({
               <img src="upload.png" alt="" />
             </span>
             <input
+              required
+              id="avatar"
               // onChange={}
               onChange={(e) => {
                 handleFormData("avatar");
@@ -105,18 +117,24 @@ const UserRegister = ({
               <label htmlFor="fname" className="form-label">
                 First Name
               </label>
-              <input
-                required
-                name="fname"
-                value={values.fname}
-                onChange={handleFormData("fname")}
-                type="text"
-                className={`form-control ${styles.tcolor}`}
-                id="fname"
-                placeholder="First name"
-                aria-label="First name"
-              />
+              <div className="input-group has-validation">
+                <input
+                  required
+                  name="fname"
+                  value={values.fname}
+                  onChange={handleFormData("fname")}
+                  type="text"
+                  className={`form-control ${styles.tcolor}`}
+                  id="fname"
+                  placeholder="First name"
+                  aria-label="First name"
+                />
+                <div className="invalid-feedback">
+                  Please choose a First Name.
+                </div>
+              </div>
             </div>
+
             <div className="col">
               <label htmlFor="lname" className={"form-label"}>
                 Last Name
@@ -129,9 +147,13 @@ const UserRegister = ({
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="Lname"
+                minLength={3}
                 placeholder="Last name"
                 aria-label="Last name"
               />
+              <div className="invalid-feedback">
+                  Please choose a Last Name.
+                </div>
             </div>
           </div>
 
@@ -149,6 +171,9 @@ const UserRegister = ({
                 className={`form-control ${styles.tcolor}`}
                 value={values.dob}
               />
+              <div className="invalid-feedback">
+                  Please choose a Date of Birth.
+                </div>
             </div>
             {/* <div className="col">
               <select
@@ -232,8 +257,8 @@ const UserRegister = ({
             <label className="form-label">Gender</label>
             <div className="custom-control">
               <div className="row">
-                <div className="col d-flex justify-content-between">
-                  <label className="custom-control-label" htmlFor="male">
+                <div className="col d-flex justify-content">
+                  <label className="custom-control-label pe-5" htmlFor="male">
                     Male
                   </label>
                   <input
@@ -245,9 +270,15 @@ const UserRegister = ({
                     className="custom-control-input"
                     id="male"
                   />
+                  <div className="invalid-feedback">
+                 *
                 </div>
-                <div className="col d-flex justify-content-between">
-                  <label className="custom-control-label" htmlFor="female">
+                </div>
+                <div className="col d-flex justify-content">
+                  <label
+                    className="custom-control-label  pe-5"
+                    htmlFor="female"
+                  >
                     Female
                   </label>
                   <input
@@ -259,9 +290,12 @@ const UserRegister = ({
                     className="custom-control-input"
                     id="female"
                   />
+                     <div className="invalid-feedback">
+                 *
                 </div>
-                <div className="col d-flex justify-content-between">
-                  <label className="custom-control-label" htmlFor="others">
+                </div>
+                <div className={`col d-flex justify-content-between bg-grey`}>
+                  <label className="custom-control-label" htmlFor="other">
                     Others
                   </label>
                   <input
@@ -273,6 +307,9 @@ const UserRegister = ({
                     name="gender"
                     id="other"
                   />
+                     <div className="invalid-feedback">
+                 *
+                </div>
                 </div>
               </div>
             </div>
@@ -289,8 +326,12 @@ const UserRegister = ({
               className={`form-control ${styles.tcolor}`}
               id="address"
               rows={1}
+              minLength={10}
               value={values.address}
             ></textarea>
+            <div className="invalid-feedback">
+                  Please Type valid Address.
+                </div>
           </div>
 
           <div className="mb-4">
@@ -311,6 +352,9 @@ const UserRegister = ({
               <option value="Ahmedabad">Ahmedabad</option>
               <option value="Amreli">Amreli</option>
             </select>
+            <div className="invalid-feedback">
+                  Please choose a District.
+                </div>
           </div>
           <div className="mb-4">
             <label htmlFor="Mnumber" className="form-label">
@@ -325,10 +369,14 @@ const UserRegister = ({
                 onChange={handleFormData("contact")}
                 name="contact"
                 value={values.contact}
-                type="text"
+                type="number"
+                placeholder="9999999999"
                 className={`form-control ${styles.tcolor}`}
                 id="Mnumber"
               />
+              <div className="invalid-feedback">
+                  Please type Phone number.
+                </div>
             </div>
           </div>
           <div className="mb-4">
@@ -345,6 +393,9 @@ const UserRegister = ({
               id="Email"
               placeholder="name@example.com"
             />
+            <div className="invalid-feedback">
+                  Please type your Email.
+                </div>
           </div>
 
           <div className="mb-4">
@@ -360,17 +411,19 @@ const UserRegister = ({
               value={values.qualification}
               rows={1}
             ></textarea>
+            <div className="invalid-feedback">
+                  Please type your Qualification info.
+                </div>
           </div>
 
           <div className="col ">
             <label className="form-label">BPL Card Holder</label>
             <div className="row mb-4">
-              <div className="col d-flex justify-content-between bg-muted">
-                <label className="custom-control-label" htmlFor="bpl">
+              <div className="col d-flex justify-content bg-muted">
+                <label className="custom-control-label pe-5" htmlFor="bpl">
                   Yes
                 </label>
                 <input
-                  required
                   onChange={handleFormData("bpl")}
                   type="radio"
                   name="bpl"
@@ -378,9 +431,12 @@ const UserRegister = ({
                   value="yes"
                   id="bpl"
                 />
+                   <div className="invalid-feedback">
+                 *
+                </div>
               </div>
-              <div className="col d-flex justify-content-between tcolor">
-                <label className="custom-control-label" htmlFor="bplNo">
+              <div className="col d-flex justify-content tcolor">
+                <label className="custom-control-label pe-5" htmlFor="bplNo">
                   No
                 </label>
                 <input
@@ -392,6 +448,9 @@ const UserRegister = ({
                   value="no"
                   id="bplNo"
                 />
+                   <div className="invalid-feedback">
+                 *
+                </div>
               </div>
             </div>
             <div className="mb-4">
@@ -407,9 +466,13 @@ const UserRegister = ({
                 rows={1}
                 value={values.description}
               ></textarea>
+              <div className="invalid-feedback">
+                  Discreption must be provided.
+                </div>
             </div>
             <div className="d-flex justify-content-end mb-5">
               <button
+                // onClick={validate}
                 type="submit"
                 style={{
                   backgroundColor: "rgba(193, 107, 178, 1)",

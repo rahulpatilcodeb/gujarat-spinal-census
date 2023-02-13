@@ -6,6 +6,9 @@ const Personal = ({ nextStep, value }: any) => {
   function submitFormData(e: any) {
     nextStep();
   }
+  const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
+
+
 
   return (
     <>
@@ -47,7 +50,15 @@ const Personal = ({ nextStep, value }: any) => {
         {value && value.length > 0 ? (
           value.map((user: any) => {
             return (
-              <form name="formhome" onSubmit={submitFormData} key={user._id}>
+              <form name="formhome"className="pb-3" onSubmit={submitFormData} key={user._id}>
+                <img
+                  // onChange={(e)=>setImg(e)}
+                  className="manImg"
+                  style={{ height: "80px ", marginRight: "15px " }}
+                  alt=""
+                  src={`${url}${user.email}/${user.image}`}
+                />
+
                 <div className="container mb-4">
                   <div className="row mb-4">
                     <div className="col">
@@ -191,7 +202,6 @@ const Personal = ({ nextStep, value }: any) => {
                       name="district"
                       className={`form-select ${styles.tcolor}`}
                       defaultValue={user.district}
-                      readOnly
                     >
                       <option defaultChecked value="">
                         District

@@ -58,7 +58,7 @@ function UserDetail() {
         <div>
           <Container>
             <Row>
-              <Col className="custom-margin">
+              <Col className="custom-margin pb-5">
                 <Injury
                   nextStep={nextStep}
                   prevStep={prevStep}
