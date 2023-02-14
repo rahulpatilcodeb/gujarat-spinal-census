@@ -1,36 +1,26 @@
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
-const UserRegister = ({
-  nextStep,
-  handleFormData,
-  Ifile,
-  values,
-  selectedFile,
-}: any) => {
-  // const { register, handleSubmit } = useForm();
-
-  // console.log("image is ", url, img);
-
-  function submitFormData(e: any) {
-    e.preventDefault();
-    nextStep();
+const UserRegister = ({nextStep,handleFormData, values}:any) => {
+// const [error, setError] = useState(false);
+  function submitFormData(evt: any) {
+    evt.preventDefault();
+    //  if (!evt.target.value) {
+    //    setError(true);
+    //  } else{      
+      nextStep();
+// }
   }
-  // var image = document.getElementById("avatar").src
-  console.log("this is values", values);
-
-  // function validate(e:any){
-  //   e.preventDefault()
-
-  // }
-  // console.log("this is image string",img)
-
+   
   return (
     <>
-      <div className="mb-5 d-flex justify-content-center">
+      <div
+        className="mb-5 d-flex justify-content-center"
+        style={{ fontFamily: "Inter", fontSize: "22px" }}
+      >
         <div style={{ marginRight: "50px" }}>
           <div className="col">
             <span
@@ -58,7 +48,7 @@ const UserRegister = ({
                 marginRight: "10px",
               }}
             >
-              {/* //style={{padding:"0px 200px"}} */}2
+              2
             </span>
             <span>Injury Details -</span>
           </div>
@@ -67,17 +57,20 @@ const UserRegister = ({
       <form
         name="formhome"
         onSubmit={submitFormData}
-        className="pb-3 form-group needs-validation was-validated"
-        encType="multipart/jpeg"
+        className="pb-3"
+        style={{ fontFamily: "Inter" }}
       >
         <div className="d-flex justify-content-center">
           <div>
             <img
               className="manImg"
-              style={{ height: "80px ", marginRight: "15px " }}
+              style={{
+                height: "93px ",
+                width: "75px ",
+                marginRight: "15px ",
+              }}
               alt=""
-              // src={img?`${url}${img}`:bimg.src}
-              src={Ifile ? Ifile[0] : bimg.src}
+              src={bimg.src}
             />
           </div>
           <div
@@ -96,16 +89,9 @@ const UserRegister = ({
               <img src="upload.png" alt="" />
             </span>
             <input
-              required
-              id="avatar"
-              // onChange={}
-              onChange={(e) => {
-                handleFormData("avatar");
-                selectedFile(e);
-              }}
+              onChange={handleFormData}
               style={{ marginLeft: "10px " }}
               type="file"
-              name="avatar"
               className="form-control"
             />
           </div>
@@ -114,31 +100,46 @@ const UserRegister = ({
         <div className="container mb-4">
           <div className="row mb-4">
             <div className="col">
-              <label htmlFor="fname" className="form-label">
+              <label
+                htmlFor="fname"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
                 First Name
               </label>
-              <div className="input-group has-validation">
-                <input
-                  required
-                  name="fname"
-                  value={values.fname}
-                  onChange={handleFormData("fname")}
-                  type="text"
-                  className={`form-control ${styles.tcolor}`}
-                  id="fname"
-                  placeholder="First name"
-                  aria-label="First name"
-                />
-                <div className="invalid-feedback">
-                  Please choose a First Name.
-                </div>
-              </div>
+              <label className="text-danger"> *</label>
+              <input
+                // required
+                name="fname"
+                value={values.fname}
+                onChange={handleFormData("fname")}
+                type="text"
+                className={`form-control ${styles.tcolor}`}
+                id="fname"
+                placeholder="First name"
+                aria-label="First name"
+              />
+              {/* {error ? (
+                <strong id="title-error" role="alert">
+                  required filll
+                </strong>
+              ):""} */}
             </div>
-
             <div className="col">
-              <label htmlFor="lname" className={"form-label"}>
+              <label
+                htmlFor="lname"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
                 Last Name
               </label>
+              <label className="text-danger"> *</label>
               <input
                 required
                 name="Lname"
@@ -147,21 +148,26 @@ const UserRegister = ({
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="Lname"
-                minLength={3}
                 placeholder="Last name"
                 aria-label="Last name"
               />
-              <div className="invalid-feedback">
-                  Please choose a Last Name.
-                </div>
             </div>
           </div>
 
           <div className="row mb-4">
-            <label htmlFor="fname" className={"form-label"}>
-              Date of Birth
-            </label>
             <div className="col">
+              <label
+                htmlFor="fname"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
+                Date of Birth
+              </label>
+              <label className="text-danger"> *</label>
+
               <input
                 required
                 type="date"
@@ -171,94 +177,60 @@ const UserRegister = ({
                 className={`form-control ${styles.tcolor}`}
                 value={values.dob}
               />
-              <div className="invalid-feedback">
-                  Please choose a Date of Birth.
-                </div>
-            </div>
-            {/* <div className="col">
-              <select
-                onChange={handleFormData}
-                id="month"
-                name="dobm"
-                className="form-select tcolor"
-              >
-                <option value="-1">Month:</option>
-                <option value="January">Jan</option>
-                <option value="February">Feb</option>
-                <option value="March">Mar</option>
-                <option value="April">Apr</option>
-                <option value="May">May</option>
-                <option value="June">Jun</option>
-                <option value="July">Jul</option>
-                <option value="August">Aug</option>
-                <option value="September">Sep</option>
-                <option value="October">Oct</option>
-                <option value="November">Nov</option>
-                <option value="December">Dec</option>
-              </select>
             </div>
             <div className="col">
-              <select
-                onChange={handleFormData}
-                id="year"
-                name="doby"
-                className="form-select tcolor"
+              <label
+                htmlFor="Mnumber"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
               >
-                <option value="-1">Year:</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
-                <option value="2013">2013</option>
-                <option value="2012">2012</option>
-                <option value="2011">2011</option>
-                <option value="2010">2010</option>
-                <option value="2009">2009</option>
-                <option value="2008">2008</option>
-                <option value="2007">2007</option>
-                <option value="2006">2006</option>
-                <option value="2005">2005</option>
-                <option value="2004">2004</option>
-                <option value="2003">2003</option>
-                <option value="2002">2002</option>
-                <option value="2001">2001</option>
-                <option value="2000">2000</option>
-                <option value="1999">1999</option>
-                <option value="1998">1998</option>
-                <option value="1997">1997</option>
-                <option value="1996">1996</option>
-                <option value="1995">1995</option>
-                <option value="1994">1994</option>
-                <option value="1993">1993</option>
-                <option value="1992">1992</option>
-                <option value="1991">1991</option>
-                <option value="1990">1990</option>
-                <option value="1989">1989</option>
-                <option value="1988">1988</option>
-                <option value="1987">1987</option>
-                <option value="1986">1986</option>
-                <option value="1985">1985</option>
-                <option value="1984">1984</option>
-                <option value="1983">1983</option>
-                <option value="1982">1982</option>
-                <option value="1981">1981</option>
-                <option value="1980">1980</option>
-              </select>
-            </div> */}
+                Mobile Number
+              </label>
+              <label className="text-danger"> *</label>
+
+              <div className="input-group mb-4">
+                <span className="input-group-text" id="basic-addon1">
+                  +91
+                </span>
+                <input
+                  required
+                  onChange={handleFormData("contact")}
+                  name="contact"
+                  value={values.contact}
+                  type="number"
+                  className={`form-control ${styles.tcolor}`}
+                  id="Mnumber"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="mb-4">
-            <label className="form-label">Gender</label>
-            <div className="custom-control">
+            <label
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              Gender
+            </label>
+            <div className="custom-control ">
               <div className="row">
-                <div className="col d-flex justify-content">
-                  <label className="custom-control-label pe-5" htmlFor="male">
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
+                >
+                  <label className="custom-control-label" htmlFor="male">
                     Male
                   </label>
                   <input
@@ -270,15 +242,18 @@ const UserRegister = ({
                     className="custom-control-input"
                     id="male"
                   />
-                  <div className="invalid-feedback">
-                 *
                 </div>
-                </div>
-                <div className="col d-flex justify-content">
-                  <label
-                    className="custom-control-label  pe-5"
-                    htmlFor="female"
-                  >
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
+                >
+                  <label className="custom-control-label" htmlFor="female">
                     Female
                   </label>
                   <input
@@ -290,12 +265,18 @@ const UserRegister = ({
                     className="custom-control-input"
                     id="female"
                   />
-                     <div className="invalid-feedback">
-                 *
                 </div>
-                </div>
-                <div className={`col d-flex justify-content-between bg-grey`}>
-                  <label className="custom-control-label" htmlFor="other">
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
+                >
+                  <label className="custom-control-label" htmlFor="others">
                     Others
                   </label>
                   <input
@@ -307,16 +288,64 @@ const UserRegister = ({
                     name="gender"
                     id="other"
                   />
-                     <div className="invalid-feedback">
-                 *
-                </div>
                 </div>
               </div>
             </div>
           </div>
+          <div className="mb-4">
+            <label
+              htmlFor="Email"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              Email address
+            </label>
+            <input
+              required
+              onChange={handleFormData("email")}
+              value={values.email}
+              name="email"
+              type="email"
+              className={`form-control ${styles.tcolor}`}
+              id="Email"
+              placeholder="name@example.com"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="Qualification"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              Qualification
+            </label>
+
+            <textarea
+              required
+              onChange={handleFormData("qualification")}
+              name="qualification"
+              className={`form-control ${styles.tcolor}`}
+              id="Qualification"
+              value={values.qualification}
+              rows={1}
+            ></textarea>
+          </div>
 
           <div className="mb-4">
-            <label htmlFor="address" className="form-label">
+            <label
+              htmlFor="address"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
               Address
             </label>
             <textarea
@@ -326,16 +355,19 @@ const UserRegister = ({
               className={`form-control ${styles.tcolor}`}
               id="address"
               rows={1}
-              minLength={10}
               value={values.address}
             ></textarea>
-            <div className="invalid-feedback">
-                  Please Type valid Address.
-                </div>
           </div>
 
           <div className="mb-4">
-            <label htmlFor="District" className="form-label">
+            <label
+              htmlFor="District"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
               District
             </label>
             <select
@@ -352,78 +384,34 @@ const UserRegister = ({
               <option value="Ahmedabad">Ahmedabad</option>
               <option value="Amreli">Amreli</option>
             </select>
-            <div className="invalid-feedback">
-                  Please choose a District.
-                </div>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="Mnumber" className="form-label">
-              Mobile Number
-            </label>
-            <div className="input-group mb-4">
-              <span className="input-group-text" id="basic-addon1">
-                +91
-              </span>
-              <input
-                required
-                onChange={handleFormData("contact")}
-                name="contact"
-                value={values.contact}
-                type="number"
-                placeholder="9999999999"
-                className={`form-control ${styles.tcolor}`}
-                id="Mnumber"
-              />
-              <div className="invalid-feedback">
-                  Please type Phone number.
-                </div>
-            </div>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="Email" className="form-label">
-              Email address
-            </label>
-            <input
-              required
-              onChange={handleFormData("email")}
-              value={values.email}
-              name="email"
-              type="email"
-              className={`form-control ${styles.tcolor}`}
-              id="Email"
-              placeholder="name@example.com"
-            />
-            <div className="invalid-feedback">
-                  Please type your Email.
-                </div>
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="Qualification" className="form-label">
-              Qualification
-            </label>
-            <textarea
-              required
-              onChange={handleFormData("qualification")}
-              name="qualification"
-              className={`form-control ${styles.tcolor}`}
-              id="Qualification"
-              value={values.qualification}
-              rows={1}
-            ></textarea>
-            <div className="invalid-feedback">
-                  Please type your Qualification info.
-                </div>
           </div>
 
           <div className="col ">
-            <label className="form-label">BPL Card Holder</label>
+            <label
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              BPL Card Holder
+            </label>
             <div className="row mb-4">
-              <div className="col d-flex justify-content bg-muted">
-                <label className="custom-control-label pe-5" htmlFor="bpl">
+              <div
+                className="col d-flex justify-content-between bg-muted align-items-center"
+                style={{
+                  background: "#F3F6F9",
+                  borderRadius: "5px",
+                  height: "50px",
+                  margin: "10px",
+                  color: "rgb(76 76 85)",
+                }}
+              >
+                <label className="custom-control-label" htmlFor="bpl">
                   Yes
                 </label>
                 <input
+                  required
                   onChange={handleFormData("bpl")}
                   type="radio"
                   name="bpl"
@@ -431,12 +419,18 @@ const UserRegister = ({
                   value="yes"
                   id="bpl"
                 />
-                   <div className="invalid-feedback">
-                 *
-                </div>
               </div>
-              <div className="col d-flex justify-content tcolor">
-                <label className="custom-control-label pe-5" htmlFor="bplNo">
+              <div
+                className="col d-flex justify-content-between tcolor align-items-center"
+                style={{
+                  background: "#F3F6F9",
+                  borderRadius: "5px",
+                  height: "50px",
+                  margin: "10px",
+                  color: "rgb(76 76 85)",
+                }}
+              >
+                <label className="custom-control-label" htmlFor="bplNo">
                   No
                 </label>
                 <input
@@ -448,13 +442,17 @@ const UserRegister = ({
                   value="no"
                   id="bplNo"
                 />
-                   <div className="invalid-feedback">
-                 *
-                </div>
               </div>
             </div>
             <div className="mb-4">
-              <label htmlFor="Description" className="form-label">
+              <label
+                htmlFor="Description"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
                 Description
               </label>
               <textarea
@@ -466,17 +464,15 @@ const UserRegister = ({
                 rows={1}
                 value={values.description}
               ></textarea>
-              <div className="invalid-feedback">
-                  Discreption must be provided.
-                </div>
             </div>
             <div className="d-flex justify-content-end mb-5">
               <button
-                // onClick={validate}
                 type="submit"
+                // onClick={submitFormData}
                 style={{
                   backgroundColor: "rgba(193, 107, 178, 1)",
                   color: "white",
+                  fontSize: "18px",
                 }}
                 className="btn"
                 role="button"

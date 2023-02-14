@@ -11,12 +11,10 @@ const Contact = () => {
     description: "",
   });
 
-  // const [data, formData]= useState({});
   console.log("formData", formData);
 
   async function onSubmit(e: any) {
     e.preventDefault();
-    // console.log(formData);
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formData)
       .then(() => alert("data addad"))
@@ -24,31 +22,22 @@ const Contact = () => {
         console.error(err);
       });
     router.push("/");
-    // console.log("data added");
   }
 
-  const handleInputData = (e: any) => {
-    e.preventDefault();
-    //updating for data state taking previous state and then adding new value to create new object
-    setFormData(() => ({
-      ...formData,
-      [e.target.name] : e.target.value,
-    }));
-  };
-
   return (
-    <form className="container mb-5 w-50">
+    <form className="container mb-5 w-50" style={{ fontFamily: "Inter" }}>
       <div className="col d-flex justify-content-center">
-        <span ><b>--Contact Us --</b></span>
+        <span>
+          <b style={{ fontSize: "18px" }}>--Contact Us --</b>
+        </span>
       </div>
 
       <div className="m-3">
-        <label className="mb-1" htmlFor="contact">
+        <label className="mb-1">
           Mobile Number
         </label>
         <input
           required
-          onChange={handleInputData}
           className="form-control bg-light"
           name="contact"
           type="text"
@@ -58,12 +47,11 @@ const Contact = () => {
         ></input>
       </div>
       <div className="m-3">
-        <label className="mb-1" htmlFor="email">
+        <label className="mb-1">
           Email Address
         </label>
         <input
           required
-          onChange={handleInputData}
           className="form-control bg-light"
           name="email"
           type="text"
@@ -77,9 +65,7 @@ const Contact = () => {
           Description
         </label>
         <input
-          onChange={handleInputData}
           required
-          // onChange={handleInputData("description")}
           className="form-control bg-light"
           name="description"
           type="text"
@@ -106,7 +92,6 @@ const Contact = () => {
         </button>
       </div>
     </form>
-    
   );
 };
 

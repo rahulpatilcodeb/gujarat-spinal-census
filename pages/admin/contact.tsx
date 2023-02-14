@@ -37,7 +37,8 @@ const Home = () => {
           { headers: { Authorization: `${token}` } }
         );
         console.log(res);
-        setPosts(res.data);
+        const demo = (res.data);
+        setPosts(demo.reverse());
       }
       if (!Ilogin) {
         router.push("/admin/login");
@@ -58,75 +59,80 @@ const Home = () => {
 
   return (
     <>
-      {loading ? (
-        <div className="container pb-3">
-          <table className="table border">
-            <thead>
-              <tr>
-                <th>
-                  <center>Sr.No.</center>
-                </th>
-                <th>
-                  <center>Email</center>
-                </th>
-                <th>
-                  <center>Contact No.</center>
-                </th>
-                <th>
-                  <center>Description</center>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatePosts.map((post, index) => (
-                <tr key={post._id}>
-                  <td>
-                    <center></center>
-                    {index + 1}
-                  </td>
-                  <td>
-                    <center> {post.email}</center>
-                  </td>
-                  <td>
-                    <center> {post.contact}</center>
-                  </td>
-                  <td>
-                    <center> {post.description}</center>
-                  </td>
+      <div style={{ fontFamily: "Inter" }}>
+        {loading ? (
+          <div className="container pb-3">
+            <table className="table border">
+              <thead style={{ fontSize: "18px" }}>
+                <tr>
+                  <th>
+                    <center>Sr.No.</center>
+                  </th>
+                  <th>
+                    <center>Email</center>
+                  </th>
+                  <th>
+                    <center>Contact No.</center>
+                  </th>
+                  <th>
+                    <center>Description</center>
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {/* {{posts.map((value, index) => {
-        return (
-          <div className="card">
-            <img src="..." className="card-img-top" alt="..." />
-            <div className="card-body">
-              <p className="card-text">{value}</p>
-              <p className="card-text">{index}</p>
+              </thead>
+              <tbody style={{ fontSize: "16px" }}>
+                {paginatePosts.map((post, index) => (
+                  <tr key={post._id}>
+                    <td>
+                      <center> {index + 1}</center>
+                    </td>
+                    <td>
+                      <center> {post.email}</center>
+                    </td>
+                    <td>
+                      <center> {post.contact}</center>
+                    </td>
+                    <td>
+                      <center>
+                        <textarea
+                          style={{ width: "100%", height: "30px" }}
+                          readOnly
+                        >
+                          {post.description}
+                        </textarea>
+                      </center>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <p>
+                  {currentPage} of {Math.ceil(posts.length / pageSize)}
+                </p>
+              </div>
+              <div>
+                <Pagination
+                  items={posts.length}
+                  pageSize={pageSize}
+                  currentPage={currentPage}
+                  onPageChange={handlePageChange}
+                />
+              </div>
             </div>
           </div>
-        );
-      })} */}
-
-          <Pagination
-            items={posts.length}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={handlePageChange}
-          />
-        </div>
-      ) : (
-        <center>
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </center>
-      )}
-      ;
+        ) : (
+          <center>
+            <div className="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </center>
+        )}
+        ;
+      </div>
     </>
   );
 };

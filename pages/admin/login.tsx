@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { logout } from "@/store/userSlice";
-// import user from "@/model/user.entity";
 import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
-// import { setCookie, getCookie } from "cookies-next";
 import { RootState } from "@/store/store";
 import Style from "@/styles/loader.module.scss";
 
@@ -83,7 +80,6 @@ const Login = () => {
   }
 
   const handleInputData = (e: any) => {
-    //updating for data state taking previous state and then adding new value to create new object
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -93,10 +89,15 @@ const Login = () => {
   return (
     <>
       {loading ? (
-        <form onSubmit={onSubmit} className="container w-25 mb-5">
+        
+        <form
+          onSubmit={onSubmit}
+          className="container w-25 mb-5"
+          style={{ fontFamily: "Inter" }}
+        >
           <div className="col d-flex justify-content-center">
             <span>
-              <b>--Admin Login--</b>
+              <b style={{ fontSize: "18px" }}>--Admin Login--</b>
             </span>
           </div>
 

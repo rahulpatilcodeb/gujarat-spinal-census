@@ -3,27 +3,13 @@ import axios from "axios";
 import { Card, Input } from "semantic-ui-react";
 import Pagination from "@/components/Pagination";
 import { paginate } from "@/components/paginate";
- import { RootState } from "@/store/store";
- import { stat } from "fs";
- import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { isEmpty } from "lodash";
-import { searchData, typeData, districtData } from "@/store/filterSlice";
 
 export default function Patients() {
    const { user: user, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
-  );
-  const dispatch = useDispatch();
-  const searchDataRedux = useSelector(
-    (state:RootState) => state.filter.searchData
-  );
-  console.log("redux",searchDataRedux)
-  const typeDataRedux = useSelector(
-    (state: RootState) => state.filter.typeData
-  );
-  const districtDataRedux = useSelector(
-    (state: RootState) => state.filter.districtData
   );
   const router = useRouter();
   const [loading,setLoading] = useState(false)
@@ -34,6 +20,8 @@ export default function Patients() {
   const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
+  const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
+
 
   useEffect(() => {
     try {
@@ -45,7 +33,8 @@ export default function Patients() {
           const { data: res } = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/users`
           );
-          setAPIData(res.data);
+          const demo=(res.data)
+          setAPIData(demo.reverse());
         };
         getPosts();
       }
@@ -130,11 +119,10 @@ export default function Patients() {
   return (
     <>
       {loading ? (
-        <div style={{ padding: 20 }}>
+        <div style={{ padding: 20, fontFamily: "Inter" }}>
           <div
+            className="d-flex justify-content-between p-2"
             style={{
-              display: "flex",
-              padding: "2%",
               background: "#F7FCF8",
               borderRadius: "5px",
               justifyContent: "center",
@@ -202,7 +190,7 @@ export default function Patients() {
             style={{ marginTop: 20, justifyContent: "center" }}
             className="row pb-5"
           >
-            {searchInput.length > 1 || filteredResults.length > 1
+            {filteredResults.length > 1
               ? filteredPosts.map((item: any) => {
                   return (
                     <Card
@@ -227,16 +215,27 @@ export default function Patients() {
                               height: "10rem",
                               width: "14rem",
                             }}
-                            src="/user.png"
+                            // src="/user.png"
+                            src={`${url}${item.email}/${item.image}`}
                             alt="image"
                           />
                         </div>
 
-                        <Card.Header>
+                        <Card.Header
+                          style={{
+                            fontWeight: 400,
+                            fontSize: "18px",
+                            color: "#181C32",
+                          }}
+                        >
                           {item.fname} {item.lname}
                         </Card.Header>
                         <br />
-                        <Card.Description>{item.description}</Card.Description>
+                        <Card.Description>
+                          <textarea style={{ border: "0", color: "#171919" }}>
+                            {item.description}
+                          </textarea>
+                        </Card.Description>
                       </Card.Content>
                     </Card>
                   );
@@ -262,26 +261,36 @@ export default function Patients() {
                         <div>
                           <img
                             style={{
-                              height: "10rem",
+                              height: "8rem",
                               width: "14rem",
                             }}
-                            src="/user.png"
+                            // src="/user.png"
+                            src={`${url}${item.email}/${item.image}`}
                             alt="image"
                           />
                         </div>
 
-                        <Card.Header className="headText">
+                        <Card.Header
+                          className="headText mt-1"
+                          style={{
+                            fontWeight: 400,
+                            fontSize: "18px",
+                            color: "#181C32",
+                          }}
+                        >
                           {item.fname} {item.lname}
                         </Card.Header>
                         <br />
                         <Card.Description className="descText">
-                          {item.description}
+                          <textarea style={{ border: "0", color: "#171919" }}>
+                            {item.description}
+                          </textarea>
                         </Card.Description>
                       </Card.Content>
                     </Card>
                   );
                 })}
-            {searchInput.length > 1 || filteredResults.length > 1 ? (
+            {filteredResults.length > 1 ? (
               <div>
                 <Pagination
                   items={filteredResults.length}
@@ -291,13 +300,18 @@ export default function Patients() {
                 />
               </div>
             ) : (
-              <div>
-                <Pagination
-                  items={APIData.length}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
+              <div style={{display:"flex" ,justifyContent:"space-between"}}>
+                <div>
+                  <p>{currentPage} of {Math.ceil(APIData.length/pageSize)}</p>
+                </div>
+                <div>
+                  <Pagination
+                    items={APIData.length}
+                    pageSize={pageSize}
+                    currentPage={currentPage}
+                    onPageChange={handlePageChange}
+                  />
+                </div>
               </div>
             )}
           </div>
