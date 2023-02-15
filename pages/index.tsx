@@ -108,6 +108,7 @@ function Common() {
                 <UserRegister
                   Ifile={file}
                   nextStep={nextStep}
+                  setFormData={setFormData}
                   handleFormData={handleInputData}
                   selectedFile={selectedFile}
                   values={formData}
