@@ -130,6 +130,7 @@ function Common() {
                   handleFormData={handleInputData}
                   values={formData}
                   onsubmit={onsubmit}
+                  setFormData={setFormData}
                   selectedFile={selectedFile}
                 />
               </Col>

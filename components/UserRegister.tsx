@@ -15,6 +15,7 @@ const UserRegister = ({
   Ifile,
   values,
   selectedFile,
+  setFormData,
 }: any) => {
   const [initValue, setInitValue] = useState(values);
 
@@ -59,8 +60,8 @@ const UserRegister = ({
     enableReinitialize: true,
     validationSchema: schema,
     onSubmit: (values) => {
-      setInitValue(formik.values)
-      console.log("values", values);
+      setFormData(formik.values)
+      console.log("values", values, "formik values", formik.values);
       nextStep();
       // alert(JSON.stringify(values, null, 2));
     },
@@ -278,9 +279,9 @@ const UserRegister = ({
                 placeholder="First name"
                 aria-label="First name"
               />
-              {formik.touched.name && formik.errors.fname && (
+              {formik.touched.fname && formik.errors.fname && (
                 <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.fname)}
+                  {(formik.errors.fname).toString()}
                 </p>
               )}
             </div>
@@ -300,7 +301,7 @@ const UserRegister = ({
                 onBlur={formik.handleBlur}
                 name="lname"
                 value={
-                  formik.values.lname == "" ? values.lname : formik.values.lname
+                  formik.values.lname
                 }
                 onChange={formik.handleChange}
                 type="text"

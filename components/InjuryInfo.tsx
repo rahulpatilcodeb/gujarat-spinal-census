@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Home.module.css";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
@@ -22,102 +22,117 @@ const InjuryInfo = ({
   prevStep,
   values,
   onsubmit,
+  setFormData,
+
 }: any) => {
+
+  const [initValue, setInitValue] = useState(values);
+
+
   const submitFormData = async (e: any) => {
     e.preventDefault();
-    // console.log("FormData");
-    // await onsubmit(e);
-    // console.log("after");
-    // nextStep();
-    formik.handleSubmit();
-    values.injuryYear = formik.values.injuryYear;
-    values.injuryReason = formik.values.injuryReason;
-    values.injuryType = formik.values.injuryType;
-    values.injuryLevel = formik.values.injuryLevel;
-    values.implantFixation = formik.values.implantFixation;
-    values.injuryStatus = formik.values.injuryStatus;
-    values.physicalStatus = formik.values.physicalStatus;
-    values.financialStatus = formik.values.financialStatus;
+    // // console.log("FormData");
+    // // await onsubmit(e);
+    // // console.log("after");
+    // // nextStep();
+    // formik.handleSubmit();
+    // values.injuryYear = formik.values.injuryYear;
+    // values.injuryReason = formik.values.injuryReason;
+    // values.injuryType = formik.values.injuryType;
+    // values.injuryLevel = formik.values.injuryLevel;
+    // values.implantFixation = formik.values.implantFixation;
+    // values.injuryStatus = formik.values.injuryStatus;
+    // values.physicalStatus = formik.values.physicalStatus;
+    // values.financialStatus = formik.values.financialStatus;
 
-    if (
-      formik.values.injuryYear != "" &&
-      formik.errors.injuryYear == undefined &&
-      formik.values.injuryReason != "" &&
-      formik.errors.injuryReason == undefined &&
-      formik.values.injuryLevel != "" &&
-      formik.errors.injuryLevel == undefined &&
-      formik.values.injuryStatus != "" &&
-      formik.errors.injuryStatus == undefined &&
-      formik.values.injuryType != "" &&
-      formik.errors.injuryType == undefined &&
-      formik.values.implantFixation != "" &&
-      formik.errors.implantFixation == undefined &&
-      formik.values.physicalStatus != "" &&
-      formik.errors.physicalStatus == undefined &&
-      formik.values.financialStatus != "" &&
-      formik.errors.financialStatus == undefined
-    ) {
-      await onsubmit(e);
-      nextStep();
-    }
+    // if (
+    //   formik.values.injuryYear != "" &&
+    //   formik.errors.injuryYear == undefined &&
+    //   formik.values.injuryReason != "" &&
+    //   formik.errors.injuryReason == undefined &&
+    //   formik.values.injuryLevel != "" &&
+    //   formik.errors.injuryLevel == undefined &&
+    //   formik.values.injuryStatus != "" &&
+    //   formik.errors.injuryStatus == undefined &&
+    //   formik.values.injuryType != "" &&
+    //   formik.errors.injuryType == undefined &&
+    //   formik.values.implantFixation != "" &&
+    //   formik.errors.implantFixation == undefined &&
+    //   formik.values.physicalStatus != "" &&
+    //   formik.errors.physicalStatus == undefined &&
+    //   formik.values.financialStatus != "" &&
+    //   formik.errors.financialStatus == undefined
+    // ) {
+    await onsubmit(e);
+    nextStep();
+    // }
   };
 
-  const formik = useFormik({
-    initialValues: {
-      injuryYear: "",
-      injuryReason: "",
-      injuryType: "",
-      injuryLevel: "",
-      implantFixation: "",
-      injuryStatus: "",
-      physicalStatus: "",
-      financialStatus: "",
-    },
-    validationSchema: schema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+  const formik = useFormik(
+    {
+      initialValues: initValue,
+      enableReinitialize: true,
 
-  useEffect(() => {
-    if (values.fname != "") {
-      values.injuryYear = formik.values.injuryYear;
-      values.injuryReason = formik.values.injuryReason;
-      values.injuryType = formik.values.injuryType;
-      values.injuryLevel = formik.values.injuryLevel;
-      values.implantFixation = formik.values.implantFixation;
-      values.injuryStatus = formik.values.injuryStatus;
-      values.physicalStatus = formik.values.physicalStatus;
-      values.financialStatus = formik.values.financialStatus;
-    }
-    if (values.injuryYear != "") {
-      formik.values.injuryYear = values.injuryYear;
+      // {
+      // initialValues: {
+      //   injuryYear: "",
+      //   injuryReason: "",
+      //   injuryType: "",
+      //   injuryLevel: "",
+      //   implantFixation: "",
+      //   injuryStatus: "",
+      //   physicalStatus: "",
+      //   financialStatus: "",
+      // },
+      validationSchema: schema,
+      onSubmit: (values) => {
+        setFormData(formik.values)
+        submitFormData
+        console.log("values", values, "formik values", formik.values);
 
-      formik.values.injuryReason = values.injuryReason;
+        // alert(JSON.stringify(values, null, 2));
+      },
+    });
 
-      formik.values.injuryLevel = values.injuryLevel;
+  // useEffect(() => {
+  //   if (values.fname != "") {
+  //     values.injuryYear = formik.values.injuryYear;
+  //     values.injuryReason = formik.values.injuryReason;
+  //     values.injuryType = formik.values.injuryType;
+  //     values.injuryLevel = formik.values.injuryLevel;
+  //     values.implantFixation = formik.values.implantFixation;
+  //     values.injuryStatus = formik.values.injuryStatus;
+  //     values.physicalStatus = formik.values.physicalStatus;
+  //     values.financialStatus = formik.values.financialStatus;
+  //   }
+  //   if (values.injuryYear != "") {
+  //     formik.values.injuryYear = values.injuryYear;
 
-      formik.values.injuryStatus = values.injuryStatus;
+  //     formik.values.injuryReason = values.injuryReason;
 
-      formik.values.injuryType = values.injuryType;
+  //     formik.values.injuryLevel = values.injuryLevel;
 
-      formik.values.implantFixation = values.implantFixation;
+  //     formik.values.injuryStatus = values.injuryStatus;
 
-      formik.values.physicalStatus = values.physicalStatus;
+  //     formik.values.injuryType = values.injuryType;
 
-      formik.values.financialStatus = values.financialStatus;
-    }
-    // },[]);
-  }, [
-    formik.values.injuryYear,
-    formik.values.injuryReason,
-    formik.values.injuryType,
-    formik.values.injuryLevel,
-    formik.values.implantFixation,
-    formik.values.injuryStatus,
-    formik.values.physicalStatus,
-    formik.values.financialStatus,
-  ]);
+  //     formik.values.implantFixation = values.implantFixation;
+
+  //     formik.values.physicalStatus = values.physicalStatus;
+
+  //     formik.values.financialStatus = values.financialStatus;
+  //   }
+  //   // },[]);
+  // }, [
+  //   formik.values.injuryYear,
+  //   formik.values.injuryReason,
+  //   formik.values.injuryType,
+  //   formik.values.injuryLevel,
+  //   formik.values.implantFixation,
+  //   formik.values.injuryStatus,
+  //   formik.values.physicalStatus,
+  //   formik.values.financialStatus,
+  // ]);
 
   return (
     <>
@@ -180,21 +195,22 @@ const InjuryInfo = ({
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 type="number"
-                value={
-                  formik.values.injuryYear == ""
-                    ? values.injuryYear
-                    : formik.values.injuryYear
-                }
+                value={formik.values.injuryYear}
                 name="injuryYear"
                 placeholder="2023"
                 id="InjuryYear"
                 className={`form-control ${styles.tcolor}`}
               />
-              <p style={{ color: "red" }} className="error">
+              {formik.touched.injuryYear && formik.errors.injuryYear && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.injuryYear).toString()}
+                </p>
+              )}
+              {/* <p style={{ color: "red" }} className="error">
                 {formik.errors.injuryYear &&
                   formik.touched.injuryYear &&
                   formik.errors.injuryYear}
-              </p>
+              </p> */}
             </div>
             <div className="mb-4">
               <label
@@ -208,21 +224,26 @@ const InjuryInfo = ({
                 Injury Reason
               </label>
               <textarea
-              required
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              name="injuryReason"
-              value={formik.values.injuryReason}
-              className={`form-control ${styles.tcolor}`}
-              id="Ireason"
-              placeholder="Road Accident"
-              rows={1}
-            ></textarea>
-            <p style={{ color: "red" }} className="error">
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                name="injuryReason"
+                value={formik.values.injuryReason}
+                className={`form-control ${styles.tcolor}`}
+                id="Ireason"
+                placeholder="Road Accident"
+                rows={1}
+              ></textarea>
+              {/* <p style={{ color: "red" }} className="error">
               {formik.errors.injuryReason &&
                 formik.touched.injuryReason &&
                 formik.errors.injuryReason}
-            </p>
+            </p> */}
+              {formik.touched.injuryReason && formik.errors.injuryReason && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.injuryReason).toString()}
+                </p>
+              )}
             </div>
             <label
               htmlFor="Itype"
@@ -249,15 +270,16 @@ const InjuryInfo = ({
                   Paraplagia
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="injuryType"
-                className="custom-control-input"
-                value="Paraplagia"
-                id="ItypeP"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  checked={formik.values.injuryType == "Paraplagia"}
+                  type="radio"
+                  name="injuryType"
+                  className="custom-control-input"
+                  value="Paraplagia"
+                  id="ItypeP"
+                />
               </div>
               <div
                 className="col d-flex justify-content-between align-items-center"
@@ -273,22 +295,28 @@ const InjuryInfo = ({
                   Quadriplegia
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="injuryType"
-                className="custom-control-input"
-                value="Quadriplegia"
-                id="ItypeQ"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  checked={formik.values.injuryType == "Quadriplegia"}
+                  type="radio"
+                  name="injuryType"
+                  className="custom-control-input"
+                  value="Quadriplegia"
+                  id="ItypeQ"
+                />
               </div>
-              <p style={{ color: "red" }} className="error">
+              {/* <p style={{ color: "red" }} className="error">
               {formik.errors.injuryType &&
                 formik.touched.injuryType &&
                 formik.errors.injuryType}
-            </p>
-              
+            </p> */}
+              {formik.touched.injuryType && formik.errors.injuryType && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.injuryType).toString()}
+                </p>
+              )}
+
             </div>
             <div className="mb-4">
               <label
@@ -302,13 +330,14 @@ const InjuryInfo = ({
                 Injury Level
               </label>
               <select
-              required
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              name="injuryLevel"
-              id="Ilevel"
-              className={`form-select ${styles.tcolor}`}
-            >
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+
+                name="injuryLevel"
+                id="Ilevel"
+                className={`form-select ${styles.tcolor}`}
+              >
                 <option defaultChecked value="">
                   Selected
                 </option>
@@ -316,11 +345,16 @@ const InjuryInfo = ({
                 <option value="medium">medium</option>
                 <option value="low">low</option>
               </select>
-              <p style={{ color: "red" }} className="error">
+              {/* <p style={{ color: "red" }} className="error">
               {formik.errors.injuryLevel &&
                 formik.touched.injuryLevel &&
                 formik.errors.injuryLevel}
-            </p>
+            </p> */}
+              {formik.touched.injuryLevel && formik.errors.injuryLevel && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.injuryLevel).toString()}
+                </p>
+              )}
             </div>
             <label
               htmlFor="ImplantFix"
@@ -351,15 +385,15 @@ const InjuryInfo = ({
                   Operated
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="implantFixation"
-                className="custom-control-input"
-                value="Operated"
-                id="ImplantFix"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="implantFixation"
+                  className="custom-control-input"
+                  value="Operated"
+                  id="ImplantFix"
+                />
               </div>
               <div
                 className="col d-flex justify-content-between align-items-center"
@@ -378,21 +412,26 @@ const InjuryInfo = ({
                   Not Operated
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="implantFixation"
-                className="custom-control-input"
-                value="Not Operated"
-                id="Implant-Fix-No"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="implantFixation"
+                  className="custom-control-input"
+                  value="Not Operated"
+                  id="Implant-Fix-No"
+                />
               </div>
-              <p style={{ color: "red" }} className="error">
+              {/* <p style={{ color: "red" }} className="error">
               {formik.errors.implantFixation &&
                 formik.touched.implantFixation &&
                 formik.errors.implantFixation}
-            </p>
+            </p> */}
+              {formik.touched.implantFixation && formik.errors.implantFixation && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.implantFixation).toString()}
+                </p>
+              )}
             </div>
             <label
               className="form-label"
@@ -418,15 +457,15 @@ const InjuryInfo = ({
                   Completed
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="injuryStatus"
-                className="custom-control-input"
-                value="Complete"
-                id="Istatus"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="injuryStatus"
+                  className="custom-control-input"
+                  value="Complete"
+                  id="Istatus"
+                />
               </div>
               <div
                 className="col d-flex justify-content-between align-items-center"
@@ -445,21 +484,26 @@ const InjuryInfo = ({
                   Incomplete
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="injuryStatus"
-                className="custom-control-input"
-                value="Incomplete"
-                id="Istatusno"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="injuryStatus"
+                  className="custom-control-input"
+                  value="Incomplete"
+                  id="Istatusno"
+                />
               </div>
-              <p style={{ color: "red" }} className="error">
+              {/* <p style={{ color: "red" }} className="error">
               {formik.errors.injuryStatus &&
                 formik.touched.injuryStatus &&
                 formik.errors.injuryStatus}
-            </p>
+            </p> */}
+              {formik.touched.injuryStatus && formik.errors.injuryStatus && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.injuryStatus).toString()}
+                </p>
+              )}
             </div>
             <label
               className="form-label"
@@ -488,15 +532,15 @@ const InjuryInfo = ({
                   Dependent
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="physicalStatus"
-                className="custom-control-input"
-                value="Dependent"
-                id="PhysicalStatus"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="physicalStatus"
+                  className="custom-control-input"
+                  value="Dependent"
+                  id="PhysicalStatus"
+                />
               </div>
               <div
                 className="col d-flex justify-content-between align-items-center"
@@ -515,21 +559,26 @@ const InjuryInfo = ({
                   Independent
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="physicalStatus"
-                className="custom-control-input"
-                value="Independent"
-                id="PhysicalStatusno"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="physicalStatus"
+                  className="custom-control-input"
+                  value="Independent"
+                  id="PhysicalStatusno"
+                />
               </div>
-              <p style={{ color: "red" }} className="error">
-              {formik.errors.physicalStatus &&
+              {/* <p style={{ color: "red" }} className="error"> */}
+              {/* {formik.errors.physicalStatus &&
                 formik.touched.physicalStatus &&
                 formik.errors.physicalStatus}
-            </p>
+            </p> */}
+              {formik.touched.physicalStatus && formik.errors.physicalStatus && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.physicalStatus).toString()}
+                </p>
+              )}
             </div>
             <label
               className="form-label"
@@ -558,15 +607,15 @@ const InjuryInfo = ({
                   Dependent
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="financialStatus"
-                className="custom-control-input"
-                value="Dependent"
-                id="Financialdep"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="financialStatus"
+                  className="custom-control-input"
+                  value="Dependent"
+                  id="Financialdep"
+                />
               </div>
               <div
                 className="col d-flex justify-content-between align-items-center"
@@ -585,15 +634,15 @@ const InjuryInfo = ({
                   Independent
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="financialStatus"
-                className="custom-control-input"
-                value="Independent"
-                id="FinancialInd"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="financialStatus"
+                  className="custom-control-input"
+                  value="Independent"
+                  id="FinancialInd"
+                />
               </div>
             </div>
             <div className="row mb-4">
@@ -614,15 +663,15 @@ const InjuryInfo = ({
                   Job
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="financialStatus"
-                className="custom-control-input"
-                value="Job"
-                id="FinancialJob"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="financialStatus"
+                  className="custom-control-input"
+                  value="Job"
+                  id="FinancialJob"
+                />
               </div>
               <div
                 className="col d-flex justify-content-between align-items-center"
@@ -641,21 +690,26 @@ const InjuryInfo = ({
                   Business
                 </label>
                 <input
-                required
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                type="radio"
-                name="financialStatus"
-                className="custom-control-input"
-                value="Business"
-                id="FinancialBus"
-              />
+                  required
+                  onBlur={formik.handleBlur}
+                  onChange={formik.handleChange}
+                  type="radio"
+                  name="financialStatus"
+                  className="custom-control-input"
+                  value="Business"
+                  id="FinancialBus"
+                />
               </div>
-              <p style={{ color: "red" }} className="error">
+              {/* <p style={{ color: "red" }} className="error">
               {formik.errors.financialStatus &&
                 formik.touched.financialStatus &&
                 formik.errors.financialStatus}
-            </p>
+            </p> */}
+              {formik.touched.financialStatus && formik.errors.financialStatus && (
+                <p style={{ color: "red" }} className="error">
+                  {(formik.errors.financialStatus).toString()}
+                </p>
+              )}
             </div>
             <div className="div d-flex justify-content-between">
               <button
@@ -685,7 +739,7 @@ const InjuryInfo = ({
           </div>
         </form>
       </div>
-      
+
     </>
   );
 };
