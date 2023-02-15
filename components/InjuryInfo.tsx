@@ -1,15 +1,122 @@
-import React from "react";
-import styles from  "@/styles/Home.module.css";
+import React, { useEffect } from "react";
+import styles from "@/styles/Home.module.css";
+import { Formik, useFormik } from "formik";
+import * as Yup from "yup";
 
-const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any) => {
+const schema = Yup.object().shape({
+  injuryYear: Yup.number().required("Please enter your first name!"),
+  injuryReason: Yup.string().required("Please enter your family name!"),
+  injuryType: Yup.string().required("Please enter your family name!"),
+  injuryLevel: Yup.string().required("Please enter your family name!"),
+  implantFixation: Yup.string().required("please select district"),
+  injuryStatus: Yup.string().required("please select district"),
 
-  const submitFormData = async (e:any) => {
+  physicalStatus: Yup.string().required("Please enter your family name!"),
+
+  financialStatus: Yup.string().required("Please enter your family name!"),
+});
+
+const InjuryInfo = ({
+  nextStep,
+  handleFormData,
+  prevStep,
+  values,
+  onsubmit,
+}: any) => {
+  const submitFormData = async (e: any) => {
     e.preventDefault();
-    console.log("FormData")
-    await onsubmit(e);
-    console.log("after")
-    nextStep();
+    // console.log("FormData");
+    // await onsubmit(e);
+    // console.log("after");
+    // nextStep();
+    formik.handleSubmit();
+    values.injuryYear = formik.values.injuryYear;
+    values.injuryReason = formik.values.injuryReason;
+    values.injuryType = formik.values.injuryType;
+    values.injuryLevel = formik.values.injuryLevel;
+    values.implantFixation = formik.values.implantFixation;
+    values.injuryStatus = formik.values.injuryStatus;
+    values.physicalStatus = formik.values.physicalStatus;
+    values.financialStatus = formik.values.financialStatus;
+
+    if (
+      formik.values.injuryYear != "" &&
+      formik.errors.injuryYear == undefined &&
+      formik.values.injuryReason != "" &&
+      formik.errors.injuryReason == undefined &&
+      formik.values.injuryLevel != "" &&
+      formik.errors.injuryLevel == undefined &&
+      formik.values.injuryStatus != "" &&
+      formik.errors.injuryStatus == undefined &&
+      formik.values.injuryType != "" &&
+      formik.errors.injuryType == undefined &&
+      formik.values.implantFixation != "" &&
+      formik.errors.implantFixation == undefined &&
+      formik.values.physicalStatus != "" &&
+      formik.errors.physicalStatus == undefined &&
+      formik.values.financialStatus != "" &&
+      formik.errors.financialStatus == undefined
+    ) {
+      await onsubmit(e);
+      nextStep();
+    }
   };
+
+  
+  const formik = useFormik({
+    initialValues: {
+      injuryYear: "",
+      injuryReason: "",
+      injuryType: "",
+      injuryLevel: "",
+      implantFixation: "",
+      injuryStatus: "",
+      physicalStatus: "",
+      financialStatus: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+  
+  useEffect(() => {
+    if(values.fname!=""){
+    values.injuryYear = formik.values.injuryYear;
+    values.injuryReason = formik.values.injuryReason;
+    values.injuryType = formik.values.injuryType;
+    values.injuryLevel = formik.values.injuryLevel;
+    values.implantFixation = formik.values.implantFixation;
+    values.injuryStatus = formik.values.injuryStatus;
+    values.physicalStatus = formik.values.physicalStatus;
+    values.financialStatus = formik.values.financialStatus;
+  }
+    if (values.injuryYear != "") {
+      formik.values.injuryYear = values.injuryYear;
+
+      formik.values.injuryReason = values.injuryReason;
+
+      formik.values.injuryLevel = values.injuryLevel;
+
+      formik.values.injuryStatus = values.injuryStatus;
+
+      formik.values.injuryType = values.injuryType;
+
+      formik.values.implantFixation = values.implantFixation;
+
+      formik.values.physicalStatus = values.physicalStatus;
+
+      formik.values.financialStatus = values.financialStatus;
+    }
+  // },[]);
+  }, [ formik.values.injuryYear,
+   formik.values.injuryReason,
+   formik.values.injuryType,
+  formik.values.injuryLevel,
+   formik.values.implantFixation,
+    formik.values.injuryStatus,
+    formik.values.physicalStatus,
+   formik.values.financialStatus]);
 
   return (
     <>
@@ -47,108 +154,122 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
           </div>
         </div>
       </div>
-      <form
-        name="form"
-        onSubmit={submitFormData}
-        className="pb-5 was-validated"
-      >
+      <form noValidate name="form" onSubmit={submitFormData} className="pb-5">
         <div className="container mb-4">
           <div className="mb-4">
             <label htmlFor="InjuryYear" className="form-label">
               Injury Year
             </label>
-            <input required
-            maxLength={4}
-            minLength={4}
-            onChange={handleFormData("injuryYear")}
-            type="number"
-            name="injuryYear"
-            placeholder="2023"
+            <input
+              required
+              maxLength={4}
+              minLength={4}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="number"
+              value={
+                formik.values.injuryYear == ""
+                  ? values.injuryYear
+                  : formik.values.injuryYear
+              }
+              name="injuryYear"
+              placeholder="2023"
               id="InjuryYear"
               className={`form-control ${styles.tcolor}`}
             />
-               <div className="invalid-feedback">
-                Please type injury year
-                </div>
-             
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.injuryYear &&
+                formik.touched.injuryYear &&
+                formik.errors.injuryYear}
+            </p>
           </div>
           <div className="mb-4">
             <label htmlFor="Ireason" className="form-label">
               Injury Reason
             </label>
-            <textarea required
-              onChange={handleFormData("injuryReason")}
+            <textarea
+              required
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               name="injuryReason"
-              value={values.injuryReason}
+              value={formik.values.injuryReason}
               className={`form-control ${styles.tcolor}`}
               id="Ireason"
               placeholder="Road Accident"
               rows={1}
             ></textarea>
-            <div className="invalid-feedback">
-                Please type injury Reson
-                </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.injuryReason &&
+                formik.touched.injuryReason &&
+                formik.errors.injuryReason}
+            </p>
           </div>
           <label htmlFor="Itype" className="form-label">
             Injury Type
           </label>
           <div className="row mb-4 ">
             <div className="col d-flex justify-content">
-              <label
-                className="custom-control-label pe-5"
-                htmlFor="ItypeP"
-              >
+              <label className="custom-control-label pe-5" htmlFor="ItypeP">
                 Paraplagia
               </label>
-              <input required
-                onChange={handleFormData("injuryType")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="injuryType"
                 className="custom-control-input"
                 value="Paraplagia"
                 id="ItypeP"
               />
-              <div className="invalid-feedback">
-                *
-                </div>
+              <div className="invalid-feedback">*</div>
             </div>
             <div className="col d-flex justify-content">
-              <label
-                className="custom-control-label pe-5"
-                htmlFor="ItypeQ"
-              >
+              <label className="custom-control-label pe-5" htmlFor="ItypeQ">
                 Quadriplegia
               </label>
-              <input required
-                onChange={handleFormData("injuryType")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="injuryType"
                 className="custom-control-input"
                 value="Quadriplegia"
                 id="ItypeQ"
               />
-              <div className="invalid-feedback">*</div>
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.injuryType &&
+                formik.touched.injuryType &&
+                formik.errors.injuryType}
+            </p>
           </div>
 
           <div className="mb-4">
             <label htmlFor="Ilevel" className="form-label">
               Injury Level
             </label>
-            <select required
-              onChange={handleFormData("injuryLevel")}
+            <select
+              required
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               name="injuryLevel"
               id="Ilevel"
               className={`form-select ${styles.tcolor}`}
             >
-              <option defaultChecked value=''>Selected</option>
+              <option defaultChecked value="">
+                Selected
+              </option>
               <option value="high">high</option>
               <option value="medium">medium</option>
               <option value="low">low</option>
             </select>
-            <div className="invalid-feedback">
-                Please select Injury Level
-                </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.injuryLevel &&
+                formik.touched.injuryLevel &&
+                formik.errors.injuryLevel}
+            </p>
           </div>
           <label htmlFor="ImplantFix" className="form-label">
             Implant Fixation
@@ -158,8 +279,10 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               <label className="custom-control-label pe-5" htmlFor="ImplantFix">
                 Operated
               </label>
-              <input required
-                onChange={handleFormData("implantFixation")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="implantFixation"
                 className="custom-control-input"
@@ -169,95 +292,128 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               <div className="invalid-feedback">*</div>
             </div>
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="Implant-Fix-No">
+              <label
+                className="custom-control-label pe-5"
+                htmlFor="Implant-Fix-No"
+              >
                 Not Operated
               </label>
-              <input required
-                onChange={handleFormData("implantFixation")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="implantFixation"
                 className="custom-control-input"
                 value="Not Operated"
                 id="Implant-Fix-No"
               />
-              <div className="invalid-feedback">*</div>
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.implantFixation &&
+                formik.touched.implantFixation &&
+                formik.errors.implantFixation}
+            </p>
           </div>
           <label className="form-label">Injury Status:</label>
           <div className="row mb-4">
             <div className="col d-flex justify-content">
               <label className="custom-control-label pe-5" htmlFor="Istatus">
-                Compled
+                Complete
               </label>
-              <input required
-                onChange={handleFormData("injuryStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="injuryStatus"
                 className="custom-control-input"
-                value="Compled"
+                value="Complete"
                 id="Istatus"
               />
             </div>
             <div className="invalid-feedback">*</div>
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="Istatus-no">
+              <label className="custom-control-label pe-5" htmlFor="Istatusno">
                 Incomplete
               </label>
-              <input required
-                onChange={handleFormData("injuryStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="injuryStatus"
                 className="custom-control-input"
                 value="Incomplete"
-                id="Istatus-no"
+                id="Istatusno"
               />
-              <div className="invalid-feedback">*</div>
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.injuryStatus &&
+                formik.touched.injuryStatus &&
+                formik.errors.injuryStatus}
+            </p>
           </div>
           <label htmlFor="exampleFormControlTextarea1" className="form-label">
             Physical Status
           </label>
           <div className="row mb-4">
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="PhysicalStatus">
+              <label
+                className="custom-control-label pe-5"
+                htmlFor="PhysicalStatus"
+              >
                 Dependent
               </label>
-              <input required
-                onChange={handleFormData("physicalStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="physicalStatus"
                 className="custom-control-input"
                 value="Dependent"
                 id="PhysicalStatus"
               />
-              <div className="invalid-feedback">*</div>
             </div>
+
             <div className="col d-flex justify-content">
               <label
                 className="custom-control-label pe-5"
                 htmlFor="PhysicalStatusno"
               >
-                Not Dependent
+                Independent
               </label>
-              <input required
-                onChange={handleFormData("physicalStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="physicalStatus"
                 className="custom-control-input"
-                value="Not Dependent"
+                value="Independent"
                 id="PhysicalStatusno"
               />
-              <div className="invalid-feedback">*</div>
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.physicalStatus &&
+                formik.touched.physicalStatus &&
+                formik.errors.physicalStatus}
+            </p>
           </div>
           <label className="form-label">Financial Status</label>
           <div className="row mb-4">
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="Financialdep">
+              <label
+                className="custom-control-label pe-5"
+                htmlFor="Financialdep"
+              >
                 Dependent
               </label>
-              <input required
-                onChange={handleFormData("financialStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="financialStatus"
                 className="custom-control-input"
@@ -267,11 +423,16 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               <div className="invalid-feedback">*</div>
             </div>
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="FinancialInd">
+              <label
+                className="custom-control-label pe-5"
+                htmlFor="FinancialInd"
+              >
                 Independent
               </label>
-              <input required
-                onChange={handleFormData("financialStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="financialStatus"
                 className="custom-control-input"
@@ -283,11 +444,16 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
           </div>
           <div className="row mb-4">
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="FinancialJob">
+              <label
+                className="custom-control-label pe-5"
+                htmlFor="FinancialJob"
+              >
                 Job
               </label>
-              <input required
-                onChange={handleFormData("financialStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="financialStatus"
                 className="custom-control-input"
@@ -297,19 +463,28 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               <div className="invalid-feedback">*</div>
             </div>
             <div className="col d-flex justify-content">
-              <label className="custom-control-label pe-5" htmlFor="FinancialBus">
+              <label
+                className="custom-control-label pe-5"
+                htmlFor="FinancialBus"
+              >
                 Business
               </label>
-              <input required
-                onChange={handleFormData("financialStatus")}
+              <input
+                required
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
                 type="radio"
                 name="financialStatus"
                 className="custom-control-input"
                 value="Business"
                 id="FinancialBus"
               />
-              <div className="invalid-feedback">*</div>
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.financialStatus &&
+                formik.touched.financialStatus &&
+                formik.errors.financialStatus}
+            </p>
           </div>
           <div className="div d-flex justify-content-between">
             <button
@@ -324,8 +499,7 @@ const InjuryInfo = ({ nextStep, handleFormData, prevStep, values, onsubmit }:any
               Previous
             </button>
             <button
-            type="submit"
-
+              type="submit"
               style={{
                 backgroundColor: "rgba(193, 107, 178, 1)",
                 color: "white",

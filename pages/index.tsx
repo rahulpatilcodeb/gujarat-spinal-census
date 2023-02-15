@@ -33,6 +33,7 @@ function Common() {
   console.log("hzsudhui", formData);
 
   const onsubmit = async () => {
+    formData.avatar = file.name;
     fileupload(file);
     const response = await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, formData)
@@ -46,7 +47,7 @@ function Common() {
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/image`,
-        { name: file.name, type: file.type, email:formData.email }
+        { name: file.name, type: file.type, email: formData.email }
       );
       console.log(data);
 
@@ -57,26 +58,21 @@ function Common() {
       console.log("error", error);
     }
   };
-  
+
   // useEffect(() => {
   //   setFile(file)
   //   if (file) {
 
-      
   //     console.log("this is in useEffect",file)
   //     // fileupload(file);
   //   }
   // }, [file])
 
   useEffect(() => {
-   
-    
+    console.log("this is in useEffect", file?.name);
 
-      
-      console.log("this is in useEffect",file?.name)
-      // fileupload(file);
-    
-  }, [file])
+    // fileupload(file);
+  }, [file]);
 
   // function for going to next step by increasing step state by 1
   const nextStep = () => {
@@ -97,7 +93,7 @@ function Common() {
   const handleInputData = (input: any) => (e: any) => {
     const { value } = e.target;
     //updating for data state taking previous state and then adding new value to create new object
-    setFormData((prevState:any) => ({
+    setFormData((prevState: any) => ({
       ...prevState,
       avatar: file?.name,
       [input]: value,
@@ -113,9 +109,9 @@ function Common() {
             <Row>
               <Col className="custom-margin">
                 <UserRegister
-                Ifile={file}
+                  Ifile={file}
                   nextStep={nextStep}
-                    handleFormData={handleInputData}
+                  handleFormData={handleInputData}
                   selectedFile={selectedFile}
                   values={formData}
                 />

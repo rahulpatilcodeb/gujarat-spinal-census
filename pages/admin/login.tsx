@@ -56,7 +56,7 @@ const Login = () => {
       );
       const datadb = await response.json();
       console.log(datadb);
-      setLoading(true);
+      
       alert(datadb.msg);
 
       // if success
@@ -72,9 +72,11 @@ const Login = () => {
           // console.log(response);
           // axios.defaults.headers.common.Authorization = `Bearer ${datadb.key}`;
           // return true;
+          setLoading(true);
           router.push("/admin/patients");
         }
       } else {
+        setLoading(true);
         return alert("invalid input");
       }
     } catch (error) {

@@ -1,8 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import bimg from "@/public/bimage.png";
 import styles from "@/styles/Home.module.css";
+import { useState } from "react";
+import { Formik, useFormik } from "formik";
+import * as Yup from "yup";
+import { fromPairs } from "lodash";
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
+
+const schema = Yup.object().shape({
+  fname: Yup.string()
+    .min(3, "Too Short!")
+    .max(12, "Too Long!")
+    .required("Please enter your first name!"),
+  lname: Yup.string().required("Please enter your Last name!"),
+  address: Yup.string().required("Please enter your address!"),
+  contact: Yup.number()
+    .positive("can not be negative")
+    .required("Please enter your phone number!"),
+  district: Yup.string().required("please select district"),
+  dob: Yup.date()
+    .max(new Date(), "date can not exceeds current time")
+    .required("please select your date of birth"),
+  email: Yup.string()
+    .required("Email i  s a required field")
+    .email("Invalid email format"),
+  description: Yup.string().required("Please enter description!"),
+  gender: Yup.string().required("Please enter gender here"),
+  bpl: Yup.string().required("Do you have bpl card!"),
+  qualification: Yup.string().required("Please enter your Qualification!"),
+});
 
 const UserRegister = ({
   nextStep,
@@ -11,22 +38,120 @@ const UserRegister = ({
   values,
   selectedFile,
 }: any) => {
+  // const imagePreviewElement = document.querySelector("avatar");
+  // let imageSrc;
+  // if(Ifile!=undefined){
+  //   const imageSrc = URL.createObjectURL(Ifile);
+  //   // imagePreviewElement.src = imageSrc;
+  // }
+
+  // console.log(imagePreviewElement);
+
   // const { register, handleSubmit } = useForm();
 
   // console.log("image is ", url, img);
+  const formik = useFormik({
+    initialValues: {
+      fname: "",
+      lname: "",
+      gender: "",
+      address: "",
+      dob: "",
+      district: "",
+      contact: "",
+      email: "",
+      qualification: "",
+      bpl: "",
+      description: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      // alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   function submitFormData(e: any) {
     e.preventDefault();
-    nextStep();
+
+    
+
+    formik.handleSubmit();
+    values.fname = formik.values.fname;
+    values.lname = formik.values.lname;
+    values.dob = formik.values.dob;
+    values.gender = formik.values.gender;
+    values.address = formik.values.address;
+    values.district = formik.values.district;
+    values.contact = formik.values.contact;
+    values.qualification = formik.values.qualification;
+    values.bpl = formik.values.bpl;
+    values.email = formik.values.email;
+    values.description = formik.values.description;
+    console.log();
+    console.log(formik.errors.fname);
+    console.log(typeof formik.errors.fname);
+    if (
+      formik.values.fname != "" &&
+      formik.errors.fname == undefined &&
+      formik.values.lname != "" &&
+      formik.errors.lname == undefined &&
+      formik.values.dob != "" &&
+      formik.errors.dob == undefined &&
+      formik.values.gender != "" &&
+      formik.errors.gender == undefined &&
+      formik.values.address != "" &&
+      formik.errors.address == undefined &&
+      formik.values.district != "" &&
+      formik.errors.district == undefined &&
+      formik.values.description != "" &&
+      formik.errors.description == undefined &&
+      formik.values.bpl != "" &&
+      formik.errors.bpl == undefined &&
+      formik.values.contact != "" &&
+      formik.errors.contact == undefined &&
+      formik.values.qualification != "" &&
+      formik.errors.qualification == undefined &&
+      formik.values.email != "" &&
+      formik.errors.email == undefined
+    ) {
+      nextStep();
+    }
   }
+
+  useEffect(() => {
+    if (values.fname != "") {
+      formik.values.fname = values.fname;
+      formik.values.lname = values.lname;
+      formik.values.dob = values.dob;
+      formik.values.gender = values.gender;
+      formik.values.address = values.address;
+      formik.values.district = values.district;
+      formik.values.description = values.description;
+
+      formik.values.bpl = values.bpl;
+
+      formik.values.contact = values.contact;
+      formik.values.qualification = values.qualification;
+      formik.values.email = values.email;
+    }
+  }, []);
   // var image = document.getElementById("avatar").src
   console.log("this is values", values);
 
-  // function validate(e:any){
-  //   e.preventDefault()
+  const [selectedImage, setSelectedImage] = useState();
 
-  // }
-  // console.log("this is image string",img)
+  const imageChange = (e: any) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+
+  function linkClick(e: any) {
+    e.preventDefault();
+    const fileSelect = document.getElementById("avatar");
+
+    fileSelect?.click();
+  }
 
   return (
     <>
@@ -64,10 +189,12 @@ const UserRegister = ({
           </div>
         </div>
       </div>
+
       <form
         name="formhome"
+        noValidate
         onSubmit={submitFormData}
-        className="pb-3 form-group needs-validation was-validated"
+        className="pb-3 form-group"
         encType="multipart/jpeg"
       >
         <div className="d-flex justify-content-center">
@@ -77,37 +204,53 @@ const UserRegister = ({
               style={{ height: "80px ", marginRight: "15px " }}
               alt=""
               // src={img?`${url}${img}`:bimg.src}
-              src={Ifile ? Ifile[0] : bimg.src}
+              src={
+                selectedImage ? URL.createObjectURL(selectedImage) : bimg.src
+              }
             />
           </div>
           <div
-            className="align-items-center"
+            className="align-items-center align-middle"
             style={{
-              borderRadius: "5px",
-              padding: "0px 15px",
+              borderRadius: "10px",
+              padding: "0px 20px",
               display: "flex",
               flexDirection: "row",
               border: "2px solid rgb(215, 215, 215)",
               backgroundColor: "rgba(244, 246, 251, 0.727)",
-              height: "70px",
+              height: "65px",
             }}
           >
-            <span>
-              <img src="upload.png" alt="" />
-            </span>
             <input
               required
+              accept="image/*"
               id="avatar"
+              onBlur={formik.handleBlur}
               // onChange={}
               onChange={(e) => {
                 handleFormData("avatar");
                 selectedFile(e);
+                imageChange(e);
               }}
-              style={{ marginLeft: "10px " }}
+              style={{ marginLeft: "10px ", display: "none" }}
               type="file"
               name="avatar"
               className="form-control"
             />
+
+            <p style={{ color: "black", paddingTop: "10px" }}>
+              {" "}
+              <img style={{ width: "20px" }} src="upload.png" alt="" />
+              <a
+                style={{ textDecoration: "none", color: "rgb(78, 244, 105)" }}
+                href="/"
+                onClick={linkClick}
+                id="fileSelect"
+              >
+                Click here
+              </a>{" "}
+              to select picture from media
+            </p>
           </div>
         </div>
 
@@ -117,22 +260,21 @@ const UserRegister = ({
               <label htmlFor="fname" className="form-label">
                 First Name
               </label>
-              <div className="input-group has-validation">
-                <input
-                  required
-                  name="fname"
-                  value={values.fname}
-                  onChange={handleFormData("fname")}
-                  type="text"
-                  className={`form-control ${styles.tcolor}`}
-                  id="fname"
-                  placeholder="First name"
-                  aria-label="First name"
-                />
-                <div className="invalid-feedback">
-                  Please choose a First Name.
-                </div>
-              </div>
+
+              <input
+                required
+                name="fname"
+                value={
+                  formik.values.fname == "" ? values.fname : formik.values.fname
+                }
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                type="text"
+                className={`form-control ${styles.tcolor}`}
+                id="fname"
+                placeholder="First name"
+                aria-label="First name"
+              />
             </div>
 
             <div className="col">
@@ -141,9 +283,12 @@ const UserRegister = ({
               </label>
               <input
                 required
-                name="Lname"
-                value={values.lname}
-                onChange={handleFormData("lname")}
+                onBlur={formik.handleBlur}
+                name="lname"
+                value={
+                  formik.values.lname == "" ? values.lname : formik.values.lname
+                }
+                onChange={formik.handleChange}
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="Lname"
@@ -151,10 +296,18 @@ const UserRegister = ({
                 placeholder="Last name"
                 aria-label="Last name"
               />
-              <div className="invalid-feedback">
-                  Please choose a Last Name.
-                </div>
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.fname &&
+                formik.touched.fname &&
+                formik.errors.fname}
+            </p>
+            {"    "}
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.lname &&
+                formik.touched.lname &&
+                formik.errors.lname}
+            </p>
           </div>
 
           <div className="row mb-4">
@@ -164,135 +317,59 @@ const UserRegister = ({
             <div className="col">
               <input
                 required
+                onBlur={formik.handleBlur}
                 type="date"
-                onChange={handleFormData("dob")}
+                onChange={formik.handleChange}
                 id="day"
                 name="dob"
                 className={`form-control ${styles.tcolor}`}
-                value={values.dob}
+                value={formik.values.dob == "" ? values.dob : formik.values.dob}
               />
-              <div className="invalid-feedback">
-                  Please choose a Date of Birth.
-                </div>
+              {/* <div className="invalid-feedback">
+                Please choose a Date of Birth.
+              </div> */}
+              <p style={{ color: "red" }} className="error">
+                {formik.errors.dob && formik.touched.dob && formik.errors.dob}
+              </p>
             </div>
-            {/* <div className="col">
-              <select
-                onChange={handleFormData}
-                id="month"
-                name="dobm"
-                className="form-select tcolor"
-              >
-                <option value="-1">Month:</option>
-                <option value="January">Jan</option>
-                <option value="February">Feb</option>
-                <option value="March">Mar</option>
-                <option value="April">Apr</option>
-                <option value="May">May</option>
-                <option value="June">Jun</option>
-                <option value="July">Jul</option>
-                <option value="August">Aug</option>
-                <option value="September">Sep</option>
-                <option value="October">Oct</option>
-                <option value="November">Nov</option>
-                <option value="December">Dec</option>
-              </select>
-            </div>
-            <div className="col">
-              <select
-                onChange={handleFormData}
-                id="year"
-                name="doby"
-                className="form-select tcolor"
-              >
-                <option value="-1">Year:</option>
-                <option value="2023">2023</option>
-                <option value="2022">2022</option>
-                <option value="2021">2021</option>
-                <option value="2020">2020</option>
-                <option value="2019">2019</option>
-                <option value="2018">2018</option>
-                <option value="2017">2017</option>
-                <option value="2016">2016</option>
-                <option value="2015">2015</option>
-                <option value="2014">2014</option>
-                <option value="2013">2013</option>
-                <option value="2012">2012</option>
-                <option value="2011">2011</option>
-                <option value="2010">2010</option>
-                <option value="2009">2009</option>
-                <option value="2008">2008</option>
-                <option value="2007">2007</option>
-                <option value="2006">2006</option>
-                <option value="2005">2005</option>
-                <option value="2004">2004</option>
-                <option value="2003">2003</option>
-                <option value="2002">2002</option>
-                <option value="2001">2001</option>
-                <option value="2000">2000</option>
-                <option value="1999">1999</option>
-                <option value="1998">1998</option>
-                <option value="1997">1997</option>
-                <option value="1996">1996</option>
-                <option value="1995">1995</option>
-                <option value="1994">1994</option>
-                <option value="1993">1993</option>
-                <option value="1992">1992</option>
-                <option value="1991">1991</option>
-                <option value="1990">1990</option>
-                <option value="1989">1989</option>
-                <option value="1988">1988</option>
-                <option value="1987">1987</option>
-                <option value="1986">1986</option>
-                <option value="1985">1985</option>
-                <option value="1984">1984</option>
-                <option value="1983">1983</option>
-                <option value="1982">1982</option>
-                <option value="1981">1981</option>
-                <option value="1980">1980</option>
-              </select>
-            </div> */}
           </div>
 
           <div className="mb-4">
             <label className="form-label">Gender</label>
             <div className="custom-control">
               <div className="row">
-                <div className="col d-flex justify-content">
-                  <label className="custom-control-label pe-5" htmlFor="male">
+                <div className="col d-flex justify-content-between">
+                  <label className="custom-control-label" htmlFor="male">
                     Male
                   </label>
                   <input
                     required
-                    onChange={handleFormData("gender")}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    checked={formik.values.gender == "male"}
                     value="male"
                     type="radio"
                     name="gender"
                     className="custom-control-input"
                     id="male"
                   />
-                  <div className="invalid-feedback">
-                 *
                 </div>
-                </div>
-                <div className="col d-flex justify-content">
-                  <label
-                    className="custom-control-label  pe-5"
-                    htmlFor="female"
-                  >
+                <div className="col d-flex justify-content-between">
+                  <label className="custom-control-label" htmlFor="female">
                     Female
                   </label>
                   <input
                     required
-                    onChange={handleFormData("gender")}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    checked={formik.values.gender == "Female"}
                     value="Female"
                     type="radio"
                     name="gender"
                     className="custom-control-input"
                     id="female"
                   />
-                     <div className="invalid-feedback">
-                 *
-                </div>
+                  <div className="invalid-feedback">*</div>
                 </div>
                 <div className={`col d-flex justify-content-between bg-grey`}>
                   <label className="custom-control-label" htmlFor="other">
@@ -301,16 +378,22 @@ const UserRegister = ({
                   <input
                     required
                     value="other"
-                    onChange={handleFormData("gender")}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    checked={formik.values.gender == "other"}
                     type="radio"
                     className="custom-control-input"
                     name="gender"
                     id="other"
                   />
-                     <div className="invalid-feedback">
-                 *
+
+                  {/* <div className="invalid-feedback">*</div> */}
                 </div>
-                </div>
+                <p style={{ color: "red" }} className="error">
+                  {formik.errors.gender &&
+                    formik.touched.gender &&
+                    formik.errors.gender}
+                </p>
               </div>
             </div>
           </div>
@@ -321,17 +404,25 @@ const UserRegister = ({
             </label>
             <textarea
               required
-              onChange={handleFormData("address")}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
               name="address"
               className={`form-control ${styles.tcolor}`}
               id="address"
               rows={1}
               minLength={10}
-              value={values.address}
+              value={
+                formik.values.address == ""
+                  ? values.address
+                  : formik.values.address
+              }
             ></textarea>
-            <div className="invalid-feedback">
-                  Please Type valid Address.
-                </div>
+            {/* <div className="invalid-feedback">Please Type valid Address.</div> */}
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.address &&
+                formik.touched.address &&
+                formik.errors.address}
+            </p>
           </div>
 
           <div className="mb-4">
@@ -340,10 +431,11 @@ const UserRegister = ({
             </label>
             <select
               required
-              onChange={handleFormData("district")}
+              onChange={formik.handleChange}
               id="District"
               name="district"
               className={`form-select ${styles.tcolor}`}
+              onBlur={formik.handleBlur}
               // value={values.district}
             >
               <option defaultChecked value="">
@@ -352,9 +444,12 @@ const UserRegister = ({
               <option value="Ahmedabad">Ahmedabad</option>
               <option value="Amreli">Amreli</option>
             </select>
-            <div className="invalid-feedback">
-                  Please choose a District.
-                </div>
+            {/* <div className="invalid-feedback">Please choose a District.</div> */}
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.district &&
+                formik.touched.district &&
+                formik.errors.district}
+            </p>
           </div>
           <div className="mb-4">
             <label htmlFor="Mnumber" className="form-label">
@@ -366,18 +461,27 @@ const UserRegister = ({
               </span>
               <input
                 required
-                onChange={handleFormData("contact")}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 name="contact"
-                value={values.contact}
+                value={
+                  formik.values.contact == ""
+                    ? values.contact
+                    : formik.values.contact
+                }
                 type="number"
                 placeholder="9999999999"
                 className={`form-control ${styles.tcolor}`}
                 id="Mnumber"
               />
-              <div className="invalid-feedback">
-                  Please type Phone number.
-                </div>
+
+              {/* <div className="invalid-feedback">Please type Phone number.</div> */}
             </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.contact &&
+                formik.touched.contact &&
+                formik.errors.contact}
+            </p>
           </div>
           <div className="mb-4">
             <label htmlFor="Email" className="form-label">
@@ -385,17 +489,22 @@ const UserRegister = ({
             </label>
             <input
               required
-              onChange={handleFormData("email")}
-              value={values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={
+                formik.values.email == "" ? values.email : formik.values.email
+              }
               name="email"
               type="email"
               className={`form-control ${styles.tcolor}`}
               id="Email"
               placeholder="name@example.com"
             />
-            <div className="invalid-feedback">
-                  Please type your Email.
-                </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.email &&
+                formik.touched.email &&
+                formik.errors.email}
+            </p>
           </div>
 
           <div className="mb-4">
@@ -404,16 +513,24 @@ const UserRegister = ({
             </label>
             <textarea
               required
-              onChange={handleFormData("qualification")}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               name="qualification"
               className={`form-control ${styles.tcolor}`}
               id="Qualification"
-              value={values.qualification}
+              value={
+                formik.values.qualification == ""
+                  ? values.qualification
+                  : formik.values.qualification
+              }
               rows={1}
             ></textarea>
-            <div className="invalid-feedback">
-                  Please type your Qualification info.
-                </div>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.qualification &&
+                formik.touched.qualification &&
+                formik.errors.qualification}
+            </p>
+            {/* <div className="invalid-feedback">Please type your Qualification info.</div> */}
           </div>
 
           <div className="col ">
@@ -424,16 +541,18 @@ const UserRegister = ({
                   Yes
                 </label>
                 <input
-                  onChange={handleFormData("bpl")}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   type="radio"
                   name="bpl"
                   className="custom-control-input"
-                  value="yes"
+                  value={
+                    formik.values.bpl == "" ? values.bpl : formik.values.bpl
+                  }
                   id="bpl"
                 />
-                   <div className="invalid-feedback">
-                 *
-                </div>
+
+                {/* <div className="invalid-feedback">*</div> */}
               </div>
               <div className="col d-flex justify-content tcolor">
                 <label className="custom-control-label pe-5" htmlFor="bplNo">
@@ -441,34 +560,44 @@ const UserRegister = ({
                 </label>
                 <input
                   required
-                  onChange={handleFormData("bpl")}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
                   type="radio"
                   name="bpl"
                   className="custom-control-input"
                   value="no"
                   id="bplNo"
                 />
-                   <div className="invalid-feedback">
-                 *
-                </div>
+                {/* <div className="invalid-feedback">*</div> */}
               </div>
+              <p style={{ color: "red" }} className="error">
+                {formik.errors.bpl && formik.touched.bpl && formik.errors.bpl}
+              </p>
             </div>
+
             <div className="mb-4">
               <label htmlFor="Description" className="form-label">
                 Description
               </label>
               <textarea
                 required
-                onChange={handleFormData("description")}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 name="description"
                 className={`form-control ${styles.tcolor}`}
                 id="Description"
                 rows={1}
-                value={values.description}
+                value={
+                  formik.values.description == ""
+                    ? values.description
+                    : formik.values.description
+                }
               ></textarea>
-              <div className="invalid-feedback">
-                  Discreption must be provided.
-                </div>
+              <p style={{ color: "red" }} className="error">
+                {formik.errors.description &&
+                  formik.touched.description &&
+                  formik.errors.description}
+              </p>
             </div>
             <div className="d-flex justify-content-end mb-5">
               <button
