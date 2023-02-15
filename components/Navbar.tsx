@@ -33,7 +33,10 @@ function Navbars() {
 
   return (
     <>
-      <div className="my-3 d-flex justify-content-between">
+      <div
+        className="my-3 d-flex justify-content-between"
+        style={{ fontFamily: "Inter" }}
+      >
         <div className="col ms-5">
           <span>
             <img
@@ -46,11 +49,17 @@ function Navbars() {
         <div className="col d-flex justify-content-end me-5 my-3">
           <span>
             {!Ilogin ? (
-              <Link href="/" style={{ color: "rgba(107, 193, 122, 1)" }}>
+              <Link
+                href="/"
+                style={{ color: "rgba(107, 193, 122, 1)", fontSize: "18px" }}
+              >
                 Home
               </Link>
             ) : (
-              <Link href="/admin/patients" style={{ color: "rgba(107, 193, 122, 1)" }}>
+              <Link
+                href="/admin/patients"
+                style={{ color: "rgba(107, 193, 122, 1)", fontSize: "18px" }}
+              >
                 Home
               </Link>
             )}
@@ -59,7 +68,7 @@ function Navbars() {
               <Link
                 className="ms-2"
                 href="/contact"
-                style={{ color: "rgba(0, 0, 0)" }}
+                style={{ color: "rgba(0, 0, 0)", fontSize: "18px" }}
               >
                 Contact
               </Link>
@@ -67,17 +76,16 @@ function Navbars() {
               <Link
                 className="ms-2"
                 href="/admin/contact"
-                style={{ color: "rgba(0, 0, 0)" }}
+                style={{ color: "rgba(0, 0, 0)", fontSize: "18px" }}
               >
                 Contact
               </Link>
             )}
             <button
-              style={{ display: Ilogin ? "inline" : "none" }}
+              style={{ display: Ilogin ? "inline" : "none" ,}}
               className="btn btn-sm btn-primary ms-2 "
               onClick={handleClick}
             >
-              {" "}
               Logout
             </button>
           </span>

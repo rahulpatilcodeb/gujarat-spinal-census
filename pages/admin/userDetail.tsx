@@ -44,7 +44,7 @@ function UserDetail() {
     case 1:
       return (
         <div>
-          <Container>
+          <Container className="w-50">
             <Row>
               <Col className="custom-margin">
                 <Personal nextStep={nextStep} value={userData} />
@@ -56,7 +56,7 @@ function UserDetail() {
     case 2:
       return (
         <div>
-          <Container>
+          <Container className="w-50">
             <Row>
               <Col className="custom-margin pb-5">
                 <Injury

@@ -73,8 +73,6 @@ const UserRegister = ({
   function submitFormData(e: any) {
     e.preventDefault();
 
-    
-
     formik.handleSubmit();
     values.fname = formik.values.fname;
     values.lname = formik.values.lname;
@@ -155,7 +153,10 @@ const UserRegister = ({
 
   return (
     <>
-      <div className="mb-5 d-flex justify-content-center">
+      <div
+        className="mb-5 d-flex justify-content-center"
+        style={{ fontFamily: "Inter", fontSize: "22px" }}
+      >
         <div style={{ marginRight: "50px" }}>
           <div className="col">
             <span
@@ -183,7 +184,7 @@ const UserRegister = ({
                 marginRight: "10px",
               }}
             >
-              {/* //style={{padding:"0px 200px"}} */}2
+              2
             </span>
             <span>Injury Details -</span>
           </div>
@@ -196,12 +197,17 @@ const UserRegister = ({
         onSubmit={submitFormData}
         className="pb-3 form-group"
         encType="multipart/jpeg"
+        style={{ fontFamily: "Inter" }}
       >
         <div className="d-flex justify-content-center">
           <div>
             <img
               className="manImg"
-              style={{ height: "80px ", marginRight: "15px " }}
+              style={{
+                height: "93px ",
+                width: "75px ",
+                marginRight: "15px ",
+              }}
               alt=""
               // src={img?`${url}${img}`:bimg.src}
               src={
@@ -234,7 +240,6 @@ const UserRegister = ({
               }}
               style={{ marginLeft: "10px ", display: "none" }}
               type="file"
-              name="avatar"
               className="form-control"
             />
 
@@ -257,7 +262,14 @@ const UserRegister = ({
         <div className="container mb-4">
           <div className="row mb-4">
             <div className="col">
-              <label htmlFor="fname" className="form-label">
+              <label
+                htmlFor="fname"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
                 First Name
               </label>
 
@@ -276,11 +288,18 @@ const UserRegister = ({
                 aria-label="First name"
               />
             </div>
-
             <div className="col">
-              <label htmlFor="lname" className={"form-label"}>
+              <label
+                htmlFor="lname"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
                 Last Name
               </label>
+              <label className="text-danger"> *</label>
               <input
                 required
                 onBlur={formik.handleBlur}
@@ -292,7 +311,6 @@ const UserRegister = ({
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="Lname"
-                minLength={3}
                 placeholder="Last name"
                 aria-label="Last name"
               />
@@ -311,10 +329,19 @@ const UserRegister = ({
           </div>
 
           <div className="row mb-4">
-            <label htmlFor="fname" className={"form-label"}>
-              Date of Birth
-            </label>
             <div className="col">
+              <label
+                htmlFor="fname"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
+                Date of Birth
+              </label>
+              <label className="text-danger"> *</label>
+
               <input
                 required
                 onBlur={formik.handleBlur}
@@ -332,13 +359,69 @@ const UserRegister = ({
                 {formik.errors.dob && formik.touched.dob && formik.errors.dob}
               </p>
             </div>
+            <div className="col">
+              <label
+                htmlFor="Mnumber"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
+                Mobile Number
+              </label>
+              <label className="text-danger"> *</label>
+
+              <div className="input-group mb-4">
+                <span className="input-group-text" id="basic-addon1">
+                  +91
+                </span>
+                <input
+                  required
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  name="contact"
+                  value={
+                    formik.values.contact == ""
+                      ? values.contact
+                      : formik.values.contact
+                  }
+                  type="number"
+                  placeholder="9999999999"
+                  className={`form-control ${styles.tcolor}`}
+                  id="Mnumber"
+                />
+                <p style={{ color: "red" }} className="error">
+                  {formik.errors.contact &&
+                    formik.touched.contact &&
+                    formik.errors.contact}
+                </p>
+              </div>
+            </div>
           </div>
 
           <div className="mb-4">
-            <label className="form-label">Gender</label>
-            <div className="custom-control">
+            <label
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              Gender
+            </label>
+            <div className="custom-control ">
               <div className="row">
-                <div className="col d-flex justify-content-between">
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
+                >
                   <label className="custom-control-label" htmlFor="male">
                     Male
                   </label>
@@ -354,7 +437,16 @@ const UserRegister = ({
                     id="male"
                   />
                 </div>
-                <div className="col d-flex justify-content-between">
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
+                >
                   <label className="custom-control-label" htmlFor="female">
                     Female
                   </label>
@@ -369,10 +461,18 @@ const UserRegister = ({
                     className="custom-control-input"
                     id="female"
                   />
-                  <div className="invalid-feedback">*</div>
                 </div>
-                <div className={`col d-flex justify-content-between bg-grey`}>
-                  <label className="custom-control-label" htmlFor="other">
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
+                >
+                  <label className="custom-control-label" htmlFor="others">
                     Others
                   </label>
                   <input
@@ -386,8 +486,6 @@ const UserRegister = ({
                     name="gender"
                     id="other"
                   />
-
-                  {/* <div className="invalid-feedback">*</div> */}
                 </div>
                 <p style={{ color: "red" }} className="error">
                   {formik.errors.gender &&
@@ -397,9 +495,78 @@ const UserRegister = ({
               </div>
             </div>
           </div>
+          <div className="mb-4">
+            <label
+              htmlFor="Email"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              Email address
+            </label>
+            <input
+              required
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={
+                formik.values.email == "" ? values.email : formik.values.email
+              }
+              name="email"
+              type="email"
+              className={`form-control ${styles.tcolor}`}
+              id="Email"
+              placeholder="name@example.com"
+            />
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.email &&
+                formik.touched.email &&
+                formik.errors.email}
+            </p>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="Qualification"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              Qualification
+            </label>
+
+            <textarea
+              required
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              name="qualification"
+              className={`form-control ${styles.tcolor}`}
+              id="Qualification"
+              value={
+                formik.values.qualification == ""
+                  ? values.qualification
+                  : formik.values.qualification
+              }
+              rows={1}
+            ></textarea>
+            <p style={{ color: "red" }} className="error">
+              {formik.errors.qualification &&
+                formik.touched.qualification &&
+                formik.errors.qualification}
+            </p>
+          </div>
 
           <div className="mb-4">
-            <label htmlFor="address" className="form-label">
+            <label
+              htmlFor="address"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
               Address
             </label>
             <textarea
@@ -426,7 +593,14 @@ const UserRegister = ({
           </div>
 
           <div className="mb-4">
-            <label htmlFor="District" className="form-label">
+            <label
+              htmlFor="District"
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
               District
             </label>
             <select
@@ -451,93 +625,29 @@ const UserRegister = ({
                 formik.errors.district}
             </p>
           </div>
-          <div className="mb-4">
-            <label htmlFor="Mnumber" className="form-label">
-              Mobile Number
-            </label>
-            <div className="input-group mb-4">
-              <span className="input-group-text" id="basic-addon1">
-                +91
-              </span>
-              <input
-                required
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                name="contact"
-                value={
-                  formik.values.contact == ""
-                    ? values.contact
-                    : formik.values.contact
-                }
-                type="number"
-                placeholder="9999999999"
-                className={`form-control ${styles.tcolor}`}
-                id="Mnumber"
-              />
-
-              {/* <div className="invalid-feedback">Please type Phone number.</div> */}
-            </div>
-            <p style={{ color: "red" }} className="error">
-              {formik.errors.contact &&
-                formik.touched.contact &&
-                formik.errors.contact}
-            </p>
-          </div>
-          <div className="mb-4">
-            <label htmlFor="Email" className="form-label">
-              Email address
-            </label>
-            <input
-              required
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={
-                formik.values.email == "" ? values.email : formik.values.email
-              }
-              name="email"
-              type="email"
-              className={`form-control ${styles.tcolor}`}
-              id="Email"
-              placeholder="name@example.com"
-            />
-            <p style={{ color: "red" }} className="error">
-              {formik.errors.email &&
-                formik.touched.email &&
-                formik.errors.email}
-            </p>
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="Qualification" className="form-label">
-              Qualification
-            </label>
-            <textarea
-              required
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              name="qualification"
-              className={`form-control ${styles.tcolor}`}
-              id="Qualification"
-              value={
-                formik.values.qualification == ""
-                  ? values.qualification
-                  : formik.values.qualification
-              }
-              rows={1}
-            ></textarea>
-            <p style={{ color: "red" }} className="error">
-              {formik.errors.qualification &&
-                formik.touched.qualification &&
-                formik.errors.qualification}
-            </p>
-            {/* <div className="invalid-feedback">Please type your Qualification info.</div> */}
-          </div>
 
           <div className="col ">
-            <label className="form-label">BPL Card Holder</label>
+            <label
+              className="form-label"
+              style={{
+                fontWeight: 400,
+                fontSize: "18px",
+              }}
+            >
+              BPL Card Holder
+            </label>
             <div className="row mb-4">
-              <div className="col d-flex justify-content bg-muted">
-                <label className="custom-control-label pe-5" htmlFor="bpl">
+              <div
+                className="col d-flex justify-content-between bg-muted align-items-center"
+                style={{
+                  background: "#F3F6F9",
+                  borderRadius: "5px",
+                  height: "50px",
+                  margin: "10px",
+                  color: "rgb(76 76 85)",
+                }}
+              >
+                <label className="custom-control-label" htmlFor="bpl">
                   Yes
                 </label>
                 <input
@@ -546,16 +656,23 @@ const UserRegister = ({
                   type="radio"
                   name="bpl"
                   className="custom-control-input"
-                  value={
-                    formik.values.bpl == "" ? values.bpl : formik.values.bpl
-                  }
+                  value="yes"
                   id="bpl"
                 />
 
                 {/* <div className="invalid-feedback">*</div> */}
               </div>
-              <div className="col d-flex justify-content tcolor">
-                <label className="custom-control-label pe-5" htmlFor="bplNo">
+              <div
+                className="col d-flex justify-content-between tcolor align-items-center"
+                style={{
+                  background: "#F3F6F9",
+                  borderRadius: "5px",
+                  height: "50px",
+                  margin: "10px",
+                  color: "rgb(76 76 85)",
+                }}
+              >
+                <label className="custom-control-label" htmlFor="bplNo">
                   No
                 </label>
                 <input
@@ -576,7 +693,14 @@ const UserRegister = ({
             </div>
 
             <div className="mb-4">
-              <label htmlFor="Description" className="form-label">
+              <label
+                htmlFor="Description"
+                className="form-label"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "18px",
+                }}
+              >
                 Description
               </label>
               <textarea
@@ -601,11 +725,12 @@ const UserRegister = ({
             </div>
             <div className="d-flex justify-content-end mb-5">
               <button
-                // onClick={validate}
                 type="submit"
+                // onClick={submitFormData}
                 style={{
                   backgroundColor: "rgba(193, 107, 178, 1)",
                   color: "white",
+                  fontSize: "18px",
                 }}
                 className="btn"
                 role="button"

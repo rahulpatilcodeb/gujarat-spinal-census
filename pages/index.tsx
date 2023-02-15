@@ -42,7 +42,6 @@ function Common() {
         console.error(err);
       });
   };
-  // const[data,setData] =useState("")
   const fileupload = async (file: any) => {
     try {
       const { data } = await axios.post(
@@ -74,22 +73,21 @@ function Common() {
     // fileupload(file);
   }, [file]);
 
-  // function for going to next step by increasing step state by 1
+
   const nextStep = () => {
     setstep(step + 1);
   };
-  // function for going to previous step by decreasing step state by 1
+
   const prevStep = () => {
     setstep(step - 1);
   };
+
   const selectedFile = (e: any) => {
     setFile(e.target.files[0]);
-
     console.log(e.target.files[0]);
     console.log(file);
   };
 
-  // handling form input data by taking onchange value and updating our previous form data state
   const handleInputData = (input: any) => (e: any) => {
     const { value } = e.target;
     //updating for data state taking previous state and then adding new value to create new object
@@ -99,9 +97,8 @@ function Common() {
       [input]: value,
     }));
   };
-  // javascript switch case to show different form in each step
+
   switch (step) {
-    // case 1 to show stepOne form and passing nextStep, prevStep, and handleInputData as handleFormData method as prop and also formData as value to the fprm
     case 1:
       return (
         <div>
@@ -120,11 +117,10 @@ function Common() {
           </Container>
         </div>
       );
-    // case 2 to show stepTwo form passing nextStep, prevStep, and handleInputData as handleFormData method as prop and also formData as value to the fprm
     case 2:
       return (
         <div>
-          <Container className="w-75">
+          <Container className="w-50">
             <Row>
               <Col className="custom-margin">
                 <InjuryInfo
@@ -140,7 +136,6 @@ function Common() {
           </Container>
         </div>
       );
-    // Only formData is passed as prop to show the final value at form submit
     case 3:
       return (
         <div className="App">
@@ -153,7 +148,6 @@ function Common() {
           </Container>
         </div>
       );
-    // default case to show nothing
     default:
       return <div></div>;
   }

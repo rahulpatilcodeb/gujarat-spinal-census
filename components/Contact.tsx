@@ -34,13 +34,13 @@ function Contact() {
 
   return (
     <>
-      <div >
+      <div>
         <div>
           <p
             style={{
               fontFamily: "Inter",
-              fontWeight: "400",
-              fontSize: "24px",
+              // fontWeight: "400",
+              fontSize: "20%",
               marginLeft: "15%",
             }}
           >
