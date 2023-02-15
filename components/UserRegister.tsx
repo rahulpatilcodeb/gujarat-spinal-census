@@ -278,7 +278,7 @@ const UserRegister = ({
                 placeholder="First name"
                 aria-label="First name"
               />
-              {formik.errors.fname && (
+              {formik.touched.name && formik.errors.fname && (
                 <p style={{ color: "red" }} className="error">
                   {JSON.stringify(formik.errors.fname)}
                 </p>
@@ -309,9 +309,9 @@ const UserRegister = ({
                 placeholder="Last name"
                 aria-label="Last name"
               />
-              {formik.errors.fname && (
+              {formik.touched.lname && formik.errors.lname && (
                 <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.fname)}
+                  {JSON.stringify(formik.errors.lname)}
                 </p>
               )}
               {/* <p style={{ color: "red" }} className="error">
@@ -347,7 +347,7 @@ const UserRegister = ({
                 className={`form-control ${styles.tcolor}`}
                 value={formik.values.dob}
               />
-              {formik.errors.dob && (
+              {formik.touched.dob && formik.errors.dob && (
                 <p style={{ color: "red" }} className="error">
                   {JSON.stringify(formik.errors.dob)}
                 </p>
@@ -388,11 +388,11 @@ const UserRegister = ({
                   className={`form-control ${styles.tcolor}`}
                   id="Mnumber"
                 />
-                {formik.errors.contact && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.contact)}
-                </p>
-              )}
+                {formik.touched.contact && formik.errors.contact && (
+                  <p style={{ color: "red" }} className="error">
+                    {JSON.stringify(formik.errors.contact)}
+                  </p>
+                )}
                 {/* <p style={{ color: "red" }} className="error">
                   {formik.errors.contact &&
                     formik.touched.contact &&
@@ -486,11 +486,11 @@ const UserRegister = ({
                     id="other"
                   />
                 </div>
-                {formik.errors.gender && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.gender)}
-                </p>
-              )}
+                {formik.touched.gender && formik.errors.gender && (
+                  <p style={{ color: "red" }} className="error">
+                    {JSON.stringify(formik.errors.gender)}
+                  </p>
+                )}
                 {/* <p style={{ color: "red" }} className="error">
                   {formik.errors.gender &&
                     formik.touched.gender &&
@@ -522,11 +522,11 @@ const UserRegister = ({
               id="Email"
               placeholder="name@example.com"
             />
-            {formik.errors.email && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.email)}
-                </p>
-              )}
+            {formik.touched.email && formik.errors.email && (
+              <p style={{ color: "red" }} className="error">
+                {JSON.stringify(formik.errors.email)}
+              </p>
+            )}
             {/* <p style={{ color: "red" }} className="error">
               {formik.errors.email &&
                 formik.touched.email &&
@@ -552,15 +552,15 @@ const UserRegister = ({
               className={`form-control ${styles.tcolor}`}
               id="Qualification"
               value={
-                formik.values.qualification 
+                formik.values.qualification
               }
               rows={1}
             ></textarea>
-            {formik.errors.qualification && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.qualification)}
-                </p>
-              )}
+            {formik.touched.qualification && formik.errors.qualification && (
+              <p style={{ color: "red" }} className="error">
+                {JSON.stringify(formik.errors.qualification)}
+              </p>
+            )}
             {/* <p style={{ color: "red" }} className="error">
               {formik.errors.qualification &&
                 formik.touched.qualification &&
@@ -591,11 +591,11 @@ const UserRegister = ({
                 formik.values.address
               }
             ></textarea>
-            {formik.errors.address && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.address)}
-                </p>
-              )}
+            {formik.touched.address && formik.errors.address && (
+              <p style={{ color: "red" }} className="error">
+                {JSON.stringify(formik.errors.address)}
+              </p>
+            )}
             {/* <div className="invalid-feedback">Please Type valid Address.</div> */}
             {/* <p style={{ color: "red" }} className="error">
               {formik.errors.address &&
@@ -629,11 +629,11 @@ const UserRegister = ({
               <option value="Ahmedabad">Ahmedabad</option>
               <option value="Amreli">Amreli</option>
             </select>
-            {formik.errors.district && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.district)}
-                </p>
-              )}
+            {formik.touched.district && formik.errors.district && (
+              <p style={{ color: "red" }} className="error">
+                {JSON.stringify(formik.errors.district)}
+              </p>
+            )}
             {/* <div className="invalid-feedback">Please choose a District.</div> */}
             {/* <p style={{ color: "red" }} className="error">
               {formik.errors.district &&
@@ -702,11 +702,11 @@ const UserRegister = ({
                     id="bplno"
                   />
                 </div>
-                {formik.errors.bpl && (
-                <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.bpl)}
-                </p>
-              )}
+                {formik.touched.bpl && formik.errors.bpl && (
+                  <p style={{ color: "red" }} className="error">
+                    {JSON.stringify(formik.errors.bpl)}
+                  </p>
+                )}
                 {/* <p style={{ color: "red" }} className="error">
                   {formik.errors.bpl && formik.touched.bpl && formik.errors.bpl}
                 </p> */}
@@ -732,10 +732,10 @@ const UserRegister = ({
                 id="Description"
                 rows={1}
                 value={
-                  formik.values.description 
+                  formik.values.description
                 }
               ></textarea>
-              {formik.errors.description && (
+              {formik.touched.description && formik.errors.description && (
                 <p style={{ color: "red" }} className="error">
                   {JSON.stringify(formik.errors.description)}
                 </p>
