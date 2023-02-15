@@ -30,9 +30,14 @@ function Common() {
     physicalStatus: "",
     financialStatus: "",
   });
+
+  useEffect(()=>{
+    console.log("in formdata",formData)
+  },[formData])
   console.log("hzsudhui", formData);
 
   const onsubmit = async () => {
+    console.log("in onsubmit index")
     formData.avatar = file.name;
     fileupload(file);
     const response = await axios
@@ -41,6 +46,7 @@ function Common() {
       .catch((err) => {
         console.error(err);
       });
+      console.log("after out submitFormData")
   };
   const fileupload = async (file: any) => {
     try {

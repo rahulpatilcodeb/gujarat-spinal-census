@@ -627,8 +627,8 @@ const UserRegister = ({
               <option defaultChecked value="">
                 District
               </option>
-              <option value="Ahmedabad">Ahmedabad</option>
-              <option value="Amreli">Amreli</option>
+              <option value="Ahmedabad" selected={formik.values.district =="Ahmedabad"}>Ahmedabad</option>
+              <option value="Amreli" selected={formik.values.district =="Amreli"}>Amreli</option>
             </select>
             {formik.touched.district && formik.errors.district && (
               <p style={{ color: "red" }} className="error">
