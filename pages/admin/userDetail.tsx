@@ -4,8 +4,15 @@ import axios from "axios";
 import Personal from "./personal";
 import Injury from "./injury";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { Roots } from "aws-sdk/clients/organizations";
+import { RootState } from "@/store/store";
 
 function UserDetail() {
+
+  const { user: user, islogin: Ilogin, token: token } = useSelector((state: RootState) => state.users)
+  const [loading, setLoading] = useState(false)
+
   const router = useRouter();
   const { query: id } = router;
   const example = { id };
@@ -19,7 +26,13 @@ function UserDetail() {
     setstep(step - 1);
   };
 
+ 
+
   useEffect(() => {
+    setLoading(true)
+    if (!Ilogin) {
+      router.push("/admin/login")
+    }
     try {
       axios
         .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
@@ -38,11 +51,11 @@ function UserDetail() {
     //     console.log("userdata info", response.data.data);
     //   })
     //   .catch((err) => console.log(err));
-  }, []);
+  }, [Ilogin]);
 
   switch (step) {
     case 1:
-      return (
+      return loading?(
         <div>
           <Container className="w-50">
             <Row>
@@ -52,9 +65,18 @@ function UserDetail() {
             </Row>
           </Container>
         </div>
+      ):(
+        <center>
+          <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </center>
       );
     case 2:
-      return (
+      return loading?(
         <div>
           <Container className="w-50">
             <Row>
@@ -68,6 +90,15 @@ function UserDetail() {
             </Row>
           </Container>
         </div>
+      ):(
+        <center>
+          <div className="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </center>
       );
     default:
       return <div></div>;

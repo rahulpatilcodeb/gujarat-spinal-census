@@ -95,9 +95,11 @@ const Home = () => {
                       <center>
                         <textarea
                           style={{ width: "100%", height: "30px" }}
-                          readOnly
+                          readOnly 
+                          value={post.description}
+                          
                         >
-                          {post.description}
+                          {/* {post.description} */}
                         </textarea>
                       </center>
                     </td>

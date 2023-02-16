@@ -1,7 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Home.module.css";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import { Router } from "express";
+import { useRouter } from "next/router";
 
 const Personal = ({ nextStep, value }: any) => {
+
+  const { user: user, islogin: Ilogin } = useSelector(
+    (state: RootState) => state.users
+  );
+  const router = useRouter()
+
+  useEffect(() => {
+
+    if (!Ilogin) {
+      router.push("/admin/login")
+    }
+  }, [Ilogin])
   console.log("personal value", value);
   function submitFormData(e: any) {
     nextStep();
@@ -12,9 +28,9 @@ const Personal = ({ nextStep, value }: any) => {
 
   return (
     <>
-      <div style={{fontFamily: "Inter" }}>
-        <div className="mb-5 d-flex justify-content-center"  
-          style={{fontSize: "22px" }} >
+      <div style={{ fontFamily: "Inter" }}>
+        <div className="mb-5 d-flex justify-content-center"
+          style={{ fontSize: "22px" }} >
           <div style={{ marginRight: "50px" }}>
             <div className="col">
               <span
@@ -195,7 +211,7 @@ const Personal = ({ nextStep, value }: any) => {
                               Female
                             </label>
                             {`${user.gender}` &&
-                            `${user.gender}` === "Female" ? (
+                              `${user.gender}` === "Female" ? (
                               <input
                                 type="radio"
                                 className="custom-control-input"
@@ -226,7 +242,7 @@ const Personal = ({ nextStep, value }: any) => {
                               Others
                             </label>
                             {`${user.gender}` &&
-                            `${user.gender}` === "other" ? (
+                              `${user.gender}` === "other" ? (
                               <input
                                 type="radio"
                                 className="custom-control-input"

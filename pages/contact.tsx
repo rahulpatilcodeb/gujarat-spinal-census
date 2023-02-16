@@ -45,17 +45,20 @@ function Contact(): JSX.Element {
     },
     validationSchema:schema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      console.log("this is onsubmit")
+      // alert(JSON.stringify(values, null, 2));
+      handleSubmit();
     },
   });
 
   // console.log("formData", formData);
 
-  async function onSubmit(e: any) {
-    e.preventDefault();
+  async function handleSubmit() {
+    console.log("this is handlesubmit")
+    // e.preventDefault();
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formik.values)
-      .then(() => alert("data addad"))
+      .then(() => alert("Thank You !! \n We will reach to you soon"))
       .catch((err: any) => {
         console.error(err);
       });
@@ -63,7 +66,7 @@ function Contact(): JSX.Element {
   }
 
   return (
-    <form className="container mb-5 w-50" style={{ fontFamily: "Inter" }}>
+    <form noValidate className="container mb-5 w-50" onSubmit={formik.handleSubmit} style={{ fontFamily: "Inter" }}>
       <div className="col d-flex justify-content-center">
         <span>
           <b style={{ fontSize: "18px" }}>--Contact Us --</b>

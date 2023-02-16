@@ -17,24 +17,27 @@ export default async function handler(
 ) {
   try {
     console.log(req.headers.authorization);
-    const verified = jwt.verify(req.headers.authorization, setcretKey);
-    console.log(verified.email);
     switch (req.method) {
       case "GET":
-        const admins = await admin.find({ email: verified.email });
-        console.log(admins);
-        if (verified) {
+        try {
+          const verified = jwt.verify(req.headers.authorization, setcretKey);
+          console.log(verified.email);
+          const admins = await admin.find({ email: verified.email });
+          console.log(admins);
+          // if (verified) {
+          // }
+          if (admins[0].email != undefined) {
+            const posts = await Contact.find();
+            return res.json({
+              data: posts,
+            });
+            // console.log("messasge");
+          } else {
+            return res.send({ msg: "not valid user" });
+          }
+        } catch {
+          res.send({ msg: "Session expired" });
         }
-        if (admins[0].email != undefined) {
-        const posts = await Contact.find();
-        res.json({
-          data: posts,
-        });
-        console.log("messasge")
-        } else {
-          res.send({ msg: "not valid user" });
-        }
-        res.send("Session expired");
         break;
       case "POST":
         const contact = new Contact({

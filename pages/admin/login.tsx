@@ -26,11 +26,11 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [signin, setSignin] = useState(false);
+  // const [signin, setSignin] = useState(false);
 
   useEffect(() => {
     console.log(Ilogin);
-    setSignin(Ilogin);
+    // setSignin(Ilogin);
     if (Ilogin) {
       router.push("/admin/patients");
     }
@@ -40,8 +40,8 @@ const Login = () => {
   async function onSubmit(e: any) {
     e.preventDefault();
 
+    setLoading(false);
     try {
-      setLoading(false);
       // Send a request to the server to check the username and password
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adminlogin`,
@@ -54,7 +54,7 @@ const Login = () => {
       const datadb = await response.json();
       console.log(datadb);
       
-      alert(datadb.msg);
+      // alert(datadb.msg);
 
       // if success
       if (response.ok) {
@@ -69,7 +69,7 @@ const Login = () => {
           // console.log(response);
           // axios.defaults.headers.common.Authorization = `Bearer ${datadb.key}`;
           // return true;
-          setLoading(true);
+          // setLoading(true);
           router.push("/admin/patients");
         }
       } else {
@@ -77,6 +77,7 @@ const Login = () => {
         return alert("invalid input");
       }
     } catch (error) {
+      setLoading(true);
       alert(`\n Please provide correct input.\n  \n thank you!`);
     }
   }

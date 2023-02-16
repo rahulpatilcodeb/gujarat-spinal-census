@@ -8,11 +8,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 
 export default function Patients() {
-   const { user: user, islogin: Ilogin } = useSelector(
+  const { user: user, islogin: Ilogin, token: token } = useSelector(
     (state: RootState) => state.users
   );
   const router = useRouter();
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -24,23 +24,28 @@ export default function Patients() {
 
 
   useEffect(() => {
+    setLoading(false);
     try {
       if (!Ilogin) {
         router.push("/admin/login");
       } else {
-        setLoading(true)
+        setLoading(false);
         const getPosts = async () => {
           const { data: res } = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/users`
+            `${process.env.NEXT_PUBLIC_API_URL}/users`,
+            { headers: { Authorization: `${token}` } }
           );
-          const demo=(res.data)
+          const demo = res.data;
           setAPIData(demo.reverse());
+
         };
         getPosts();
       }
     } catch (err) {
       console.log(`error`, err);
-    } 
+    } finally {
+      setLoading(true);
+    }
   }, [Ilogin]);
 
   const handlePageChange = (page: any) => {
@@ -72,7 +77,7 @@ export default function Patients() {
           .includes(typeData.toLowerCase());
       });
       setFilteredResults(filteredData);
-    } 
+    }
   };
 
   let onOptionChangeType = (event: any) => {
@@ -94,17 +99,17 @@ export default function Patients() {
           .includes(districtData.toLowerCase());
       });
       setFilteredResults(filteredData);
-    } 
+    }
   };
 
   let onOptionChangeDistrict = (event: any) => {
     districtItems(event.target.value);
   };
 
-   useEffect(() => {
-     districtItems("");
-   }, [districtData]);
- 
+  useEffect(() => {
+    districtItems("");
+  }, [districtData]);
+
   const paginatePosts = paginate(APIData, currentPage, pageSize);
   const filteredPosts = paginate(filteredResults, currentPage, pageSize);
 
@@ -192,104 +197,104 @@ export default function Patients() {
           >
             {filteredResults.length > 1
               ? filteredPosts.map((item: any) => {
-                  return (
-                    <Card
-                      key={item._id}
-                      style={{
-                        width: "18rem",
-                        padding: "2%",
-                        margin: "1.5%",
-                        background: "#FFFFFF",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "10px",
+                return (
+                  <Card
+                    key={item._id}
+                    style={{
+                      width: "18rem",
+                      padding: "2%",
+                      margin: "1.5%",
+                      background: "#FFFFFF",
+                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Card.Content
+                      onClick={() => {
+                        Details(item);
                       }}
                     >
-                      <Card.Content
-                        onClick={() => {
-                          Details(item);
+                      <div>
+                        <img
+                          style={{
+                            height: "10rem",
+                            width: "14rem",
+                          }}
+                          // src="/user.png"
+                          src={`${url}${item.email}/${item.image}`}
+                          alt="image"
+                        />
+                      </div>
+
+                      <Card.Header
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "18px",
+                          color: "#181C32",
                         }}
                       >
-                        <div>
-                          <img
-                            style={{
-                              height: "10rem",
-                              width: "14rem",
-                            }}
-                            // src="/user.png"
-                            src={`${url}${item.email}/${item.image}`}
-                            alt="image"
-                          />
-                        </div>
-
-                        <Card.Header
-                          style={{
-                            fontWeight: 400,
-                            fontSize: "18px",
-                            color: "#181C32",
-                          }}
-                        >
-                          {item.fname} {item.lname}
-                        </Card.Header>
-                        <br />
-                        <Card.Description>
-                          <textarea style={{ border: "0", color: "#171919" }}>
-                            {item.description}
-                          </textarea>
-                        </Card.Description>
-                      </Card.Content>
-                    </Card>
-                  );
-                })
+                        {item.fname} {item.lname}
+                      </Card.Header>
+                      <br />
+                      <Card.Description>
+                        <textarea style={{ border: "0", color: "#171919" }} readOnly value={item.description}>
+                          {/* {item.description} */}
+                        </textarea>
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                );
+              })
               : paginatePosts.map((item: any) => {
-                  return (
-                    <Card
-                      key={item._id}
-                      style={{
-                        width: "18rem",
-                        padding: "2%",
-                        margin: "1.5%",
-                        background: "#FFFFFF",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "10px",
+                return (
+                  <Card
+                    key={item._id}
+                    style={{
+                      width: "18rem",
+                      padding: "2%",
+                      margin: "1.5%",
+                      background: "#FFFFFF",
+                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Card.Content
+                      onClick={() => {
+                        Details(item);
                       }}
                     >
-                      <Card.Content
-                        onClick={() => {
-                          Details(item);
+                      <div>
+                        <img
+                          style={{
+                            height: "8rem",
+                            width: "14rem",
+                          }}
+                          // src="/user.png"
+                          src={`${url}${item.email}/${item.image}`}
+                          alt="image"
+                        />
+                      </div>
+
+                      <Card.Header
+                        className="headText mt-1"
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "18px",
+                          color: "#181C32",
                         }}
                       >
-                        <div>
-                          <img
-                            style={{
-                              height: "8rem",
-                              width: "14rem",
-                            }}
-                            // src="/user.png"
-                            src={`${url}${item.email}/${item.image}`}
-                            alt="image"
-                          />
-                        </div>
-
-                        <Card.Header
-                          className="headText mt-1"
-                          style={{
-                            fontWeight: 400,
-                            fontSize: "18px",
-                            color: "#181C32",
-                          }}
-                        >
-                          {item.fname} {item.lname}
-                        </Card.Header>
-                        <br />
-                        <Card.Description className="descText">
-                          <textarea style={{ border: "0", color: "#171919" }}>
-                            {item.description}
-                          </textarea>
-                        </Card.Description>
-                      </Card.Content>
-                    </Card>
-                  );
-                })}
+                        {item.fname} {item.lname}
+                      </Card.Header>
+                      <br />
+                      <Card.Description className="descText">
+                        <textarea style={{ border: "0", color: "#171919" }} readOnly value={item.description}>
+                          {/* {item.description} */}
+                        </textarea>
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                );
+              })}
             {filteredResults.length > 1 ? (
               <div>
                 <Pagination
@@ -300,9 +305,9 @@ export default function Patients() {
                 />
               </div>
             ) : (
-              <div style={{display:"flex" ,justifyContent:"space-between"}}>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div>
-                  <p>{currentPage} of {Math.ceil(APIData.length/pageSize)}</p>
+                  <p>{currentPage} of {Math.ceil(APIData.length / pageSize)}</p>
                 </div>
                 <div>
                   <Pagination
