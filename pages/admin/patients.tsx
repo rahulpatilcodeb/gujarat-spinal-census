@@ -20,11 +20,13 @@ export default function Patients() {
   const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
-
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<any>(1);
+   let { query: page } = router;
+   const example = parseInt(page.page);
+   console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
   let demo = null;
-  console.log(currentPage, "currentpage")
+  // console.log(currentPage, "currentpage")
   useEffect(() => {
     setLoading(false);
     apiCall();
@@ -60,14 +62,11 @@ export default function Patients() {
 
 
   async function apiCall() {
-    console.log(currentPage, "this is current page")
     const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
       { page: currentPage }
     )
     console.log(resp.data, "resp");
     setAPIData((resp.data).reverse())
-    router.push(`/admin/patients?page=${currentPage}`);
-
   }
 
 
@@ -133,9 +132,9 @@ export default function Patients() {
       query: { id, page },
     });
   };
-  const [itemOffset, setItemOffset] = useState(0);
-  const endOffset = itemOffset + pageSize;
-  console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  // const [itemOffset, setItemOffset] = useState(0);
+  // const endOffset = itemOffset + pageSize;
+  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   // const currentItems = APIData.slice(itemOffset, endOffset);
   // console.log("current", currentItems)
   const pageCount = Math.ceil(totalCount/ pageSize);
@@ -146,7 +145,7 @@ export default function Patients() {
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
     setCurrentPage(event.selected + 1);
-    setItemOffset(newOffset);
+    // setItemOffset(newOffset);
   };
 
   console.log("pageeeeee",currentPage)

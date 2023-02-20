@@ -5,6 +5,7 @@ import { paginate } from "../../components/paginate";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
+import ReactPaginate from "react-paginate";
 
 // const axiosInstance = axios.create({
 //   baseURL: process.env.,
@@ -14,10 +15,9 @@ import { useRouter } from "next/router";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
-
   const router = useRouter();
   const [posts, setPosts] = useState([]);
-  
+  const [totalCount, setTotalCount] = useState(0);
   const pageSize = 10;
 
   const {
@@ -30,15 +30,14 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    apiCall()
     const getPosts = async () => {
       if (Ilogin) {
         const { data: res } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/contact?limit=10`,
-          { headers: { Authorization: `${token}` } }
+          `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
+          // { headers: { Authorization: `${token}` } }
         );
-        console.log(res);
-        const demo = (res.data);
-        setPosts(demo.reverse());
+        setTotalCount(res.data[0].count);
       }
       if (!Ilogin) {
         router.push("/admin/login");
@@ -49,11 +48,35 @@ const Home = () => {
     // paginatePosts.map((posts)=>{
     //   console.log("in page",posts.data)
     // })
-  }, [Ilogin]);
+  }, [Ilogin,currentPage]);
 
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page);
+  // const handlePageChange = (page: any) => {
+  //   setCurrentPage(page);
+  // };
+  async function apiCall() {
+    const resp = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
+      { page: currentPage }
+    );
+    console.log(resp.data, "resp");
+    setPosts((resp.data).reverse());
+  }
+
+  // const endOffset = itemOffset + pageSize;
+  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  // const currentItems = APIData.slice(itemOffset, endOffset);
+  // console.log("current", currentItems)
+  // const [itemOffset, setItemOffset] = useState(0);
+  const pageCount = Math.ceil(totalCount / pageSize);
+  const handlePageClick = (event: any, role: any) => {
+    const newOffset = (event.selected * pageSize) % totalCount;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setCurrentPage(event.selected + 1);
+    // setItemOffset(newOffset);
   };
+
 
   const paginatePosts = paginate(posts, currentPage, pageSize);
 
@@ -80,7 +103,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody style={{ fontSize: "16px" }}>
-                {paginatePosts.map((post, index) => (
+                {posts.map((post:any, index) => (
                   <tr key={post._id}>
                     <td>
                       <center> {index + 1}</center>
@@ -94,10 +117,13 @@ const Home = () => {
                     <td>
                       <center>
                         <textarea
-                          style={{ width: "100%", height: "30px", resize:"none" }}
-                          readOnly 
+                          style={{
+                            width: "100%",
+                            height: "30px",
+                            resize: "none",
+                          }}
+                          readOnly
                           value={post.description}
-                          
                         >
                           {/* {post.description} */}
                         </textarea>
@@ -114,12 +140,31 @@ const Home = () => {
                 </p>
               </div>
               <div>
-                <Pagination
+                <ReactPaginate
+                  pageCount={pageCount}
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  breakLabel={"..."}
+                  marginPagesDisplayed={0}
+                  pageRangeDisplayed={3}
+                  onPageChange={handlePageClick}
+                  containerClassName={"pagination justify-content-center"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  previousClassName={"page-item"}
+                  previousLinkClassName={"page-link"}
+                  nextClassName={"page-item"}
+                  nextLinkClassName={"page-link"}
+                  breakClassName={"page-item"}
+                  breakLinkClassName={"page-link"}
+                  activeClassName={"active"}
+                />
+                {/* <Pagination
                   items={posts.length}
                   pageSize={pageSize}
                   currentPage={currentPage}
                   onPageChange={handlePageChange}
-                />
+                /> */}
               </div>
             </div>
           </div>
