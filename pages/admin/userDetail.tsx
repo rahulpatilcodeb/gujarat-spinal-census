@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { Roots } from "aws-sdk/clients/organizations";
 import { RootState } from "@/store/store";
+import ReactLoading from "react-loading";
 
 function UserDetail() {
 
@@ -16,7 +17,7 @@ function UserDetail() {
   const router = useRouter();
   let { query: id , query:page } = router;
   const example = { id };
-  const currentPage = parseInt(page.page);
+  const currentPage = parseInt(`${page.page}`);
   const [step, setstep] = useState(1);
   const [userData, setUserData] = useState([]);
 
@@ -30,21 +31,25 @@ function UserDetail() {
  
 
   useEffect(() => {
-    setLoading(true)
     if (!Ilogin) {
       router.push("/admin/login")
+    } else {
+      setLoading(true)
+       try {
+         axios
+           .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
+           .then((response) => {
+             setUserData(response.data.data);
+             // console.log("userdata info", response);
+           })
+           .catch((err) => console.log(err));
+       } catch (err) {
+         console.log(`error`, err);
+       } finally{
+        setLoading(false)
+       }
     }
-    try {
-      axios
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
-        .then((response) => {
-          setUserData(response.data.data);
-          // console.log("userdata info", response);
-        })
-        .catch((err) => console.log(err));
-    } catch (err) {
-      console.log(`error`, err);
-    }
+   
     // axios
     //   .post(process.env.NEXT_PUBLIC_API_URL_User as string, example.id)
     //   .then((response) => {
@@ -56,9 +61,16 @@ function UserDetail() {
 
   switch (step) {
     case 1:
-      return loading?(
+      return (
         <div>
           <Container className="w-50">
+            {loading && (
+              <center>
+                <div style={{ margin: "100px" }}>
+                  <ReactLoading type={"spin"} color={"#6BC17A"} />
+                </div>
+              </center>
+            )}
             <Row>
               <Col className="custom-margin">
                 <Personal nextStep={nextStep} value={userData} />
@@ -66,20 +78,18 @@ function UserDetail() {
             </Row>
           </Container>
         </div>
-      ):(
-        <center>
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </center>
       );
     case 2:
-      return loading?(
+      return (
         <div>
           <Container className="w-50">
+            {loading && (
+              <center>
+                <div style={{ margin: "100px" }}>
+                  <ReactLoading type={"spin"} color={"#6BC17A"} />
+                </div>
+              </center>
+            )}
             <Row>
               <Col className="custom-margin pb-5">
                 <Injury
@@ -92,15 +102,6 @@ function UserDetail() {
             </Row>
           </Container>
         </div>
-      ):(
-        <center>
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </center>
       );
     default:
       return <div></div>;

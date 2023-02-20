@@ -211,7 +211,7 @@ const Personal = ({ nextStep, value }: any) => {
                               Female
                             </label>
                             {`${user.gender}` &&
-                              `${user.gender}` === "Female" ? (
+                            `${user.gender}` === "Female" ? (
                               <input
                                 type="radio"
                                 className="custom-control-input"
@@ -242,7 +242,7 @@ const Personal = ({ nextStep, value }: any) => {
                               Others
                             </label>
                             {`${user.gender}` &&
-                              `${user.gender}` === "other" ? (
+                            `${user.gender}` === "other" ? (
                               <input
                                 type="radio"
                                 className="custom-control-input"
