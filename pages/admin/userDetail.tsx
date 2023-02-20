@@ -16,7 +16,7 @@ function UserDetail() {
   const router = useRouter();
   let { query: id, query: page } = router;
   const example = { id };
-  const currentPage = parseInt(page.page);
+  const currentPage = parseInt(`${page.page}`);
   const [step, setstep] = useState(1);
   const [userData, setUserData] = useState([]);
 
