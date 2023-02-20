@@ -30,25 +30,30 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    apiCall()
-    const getPosts = async () => {
-      if (Ilogin) {
-        const { data: res } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
-          // { headers: { Authorization: `${token}` } }
-        );
-        setTotalCount(res.data[0].count);
-      }
+    try {
       if (!Ilogin) {
         router.push("/admin/login");
+      } else {
+        setLoading(true);
+        apiCall();
+        const getPosts = async () => {
+          const { data: res } = await axios.get(
+            `${process.env.NEXT_PUBLIC_API_URL}/contactPage`
+            // { headers: { Authorization: `${token}` } }
+          );
+          setTotalCount(res.data[0].count);
+        };
+        getPosts();
       }
-      setLoading(true);
-    };
-    getPosts();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
     // paginatePosts.map((posts)=>{
     //   console.log("in page",posts.data)
     // })
-  }, [Ilogin,currentPage]);
+  }, [Ilogin, currentPage]);
 
   // const handlePageChange = (page: any) => {
   //   setCurrentPage(page);
@@ -103,7 +108,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody style={{ fontSize: "16px" }}>
-                {posts.map((post:any, index) => (
+                {posts.map((post: any, index) => (
                   <tr key={post._id}>
                     <td>
                       <center> {index + 1}</center>

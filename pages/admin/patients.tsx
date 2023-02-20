@@ -21,21 +21,20 @@ export default function Patients() {
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState<any>(1);
-   let { query: page } = router;
-   const example = parseInt(page.page);
-   console.log("page current", example);
+  let { query: page } = router;
+  const example = parseInt(page.page);
+  console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
   let demo = null;
   // console.log(currentPage, "currentpage")
   useEffect(() => {
     setLoading(false);
     apiCall();
-    setLoading(true)
+    // setLoading(true)
     try {
       if (!Ilogin) {
         router.push("/admin/login");
       } else {
-        apiCall()
         setLoading(false);
         const getPosts = async () => {
           const { data: res } = await axios.get(
