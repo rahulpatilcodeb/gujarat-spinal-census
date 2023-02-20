@@ -9,7 +9,8 @@ const Injury = ({ nextStep, prevStep, value,page }: any) => {
   };
   const router = useRouter();
 
-  const onclick = () => {
+  const onclick = (e:any) => {
+    e.preventDefault()
     router.push(`/admin/patients?page=${page}`);
     console.log("hhhs",page)
 

@@ -53,7 +53,7 @@ export default function Patients() {
     } finally {
       setLoading(true);
     }
-  }, [Ilogin,currentPage]);
+  }, [Ilogin, currentPage]);
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
@@ -127,7 +127,7 @@ export default function Patients() {
   const filteredPosts = paginate(filteredResults, currentPage, pageSize);
   const Details = (item: any) => {
     const id = `${item._id}`;
-    const page= currentPage
+    const page = currentPage
     router.push({
       pathname: "/admin/userDetail",
       query: { id, page },
@@ -138,7 +138,7 @@ export default function Patients() {
   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   // const currentItems = APIData.slice(itemOffset, endOffset);
   // console.log("current", currentItems)
-  const pageCount = Math.ceil(totalCount/ pageSize);
+  const pageCount = Math.ceil(totalCount / pageSize);
   // Invoke when user click to request another page.
   const handlePageClick = (event: any, role: any) => {
     const newOffset = (event.selected * pageSize) % totalCount;
@@ -149,7 +149,7 @@ export default function Patients() {
     setItemOffset(newOffset);
   };
 
-  console.log("pageeeeee",currentPage)
+  console.log("pageeeeee", currentPage)
 
   return (
     <>

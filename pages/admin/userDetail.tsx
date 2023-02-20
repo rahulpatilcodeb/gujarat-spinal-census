@@ -14,7 +14,7 @@ function UserDetail() {
   const [loading, setLoading] = useState(false)
 
   const router = useRouter();
-  let { query: id , query:page } = router;
+  let { query: id, query: page } = router;
   const example = { id };
   const currentPage = parseInt(page.page);
   const [step, setstep] = useState(1);
@@ -27,7 +27,7 @@ function UserDetail() {
     setstep(step - 1);
   };
 
- 
+
 
   useEffect(() => {
     setLoading(true)
@@ -56,7 +56,7 @@ function UserDetail() {
 
   switch (step) {
     case 1:
-      return loading?(
+      return loading ? (
         <div>
           <Container className="w-50">
             <Row>
@@ -66,7 +66,7 @@ function UserDetail() {
             </Row>
           </Container>
         </div>
-      ):(
+      ) : (
         <center>
           <div className="lds-ring">
             <div></div>
@@ -77,7 +77,7 @@ function UserDetail() {
         </center>
       );
     case 2:
-      return loading?(
+      return loading ? (
         <div>
           <Container className="w-50">
             <Row>
@@ -92,7 +92,7 @@ function UserDetail() {
             </Row>
           </Container>
         </div>
-      ):(
+      ) : (
         <center>
           <div className="lds-ring">
             <div></div>

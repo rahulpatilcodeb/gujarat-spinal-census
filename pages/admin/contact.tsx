@@ -17,7 +17,7 @@ const Home = () => {
 
   const router = useRouter();
   const [posts, setPosts] = useState([]);
-  
+
   const pageSize = 10;
 
   const {
@@ -33,8 +33,8 @@ const Home = () => {
     const getPosts = async () => {
       if (Ilogin) {
         const { data: res } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/contact?limit=10`,
-          { headers: { Authorization: `${token}` } }
+          `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
+          // { headers: { Authorization: `${token}` } }
         );
         console.log(res);
         const demo = (res.data);
@@ -94,10 +94,10 @@ const Home = () => {
                     <td>
                       <center>
                         <textarea
-                          style={{ width: "100%", height: "30px", resize:"none" }}
-                          readOnly 
+                          style={{ width: "100%", height: "30px", resize: "none" }}
+                          readOnly
                           value={post.description}
-                          
+
                         >
                           {/* {post.description} */}
                         </textarea>
