@@ -19,7 +19,9 @@ export default function Patients() {
   const [typeData, setTypeData] = useState("");
   const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
-  const [currentPage, setCurrentPage] = useState(5);
+  const [totalCount, setTotalCount] = useState(0);
+
+  const [currentPage, setCurrentPage] = useState(1);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
   let demo = null;
   console.log(currentPage, "currentpage")
@@ -39,8 +41,9 @@ export default function Patients() {
             // { headers: { Authorization: `${token}` } }
           );
           demo = res.data[0].count / 8;
+          setTotalCount(res.data[0].count);
+          console.log("total", res.data[0].count);
           console.log("this", Math.ceil(demo))
-
           // setAPIData(demo.reverse());
         };
         getPosts();
@@ -50,7 +53,7 @@ export default function Patients() {
     } finally {
       setLoading(true);
     }
-  }, [Ilogin]);
+  }, [Ilogin,currentPage]);
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
@@ -59,10 +62,11 @@ export default function Patients() {
   async function apiCall() {
     console.log(currentPage, "this is current page")
     const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
-
       { page: currentPage }
     )
-
+    console.log(resp.data, "resp");
+    setAPIData((resp.data).reverse())
+    router.push(`/admin/patients?page=${currentPage}`);
 
   }
 
@@ -123,26 +127,30 @@ export default function Patients() {
   const filteredPosts = paginate(filteredResults, currentPage, pageSize);
   const Details = (item: any) => {
     const id = `${item._id}`;
+    const page= currentPage
     router.push({
       pathname: "/admin/userDetail",
-      query: { id },
+      query: { id, page },
     });
   };
   const [itemOffset, setItemOffset] = useState(0);
   const endOffset = itemOffset + pageSize;
   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  const currentItems = APIData.slice(itemOffset, endOffset);
-  console.log("current", currentItems)
-  const pageCount = Math.ceil(APIData.length / pageSize);
+  // const currentItems = APIData.slice(itemOffset, endOffset);
+  // console.log("current", currentItems)
+  const pageCount = Math.ceil(totalCount/ pageSize);
   // Invoke when user click to request another page.
   const handlePageClick = (event: any, role: any) => {
-    const newOffset = (event.selected * pageSize) % APIData.length;
+    const newOffset = (event.selected * pageSize) % totalCount;
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
     setCurrentPage(event.selected + 1);
     setItemOffset(newOffset);
   };
+
+  console.log("pageeeeee",currentPage)
+
   return (
     <>
       {loading ? (
@@ -270,7 +278,7 @@ export default function Patients() {
                     </Card>
                   );
                 })
-                : currentItems.map((item: any) => {
+                : APIData.map((item: any) => {
                   return (
                     <Card
                       key={item._id}
@@ -335,7 +343,7 @@ export default function Patients() {
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <div>
                   <p>
-                    {currentPage} of {Math.ceil(APIData.length / pageSize)}
+                    {currentPage} of {Math.ceil(totalCount / pageSize)}
                   </p>
                 </div>
                 <div>

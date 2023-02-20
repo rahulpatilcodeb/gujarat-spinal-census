@@ -14,8 +14,9 @@ function UserDetail() {
   const [loading, setLoading] = useState(false)
 
   const router = useRouter();
-  const { query: id } = router;
+  let { query: id , query:page } = router;
   const example = { id };
+  const currentPage = parseInt(page.page);
   const [step, setstep] = useState(1);
   const [userData, setUserData] = useState([]);
 
@@ -85,6 +86,7 @@ function UserDetail() {
                   nextStep={nextStep}
                   prevStep={prevStep}
                   value={userData}
+                  page={currentPage}
                 />
               </Col>
             </Row>

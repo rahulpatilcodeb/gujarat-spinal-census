@@ -33,7 +33,7 @@ const Home = () => {
     const getPosts = async () => {
       if (Ilogin) {
         const { data: res } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/contact`,
+          `${process.env.NEXT_PUBLIC_API_URL}/contact?limit=10`,
           { headers: { Authorization: `${token}` } }
         );
         console.log(res);
