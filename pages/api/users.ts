@@ -68,6 +68,7 @@ export default async function handler(
           injuryStatus: req.body.injuryStatus,
           physicalStatus: req.body.physicalStatus,
           financialStatus: req.body.financialStatus,
+          independent: req.body.independent
         });
         await user.save();
         console.log("User", user);

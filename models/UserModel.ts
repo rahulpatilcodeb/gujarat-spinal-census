@@ -22,6 +22,7 @@ const userSchema = {
     injuryStatus: String,
     physicalStatus: String,
     financialStatus: String,
+    independent: String,
 };
 
 export default mongoose.models.User || mongoose.model('User', userSchema)

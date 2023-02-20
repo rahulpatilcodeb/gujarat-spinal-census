@@ -15,6 +15,7 @@ const UserRegister = ({
   Ifile,
   values,
   selectedFile,
+  setFile,
   setFormData,
 }: any) => {
   const [initValue, setInitValue] = useState(values);
@@ -41,6 +42,7 @@ const UserRegister = ({
     gender: Yup.string().required("Please enter gender here"),
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
+    // avatar: Yup.array().min(1, "select at least 1 file").max(1, "Only one file can pe selsecter"),
   });
 
   // const imagePreviewElement = document.querySelector("avatar");
@@ -67,71 +69,6 @@ const UserRegister = ({
     },
   });
 
-  // function submitFormData(e: any) {
-  //   e.preventDefault();
-
-  //   formik.handleSubmit();
-  //   values.fname = formik.values.fname;
-  //   values.lname = formik.values.lname;
-  //   values.dob = formik.values.dob;
-  //   values.gender = formik.values.gender;
-  //   values.address = formik.values.address;
-  //   values.district = formik.values.district;
-  //   values.contact = formik.values.contact;
-  //   values.qualification = formik.values.qualification;
-  //   values.bpl = formik.values.bpl;
-  //   values.email = formik.values.email;
-  //   values.description = formik.values.description;
-  //   console.log();
-  //   console.log(formik.errors.fname);
-  //   console.log(typeof formik.errors.fname);
-  //   if (
-  //     formik.values.fname != "" &&
-  //     formik.errors.fname == undefined &&
-  //     formik.values.lname != "" &&
-  //     formik.errors.lname == undefined &&
-  //     formik.values.dob != "" &&
-  //     formik.errors.dob == undefined &&
-  //     formik.values.gender != "" &&
-  //     formik.errors.gender == undefined &&
-  //     formik.values.address != "" &&
-  //     formik.errors.address == undefined &&
-  //     formik.values.district != "" &&
-  //     formik.errors.district == undefined &&
-  //     formik.values.description != "" &&
-  //     formik.errors.description == undefined &&
-  //     formik.values.bpl != "" &&
-  //     formik.errors.bpl == undefined &&
-  //     formik.values.contact != "" &&
-  //     formik.errors.contact == undefined &&
-  //     formik.values.qualification != "" &&
-  //     formik.errors.qualification == undefined &&
-  //     formik.values.email != "" &&
-  //     formik.errors.email == undefined
-  //   ) {
-  //     nextStep();
-  //   }
-  // }
-
-  // useEffect(() => {
-  // if (values.fname != "") {
-  //   formik.values.fname = values.fname;
-  //   formik.values.lname = values.lname;
-  //   formik.values.dob = values.dob;
-  //   formik.values.gender = values.gender;
-  //   formik.values.address = values.address;
-  //   formik.values.district = values.district;
-  //   formik.values.description = values.description;
-
-  //   formik.values.bpl = values.bpl;
-
-  //   formik.values.contact = values.contact;
-  //   formik.values.qualification = values.qualification;
-  //   formik.values.email = values.email;
-  // }
-  // }, []);
-  // var image = document.getElementById("avatar").src
-
   const [selectedImage, setSelectedImage] = useState();
 
   const imageChange = (e: any) => {
@@ -152,7 +89,7 @@ const UserRegister = ({
     <>
       <div
         className="mb-5 d-flex justify-content-center"
-        style={{ fontFamily: "Inter", fontSize: "22px" }}
+        style={{  fontSize: "22px" }}
       >
         <div style={{ marginRight: "50px" }}>
           <div className="col">
@@ -193,7 +130,6 @@ const UserRegister = ({
         onSubmit={formik.handleSubmit}
         className="pb-3 form-group"
         encType="multipart/jpeg"
-        style={{ fontFamily: "Inter" }}
       >
         <div className="d-flex justify-content-center">
           <div>
@@ -226,8 +162,12 @@ const UserRegister = ({
               required
               accept="image/*"
               id="avatar"
-              onBlur={formik.handleBlur}
-              // onChange={}
+              // onBlur={formik.handleBlur}
+              // onChange={(e)=>{formik.handleChange( setFile(e.target.files[0]));
+              // console.log(Ifile,"infiles")
+              // }}
+
+
               onChange={(e) => {
                 handleFormData("avatar");
                 selectedFile(e);
@@ -627,8 +567,8 @@ const UserRegister = ({
               <option defaultChecked value="">
                 District
               </option>
-              <option value="Ahmedabad" selected={formik.values.district =="Ahmedabad"}>Ahmedabad</option>
-              <option value="Amreli" selected={formik.values.district =="Amreli"}>Amreli</option>
+              <option value="Ahmedabad" selected={formik.values.district == "Ahmedabad"}>Ahmedabad</option>
+              <option value="Amreli" selected={formik.values.district == "Amreli"}>Amreli</option>
             </select>
             {formik.touched.district && formik.errors.district && (
               <p style={{ color: "red" }} className="error">
@@ -735,6 +675,8 @@ const UserRegister = ({
                 value={
                   formik.values.description
                 }
+                style={{overflow: "hidden:", resize: "none"}}  
+                
               ></textarea>
               {formik.touched.description && formik.errors.description && (
                 <p style={{ color: "red" }} className="error">

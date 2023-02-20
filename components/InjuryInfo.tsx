@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/Home.module.css";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 
 
@@ -12,6 +13,8 @@ const InjuryInfo = ({
   values,
   onsubmit,
   setFormData,
+  Ifile,
+  setFile,
 
 }: any) => {
 
@@ -30,13 +33,29 @@ const InjuryInfo = ({
   const [initValue, setInitValue] = useState(values);
 
 
-  const submitFormData = async () => {
-    console.log("in submitFormData")
- 
-    await onsubmit();
-    console.log("after submitFormData")
-    nextStep();
-    // }
+  // const submitFormData = async () => {
+  //   setFormData(formik.values)
+  //   console.log("in submitFormData")
+
+  //   await onsubmit();
+  //   console.log("after submitFormData")
+  //   nextStep();
+  //   // }
+  // };
+  const fileupload = async (file: any) => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/image`,
+        { name: file.name, type: file.type, email: values.email }
+      );
+      console.log(data);
+
+      const url = data.url;
+      const resp1 = await axios.put(url, file);
+      console.log("resp1", resp1);
+    } catch (error) {
+      console.log("error", error);
+    }
   };
 
   function handlePrev() {
@@ -49,30 +68,31 @@ const InjuryInfo = ({
     {
       initialValues: initValue,
       enableReinitialize: true,
-
-      // {
-      // initialValues: {
-      //   injuryYear: "",
-      //   injuryReason: "",
-      //   injuryType: "",
-      //   injuryLevel: "",
-      //   implantFixation: "",
-      //   injuryStatus: "",
-      //   physicalStatus: "",
-      //   financialStatus: "",
-      // },
       validationSchema: schema,
-      onSubmit: (values) => {
-        console.log("this is onsubmit")
+      onSubmit: async (values) => {
+        // console.log("this is onsubmit")
         console.log("values", values, "formik values", formik.values);
         setFormData(formik.values)
-        submitFormData()
+
+        fileupload(Ifile);
+        values.avatar = Ifile.name;
+        console.log("formdata in before api call ", values)
+        await axios
+          .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
+          .then(() => console.log("User Added"))
+          .catch((err) => {
+            console.error(err);
+          });
+        console.log("after out submitFormData")
+        nextStep()
+
+
 
         // alert(JSON.stringify(values, null, 2));
       },
     });
 
-  
+
   return (
     <>
       <div style={{ fontFamily: "Inter" }}>
@@ -598,107 +618,108 @@ const InjuryInfo = ({
               )} */}
             </div>
 
-            {/* {formik.values.financialStatus == "Independent" ? ( */}
-            <div className="row mb-4">
-              <div
-                className="col d-flex justify-content-between align-items-center"
-                style={{
-                  background: "#F3F6F9",
-                  borderRadius: "5px",
-                  height: "50px",
-                  margin: "10px",
-                  color: "rgb(76 76 85)",
-                }}
-              >
-                <label
-                  className="custom-control-label pe-5"
-                  htmlFor="FinancialJob"
+            {formik.values.financialStatus == "Independent" ? (
+              <div className="row mb-4">
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
                 >
-                  Job
-                </label>
-                <input
-                  required
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  checked={formik.values.financialStatus == "Job"}
-                  type="radio"
-                  name="financialStatus"
-                  className="custom-control-input"
-                  value="Job"
-                  id="independentJob"
-                />
-              </div>
-              <div
-                className="col d-flex justify-content-between align-items-center"
-                style={{
-                  background: "#F3F6F9",
-                  borderRadius: "5px",
-                  height: "50px",
-                  margin: "10px",
-                  color: "rgb(76 76 85)",
-                }}
-              >
-                <label
-                  className="custom-control-label pe-5"
-                  htmlFor="independentBus"
+                  <label
+                    className="custom-control-label pe-5"
+                    htmlFor="independentJob"
+                  >
+                    Job
+                  </label>
+                  <input
+                    required
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    checked={formik.values.independent == "Job"}
+                    type="radio"
+                    name="independent"
+                    className="custom-control-input"
+                    value="Job"
+                    id="independentJob"
+                  />
+                </div>
+                <div
+                  className="col d-flex justify-content-between align-items-center"
+                  style={{
+                    background: "#F3F6F9",
+                    borderRadius: "5px",
+                    height: "50px",
+                    margin: "10px",
+                    color: "rgb(76 76 85)",
+                  }}
                 >
-                  Business
-                </label>
-                <input
-                  required
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  checked={formik.values.financialStatus == "Business"}
-                  type="radio"
-                  name="financialStatus"
-                  className="custom-control-input"
-                  value="Business"
-                  id="FinancialBus"
-                />
-              </div>
-              {formik.touched.independent && formik.errors.independent && (
+                  <label
+                    className="custom-control-label pe-5"
+                    htmlFor="independentBus"
+                  >
+                    Business
+                  </label>
+                  <input
+                    required
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    checked={formik.values.independent == "Business"}
+                    type="radio"
+                    name="independent"
+                    className="custom-control-input"
+                    value="Business"
+                    id="FinancialBus"
+                  />
+                </div>
+                {/* {formik.touched.independent && formik.errors.independent && (
                 <p style={{ color: "red" }} className="error">
                   {(formik.errors.independent).toString()}
                 </p>
-              )}
+              )} */}
 
-              {/* <p style={{ color: "red" }} className="error">
+                {/* <p style={{ color: "red" }} className="error">
                   {formik.errors.financialStatus &&
                     formik.touched.financialStatus &&
                     formik.errors.financialStatus}
                 </p> */}
-              {/* {formik.touched.independent && formik.errors.independent && (
+                {/* {formik.touched.independent && formik.errors.independent && (
                   <p style={{ color: "red" }} className="error">
                     {(formik.errors.independent).toString()}
                   </p>
                 )}
               </div>) : (<></>)} */}
-              <div className="div d-flex justify-content-between">
-                <button
-                  onClick={handlePrev}
-                  style={{
-                    backgroundColor: "rgba(193, 107, 178, 1)",
-                    color: "white",
-                  }}
-                  className="btn"
-                  role="button"
-                >
-                  Previous
-                </button>
-                <button
-                  type="submit"
-
-                  style={{
-                    backgroundColor: "rgba(193, 107, 178, 1)",
-                    color: "white",
-                  }}
-                  // to="/registered"
-                  className="btn"
-                  role="button"
-                >
-                  Register
-                </button>
               </div>
+            ) : (<></>)}
+            <div className="div d-flex justify-content-between">
+              <button
+                onClick={handlePrev}
+                style={{
+                  backgroundColor: "rgba(193, 107, 178, 1)",
+                  color: "white",
+                }}
+                className="btn"
+                role="button"
+              >
+                Previous
+              </button>
+              <button
+                type="submit"
+
+                style={{
+                  backgroundColor: "rgba(193, 107, 178, 1)",
+                  color: "white",
+                }}
+                // to="/registered"
+                className="btn"
+                role="button"
+              >
+                Register
+              </button>
             </div>
           </div>
         </form>

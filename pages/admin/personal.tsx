@@ -28,7 +28,7 @@ const Personal = ({ nextStep, value }: any) => {
 
   return (
     <>
-      <div style={{ fontFamily: "Inter" }}>
+      <div>
         <div className="mb-5 d-flex justify-content-center"
           style={{ fontSize: "22px" }} >
           <div style={{ marginRight: "50px" }}>

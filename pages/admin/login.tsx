@@ -96,7 +96,6 @@ const Login = () => {
         <form
           onSubmit={onSubmit}
           className="container w-25 mb-5"
-          style={{ fontFamily: "Inter" }}
         >
           <div className="col d-flex justify-content-center">
             <span>

@@ -35,7 +35,6 @@ function Navbars() {
     <>
       <div
         className="my-3 d-flex justify-content-between"
-        style={{ fontFamily: "Inter" }}
       >
         <div className="col ms-5">
           <span>

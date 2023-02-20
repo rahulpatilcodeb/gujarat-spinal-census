@@ -59,7 +59,7 @@ const Home = () => {
 
   return (
     <>
-      <div style={{ fontFamily: "Inter" }}>
+      <div>
         {loading ? (
           <div className="container pb-3">
             <table className="table border">
@@ -94,7 +94,7 @@ const Home = () => {
                     <td>
                       <center>
                         <textarea
-                          style={{ width: "100%", height: "30px" }}
+                          style={{ width: "100%", height: "30px", resize:"none" }}
                           readOnly 
                           value={post.description}
                           

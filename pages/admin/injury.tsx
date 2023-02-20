@@ -14,7 +14,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
 
   return (
     <>
-      <div style={{ fontFamily: "Inter" }}>
+      <div>
         <div className="mb-5 d-flex justify-content-center">
           <div>
             <div className="col">
@@ -124,7 +124,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Paraplagia
                           </label>
                           {`${user.injuryType}` &&
-                          `${user.injuryType}` === "Paraplagia" ? (
+                            `${user.injuryType}` === "Paraplagia" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -155,7 +155,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Quadriplegia
                           </label>
                           {`${user.injuryType}` &&
-                          `${user.injuryType}` === "Quadriplegia" ? (
+                            `${user.injuryType}` === "Quadriplegia" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -221,7 +221,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Operated
                           </label>
                           {`${user.implantFixation}` &&
-                          `${user.implantFixation}` === "Operated" ? (
+                            `${user.implantFixation}` === "Operated" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -252,7 +252,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Not Operated
                           </label>
                           {`${user.implantFixation}` &&
-                          `${user.implantFixation}` === "Not Operated" ? (
+                            `${user.implantFixation}` === "Not Operated" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -294,7 +294,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Complete
                           </label>
                           {`${user.injuryStatus}` &&
-                          `${user.injuryStatus}` === "Complete" ? (
+                            `${user.injuryStatus}` === "Complete" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -325,7 +325,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Incomplete
                           </label>
                           {`${user.injuryStatus}` &&
-                          `${user.injuryStatus}` === "Incomplete" ? (
+                            `${user.injuryStatus}` === "Incomplete" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -368,7 +368,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Dependent
                           </label>
                           {`${user.physicalStatus}` &&
-                          `${user.physicalStatus}` === "Dependent" ? (
+                            `${user.physicalStatus}` === "Dependent" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -399,7 +399,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Independent
                           </label>
                           {`${user.physicalStatus}` &&
-                          `${user.physicalStatus}` === "Independent" ? (
+                            `${user.physicalStatus}` === "Independent" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -441,7 +441,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Dependent
                           </label>
                           {`${user.financialStatus}` &&
-                          `${user.financialStatus}` === "Dependent" ? (
+                            `${user.financialStatus}` === "Dependent" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -472,7 +472,7 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                             Independent
                           </label>
                           {`${user.financialStatus}` &&
-                          `${user.financialStatus}` === "Independent" ? (
+                            `${user.financialStatus}` === "Independent" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -504,8 +504,8 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                           >
                             Job
                           </label>
-                          {`${user.financialStatus}` &&
-                          `${user.financialStatus}` === "Job" ? (
+                          {`${user.independent}` &&
+                            `${user.independent}` === "Job" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -535,8 +535,8 @@ const Injury = ({ nextStep, prevStep, value }: any) => {
                           >
                             Business
                           </label>
-                          {`${user.financialStatus}` &&
-                          `${user.financialStatus}` === "Business" ? (
+                          {`${user.independent}` &&
+                            `${user.independent}` === "Business" ? (
                             <input
                               type="radio"
                               className="custom-control-input"

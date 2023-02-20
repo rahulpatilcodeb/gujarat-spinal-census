@@ -7,7 +7,7 @@ import UserRegister from "@/components/UserRegister";
 
 function Common() {
   const [step, setstep] = useState(1);
-  const [file, setFile] = useState<any>();
+  const [file, setFile] = useState<any>({});
   const [formData, setFormData] = useState<any>({
     avatar: null,
     fname: "",
@@ -29,24 +29,26 @@ function Common() {
     injuryStatus: "",
     physicalStatus: "",
     financialStatus: "",
+    independent:"",
   });
 
-  useEffect(()=>{
-    console.log("in formdata",formData)
-  },[formData])
+  useEffect(() => {
+    console.log("in formdata", formData)
+  }, [formData])
   console.log("hzsudhui", formData);
 
   const onsubmit = async () => {
     console.log("in onsubmit index")
     formData.avatar = file.name;
     fileupload(file);
+    console.log("formdata in before api call ", formData)
     const response = await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, formData)
       .then(() => console.log("User Added"))
       .catch((err) => {
         console.error(err);
       });
-      console.log("after out submitFormData")
+    console.log("after out submitFormData")
   };
   const fileupload = async (file: any) => {
     try {
@@ -113,6 +115,7 @@ function Common() {
               <Col className="custom-margin">
                 <UserRegister
                   Ifile={file}
+                  setFile={setFile}
                   nextStep={nextStep}
                   setFormData={setFormData}
                   handleFormData={handleInputData}
@@ -131,6 +134,8 @@ function Common() {
             <Row>
               <Col className="custom-margin">
                 <InjuryInfo
+                  Ifile={file}
+                  setFile={setFile}
                   nextStep={nextStep}
                   prevStep={prevStep}
                   handleFormData={handleInputData}

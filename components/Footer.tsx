@@ -18,7 +18,6 @@ function Footer() {
           width: "100%",
           height: "50px",
           backgroundColor: "#FFFFFF",
-          fontFamily: "Inter"
         }}
       >
         <h6 className="d-none   my-2 ms-5 d-sm-block">

@@ -43,6 +43,7 @@ function Contact(): JSX.Element {
       email: "",
       description: "",
     },
+    enableReinitialize:true,
     validationSchema:schema,
     onSubmit: (values) => {
       console.log("this is onsubmit")
@@ -64,9 +65,14 @@ function Contact(): JSX.Element {
       });
     router.push("/");
   }
+  function resetAll(){
+    formik.values.contact="";
+    formik.values.email="";
+    formik.values.description="";
+  }
 
   return (
-    <form noValidate className="container mb-5 w-50" onSubmit={formik.handleSubmit} style={{ fontFamily: "Inter" }}>
+    <form noValidate className="container mb-5 w-50" onSubmit={formik.handleSubmit}>
       <div className="col d-flex justify-content-center">
         <span>
           <b style={{ fontSize: "18px" }}>--Contact Us --</b>
@@ -135,7 +141,7 @@ function Contact(): JSX.Element {
       </div>
 
       <div className="d-flex justify-content-end mt-3 me-3">
-        <button type="reset" className="btn btn-outline-secondary me-3">
+        <button type="reset" onClick={formik.resetForm} className="btn btn-outline-secondary me-3">
           Cancel
         </button>
         <button
