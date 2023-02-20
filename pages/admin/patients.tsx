@@ -7,6 +7,8 @@ import { RootState } from "@/store/store";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
+import ReactLoading from "react-loading";
+
 export default function Patients() {
   const { user: user, islogin: Ilogin, token: token } = useSelector(
     (state: RootState) => state.users
@@ -15,27 +17,26 @@ export default function Patients() {
   const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
   const [typeData, setTypeData] = useState("");
   const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState<any>(1);
-  let { query: page } = router;
-  const example = parseInt(page.page);
-  console.log("page current", example);
+   let { query: page } = router;
+   const example = parseInt(`${page.page}`);
+  //  console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
   let demo = null;
   // console.log(currentPage, "currentpage")
   useEffect(() => {
-    setLoading(false);
-    apiCall();
-    // setLoading(true)
     try {
       if (!Ilogin) {
         router.push("/admin/login");
       } else {
-        setLoading(false);
+        setLoading(true);
+        apiCall();
         const getPosts = async () => {
           const { data: res } = await axios.get(
             `${process.env.NEXT_PUBLIC_API_URL}/pagination`
@@ -52,7 +53,7 @@ export default function Patients() {
     } catch (err) {
       console.log(`error`, err);
     } finally {
-      setLoading(true);
+      setLoading(false);
     }
   }, [Ilogin, currentPage]);
   const handlePageChange = (page: any) => {
@@ -64,27 +65,60 @@ export default function Patients() {
     const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
       { page: currentPage }
     )
-    console.log(resp.data, "resp");
+    // console.log(resp.data, "resp");
     setAPIData((resp.data).reverse())
   }
 
+  // const searchItems = (searchValue: any) => {
+  //   setSearchInput(searchValue);
+  //   if (searchInput !== "") {
+  //     const filteredData = APIData.filter((item) => {
+  //       return Object.values(item)
+  //         .join("")
+  //         .toLowerCase()
+  //         .includes((searchInput.toLowerCase()));
+  //     });
+  //     setFilteredResults(filteredData);
+  //   } else {
+  //     setFilteredResults(APIData);
+  //   }
+  // };
 
-
-
-  const searchItems = (searchValue: any) => {
-    setSearchInput(searchValue);
-    if (searchInput !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes((searchInput.toLowerCase()));
-      });
-      setFilteredResults(filteredData);
+  const searchItems = async(searchValue: any) => {
+    setSearch(searchValue);
+    if (search != "") {
+      const filteredData =  await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/searchapi`,
+        {
+          search: search,
+          page: currentPage,
+          type: typeData,
+        }
+      );
+      console.log("gdyag",filteredData)
+      setFilteredResults(filteredData.data);
     } else {
-      setFilteredResults(APIData);
-    }
-  };
+       setFilteredResults(APIData);
+    } 
+    };
+
+    useEffect(() => {
+      searchItems("");
+    }, [search,typeData]);
+       
+  //   axios
+  //     .post(`${process.env.NEXT_PUBLIC_API_URL}/searchapi`, {
+  //       search: search,
+  //       page: currentPage,
+  //     })
+  //     .then((response) => {
+  //       // setUserData(response.data.data);
+  //       console.log("userdata info", response.data);
+  //     });
+  // };
+  
+
+
   const dropItems = (searchValue: any) => {
     setTypeData(searchValue);
     if (typeData !== "") {
@@ -151,231 +185,234 @@ export default function Patients() {
 
   return (
     <>
-      {loading ? (
-        <div style={{ padding: 20 }}>
+      {/* {loading ? ( */}
+      {loading && (
+        <center>
+          <div style={{ margin: "100px" }}>
+            <ReactLoading type={"spin"} color={"#6BC17A"} />
+          </div>
+        </center>
+      )}
+      <div style={{ padding: 20 }}>
+        <div
+          className="d-flex justify-content-between p-2"
+          style={{
+            background: "#F7FCF8",
+            borderRadius: "5px",
+            justifyContent: "center",
+          }}
+        >
           <div
-            className="d-flex justify-content-between p-2"
             style={{
-              background: "#F7FCF8",
-              borderRadius: "5px",
-              justifyContent: "center",
+              width: "60%",
             }}
           >
-            <div
+            <input
               style={{
-                width: "60%",
+                width: "100%",
+                background: "#FFFFFF",
+                border: "1px solid rgba(181, 181, 195, 0.4)",
+                borderRadius: "10px",
               }}
-            >
-              <input
-                style={{
-                  width: "100%",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(181, 181, 195, 0.4)",
-                  borderRadius: "10px",
-                }}
-                placeholder="Search..."
-                onChange={(e) => searchItems(e.target.value)}
-              />
-            </div>
-            <div
-              style={{
-                width: "15%",
-              }}
-            >
-              <select
-                onChange={onOptionChangeType}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(181, 181, 195, 0.4)",
-                  borderRadius: "10px",
-                }}
-              >
-                <option defaultChecked value="">
-                  Type
-                </option>
-                <option value="Paraplagia">Paraplegia</option>
-                <option value="Quadriplegia">Quadriplegia</option>
-              </select>
-            </div>
-            <div style={{ width: "15%" }}>
-              <select
-                onChange={onOptionChangeDistrict}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(181, 181, 195, 0.4)",
-                  borderRadius: "10px",
-                }}
-              >
-                <option defaultChecked value="">
-                  District
-                </option>
-                <option value="Ahmedabad">Ahmedabad</option>
-                <option value="Amreli">Amreli</option>
-              </select>
-            </div>
+              placeholder="Search..."
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </div>
           <div
-            style={{ marginTop: 20, justifyContent: "center" }}
-            className="row pb-5"
+            style={{
+              width: "15%",
+            }}
           >
-            {
-              filteredResults.length > 1
-                ? filteredPosts.map((item: any) => {
-                  return (
-                    <Card
-                      key={item._id}
-                      style={{
-                        width: "18rem",
-                        padding: "2%",
-                        margin: "1.5%",
-                        background: "#FFFFFF",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "10px",
+            <select
+              onChange={searchItems}
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "#FFFFFF",
+                border: "1px solid rgba(181, 181, 195, 0.4)",
+                borderRadius: "10px",
+              }}
+            >
+              <option defaultChecked value="">
+                Type
+              </option>
+              <option value="Paraplagia">Paraplegia</option>
+              <option value="Quadriplegia">Quadriplegia</option>
+            </select>
+          </div>
+          <div style={{ width: "15%" }}>
+            <select
+              onChange={onOptionChangeDistrict}
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "#FFFFFF",
+                border: "1px solid rgba(181, 181, 195, 0.4)",
+                borderRadius: "10px",
+              }}
+            >
+              <option defaultChecked value="">
+                District
+              </option>
+              <option value="Ahmedabad">Ahmedabad</option>
+              <option value="Amreli">Amreli</option>
+            </select>
+          </div>
+        </div>
+        <div
+          style={{ marginTop: 20, justifyContent: "center" }}
+          className="row pb-5"
+        >
+          {filteredResults.length > 1
+            ? filteredPosts.map((item: any) => {
+                return (
+                  <Card
+                    key={item._id}
+                    style={{
+                      width: "18rem",
+                      padding: "2%",
+                      margin: "1.5%",
+                      background: "#FFFFFF",
+                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Card.Content
+                      onClick={() => {
+                        Details(item);
                       }}
                     >
-                      <Card.Content
-                        onClick={() => {
-                          Details(item);
+                      <div>
+                        <img
+                          style={{
+                            height: "10rem",
+                            width: "14rem",
+                          }}
+                          // src="/user.png"
+                          src={`${url}${item.email}/${item.image}`}
+                          alt="image"
+                        />
+                      </div>
+                      <Card.Header
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "18px",
+                          color: "#181C32",
                         }}
                       >
-                        <div>
-                          <img
-                            style={{
-                              height: "10rem",
-                              width: "14rem",
-                            }}
-                            // src="/user.png"
-                            src={`${url}${item.email}/${item.image}`}
-                            alt="image"
-                          />
-                        </div>
-                        <Card.Header
-                          style={{
-                            fontWeight: 400,
-                            fontSize: "18px",
-                            color: "#181C32",
-                          }}
+                        {item.fname} {item.lname}
+                      </Card.Header>
+                      <br />
+                      <Card.Description>
+                        <textarea
+                          style={{ border: "0", color: "#171919" }}
+                          readOnly
+                          value={item.description}
                         >
-                          {item.fname} {item.lname}
-                        </Card.Header>
-                        <br />
-                        <Card.Description>
-                          <textarea
-                            style={{ border: "0", color: "#171919" }}
-                            readOnly
-                            value={item.description}
-                          >
-                            {/* {item.description} */}
-                          </textarea>
-                        </Card.Description>
-                      </Card.Content>
-                    </Card>
-                  );
-                })
-                : APIData.map((item: any) => {
-                  return (
-                    <Card
-                      key={item._id}
-                      style={{
-                        width: "18rem",
-                        padding: "2%",
-                        margin: "1.5%",
-                        background: "#FFFFFF",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "10px",
+                          {/* {item.description} */}
+                        </textarea>
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                );
+              })
+            : APIData.map((item: any) => {
+                return (
+                  <Card
+                    key={item._id}
+                    style={{
+                      width: "18rem",
+                      padding: "2%",
+                      margin: "1.5%",
+                      background: "#FFFFFF",
+                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    <Card.Content
+                      onClick={() => {
+                        Details(item);
                       }}
                     >
-                      <Card.Content
-                        onClick={() => {
-                          Details(item);
+                      <div>
+                        <img
+                          style={{
+                            height: "8rem",
+                            width: "14rem",
+                          }}
+                          // src="/user.png"
+                          src={`${url}${item.email}/${item.image}`}
+                          alt="image"
+                        />
+                      </div>
+                      <Card.Header
+                        className="headText mt-1"
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "18px",
+                          color: "#181C32",
                         }}
                       >
-                        <div>
-                          <img
-                            style={{
-                              height: "8rem",
-                              width: "14rem",
-                            }}
-                            // src="/user.png"
-                            src={`${url}${item.email}/${item.image}`}
-                            alt="image"
-                          />
-                        </div>
-                        <Card.Header
-                          className="headText mt-1"
-                          style={{
-                            fontWeight: 400,
-                            fontSize: "18px",
-                            color: "#181C32",
-                          }}
-                        >
-                          {item.fname} {item.lname}
-                        </Card.Header>
-                        <br />
-                        <Card.Description className="descText">
-                          <label
-                            style={{ border: "0", color: "#171919" }}
-                          >
-                            {item.description}
-                          </label>
-                        </Card.Description>
-                      </Card.Content>
-                    </Card>
-                  );
-                })
-            }
-            {filteredResults.length > 1 ? (
+                        {item.fname} {item.lname}
+                      </Card.Header>
+                      <br />
+                      <Card.Description className="descText">
+                        <label style={{ border: "0", color: "#171919" }}>
+                          {item.description}
+                        </label>
+                      </Card.Description>
+                    </Card.Content>
+                  </Card>
+                );
+              })}
+          {filteredResults.length > 1 ? (
+            <div>
+              <Pagination
+                items={filteredResults.length}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          ) : (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
-                <Pagination
-                  items={filteredResults.length}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
+                <p>
+                  {currentPage} of {Math.ceil(totalCount / pageSize)}
+                </p>
               </div>
-            ) : (
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div>
-                  <p>
-                    {currentPage} of {Math.ceil(totalCount / pageSize)}
-                  </p>
-                </div>
-                <div>
-                  <ReactPaginate
-                    pageCount={pageCount}
-                    previousLabel={"<"}
-                    nextLabel={">"}
-                    breakLabel={"..."}
-                    marginPagesDisplayed={0}
-                    pageRangeDisplayed={3}
-                    onPageChange={handlePageClick}
-                    containerClassName={"pagination justify-content-center"}
-                    pageClassName={"page-item"}
-                    pageLinkClassName={"page-link"}
-                    previousClassName={"page-item"}
-                    previousLinkClassName={"page-link"}
-                    nextClassName={"page-item"}
-                    nextLinkClassName={"page-link"}
-                    breakClassName={"page-item"}
-                    breakLinkClassName={"page-link"}
-                    activeClassName={"active"}
-                  />
-                  {/* <Pagination
+              <div>
+                <ReactPaginate
+                  pageCount={pageCount}
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  breakLabel={"..."}
+                  marginPagesDisplayed={0}
+                  pageRangeDisplayed={3}
+                  onPageChange={handlePageClick}
+                  containerClassName={"pagination justify-content-center"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  previousClassName={"page-item"}
+                  previousLinkClassName={"page-link"}
+                  nextClassName={"page-item"}
+                  nextLinkClassName={"page-link"}
+                  breakClassName={"page-item"}
+                  breakLinkClassName={"page-link"}
+                  activeClassName={"active"}
+                />
+                {/* <Pagination
                     items={APIData.length}
                     pageSize={pageSize}
                     currentPage={currentPage}
                     onPageChange={handlePageChange}
                   /> */}
-                </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      ) : (
+      </div>
+      {/* ) : (
         <center>
           <div className="lds-ring">
             <div></div>
@@ -384,7 +421,7 @@ export default function Patients() {
             <div></div>
           </div>
         </center>
-      )}
+      )} */}
     </>
   );
 }

@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
 import { RootState } from "@/store/store";
 import Style from "@/styles/loader.module.scss";
+import ReactLoading from "react-loading";
 
 const Login = () => {
   // const [data, setData] = useState(null);
@@ -39,8 +40,7 @@ const Login = () => {
 
   async function onSubmit(e: any) {
     e.preventDefault();
-
-    setLoading(false);
+    // setLoading(false);
     try {
       // Send a request to the server to check the username and password
       const response = await fetch(
@@ -53,9 +53,7 @@ const Login = () => {
       );
       const datadb = await response.json();
       console.log(datadb);
-      
       // alert(datadb.msg);
-
       // if success
       if (response.ok) {
         console.log("first if", datadb.payload.name);
@@ -73,12 +71,14 @@ const Login = () => {
           router.push("/admin/patients");
         }
       } else {
-        setLoading(true);
+        // setLoading(true);
         return alert("invalid input");
       }
     } catch (error) {
-      setLoading(true);
+      // setLoading(true);
       alert(`\n Please provide correct input.\n  \n thank you!`);
+    } finally {
+      // setLoading(false);
     }
   }
 
@@ -91,8 +91,6 @@ const Login = () => {
 
   return (
     <>
-      {loading ? (
-        
         <form
           onSubmit={onSubmit}
           className="container w-25 mb-5"
@@ -150,16 +148,7 @@ const Login = () => {
             </button>
           </div>
         </form>
-      ) : (
-        <center>
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </center>
-      )}
+      
     </>
   );
 };
