@@ -17,15 +17,16 @@ export default function Patients() {
   const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
   const [typeData, setTypeData] = useState("");
   const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState<any>(1);
    let { query: page } = router;
-   const example = parseInt(page.page);
-   console.log("page current", example);
+   const example = parseInt(`${page.page}`);
+  //  console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
   let demo = null;
   // console.log(currentPage, "currentpage")
@@ -64,24 +65,60 @@ export default function Patients() {
     const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
       { page: currentPage }
     )
-    console.log(resp.data, "resp");
+    // console.log(resp.data, "resp");
     setAPIData((resp.data).reverse())
   }
 
-  const searchItems = (searchValue: any) => {
-    setSearchInput(searchValue);
-    if (searchInput !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes((searchInput.toLowerCase()));
-      });
-      setFilteredResults(filteredData);
+  // const searchItems = (searchValue: any) => {
+  //   setSearchInput(searchValue);
+  //   if (searchInput !== "") {
+  //     const filteredData = APIData.filter((item) => {
+  //       return Object.values(item)
+  //         .join("")
+  //         .toLowerCase()
+  //         .includes((searchInput.toLowerCase()));
+  //     });
+  //     setFilteredResults(filteredData);
+  //   } else {
+  //     setFilteredResults(APIData);
+  //   }
+  // };
+
+  const searchItems = async(searchValue: any) => {
+    setSearch(searchValue);
+    if (search != "") {
+      const filteredData =  await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/searchapi`,
+        {
+          search: search,
+          page: currentPage,
+          type: typeData,
+        }
+      );
+      console.log("gdyag",filteredData)
+      setFilteredResults(filteredData.data);
     } else {
-      setFilteredResults(APIData);
-    }
-  };
+       setFilteredResults(APIData);
+    } 
+    };
+
+    useEffect(() => {
+      searchItems("");
+    }, [search,typeData]);
+       
+  //   axios
+  //     .post(`${process.env.NEXT_PUBLIC_API_URL}/searchapi`, {
+  //       search: search,
+  //       page: currentPage,
+  //     })
+  //     .then((response) => {
+  //       // setUserData(response.data.data);
+  //       console.log("userdata info", response.data);
+  //     });
+  // };
+  
+
+
   const dropItems = (searchValue: any) => {
     setTypeData(searchValue);
     if (typeData !== "") {
@@ -144,7 +181,7 @@ export default function Patients() {
     // setItemOffset(newOffset);
   };
 
-  console.log("pageeeeee",currentPage)
+  
 
   return (
     <>
@@ -178,7 +215,7 @@ export default function Patients() {
                 borderRadius: "10px",
               }}
               placeholder="Search..."
-              onChange={(e) => searchItems(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div
@@ -187,7 +224,7 @@ export default function Patients() {
             }}
           >
             <select
-              onChange={onOptionChangeType}
+              onChange={searchItems}
               style={{
                 width: "100%",
                 height: "100%",
