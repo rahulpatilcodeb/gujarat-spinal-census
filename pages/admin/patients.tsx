@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Card, Input } from "semantic-ui-react";
-import Pagination from "@/components/Pagination";
 import { paginate } from "@/components/paginate";
 import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
+import axios from "axios";
 import { useRouter } from "next/router";
-import ReactPaginate from "react-paginate";
+import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
+import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
+import { Card } from "semantic-ui-react";
+import { debounce } from 'lodash'
 
 export default function Patients() {
   const { user: user, islogin: Ilogin, token: token } = useSelector(
@@ -71,20 +71,14 @@ export default function Patients() {
   };
 
 
-  // async function apiCall() {
-  //   const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
-  //     { page: currentPage }
-  //   )
-  //   // console.log(resp.data, "resp");
-  //   setAPIData((resp.data).reverse())
-  // }
+
   const getPosts = async () => {
     const { data: res } = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/pagination`
       // { headers: { Authorization: `${token}` } }
     );
     demo = res.data[0].count / 8;
-    setTotalCount(res.data[0].count);
+    // setTotalCount(res.data[0].count);
     console.log("total", res.data[0].count);
     console.log("this", Math.ceil(demo))
     // setAPIData(demo.reverse());
@@ -101,7 +95,8 @@ export default function Patients() {
         req
       );
       console.log("gdyag", filteredData.data);
-      setAPIData(filteredData.data);
+      setAPIData(filteredData.data.data);
+      setTotalCount(filteredData.data.totalCount);
     } catch (err) {
       console.log("error", err)
     } finally {
@@ -110,10 +105,15 @@ export default function Patients() {
   };
 
   useEffect(() => {
+    if (Ilogin) {
+      getPosts()
+      searchItems(reqObj);
+    }
+    else {
+      router.push("/admin/login");
+    }
 
-    getPosts()
-    searchItems(reqObj);
-  }, [reqObj, currentPage]);
+  }, [reqObj, currentPage, Ilogin]);
 
 
   // const dropItems = (searchValue: any) => {
@@ -168,7 +168,6 @@ export default function Patients() {
   // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
   // const currentItems = APIData.slice(itemOffset, endOffset);
   // console.log("current", currentItems)
-  const pageCount = Math.ceil(totalCount / pageSize);
   // Invoke when user click to request another page.
   const handlePageClick = (event: any) => {
     const newOffset = (event.selected * pageSize) % totalCount;
@@ -184,6 +183,13 @@ export default function Patients() {
   };
 
   console.log("pageeeeee", currentPage)
+
+  const searchChange = debounce((e) => {
+    setReqObj({
+      ...reqObj,
+      filter: { ...reqObj.filter, fname: { $regex: e.target.value, $options: "i" } },
+    })
+  }, 500)
 
   return (
     <>
@@ -210,12 +216,7 @@ export default function Patients() {
                 borderRadius: "10px",
               }}
               placeholder="Search..."
-              onChange={(e) =>
-                setReqObj({
-                  ...reqObj,
-                  filter: { ...reqObj.filter, fname: e.target.value },
-                })
-              }
+              onChange={searchChange}
             />
           </div>
           <div
@@ -339,12 +340,12 @@ export default function Patients() {
             </div>
             <div>
               <ReactPaginate
-                pageCount={pageCount}
+                pageCount={Math.ceil(totalCount / pageSize)}
                 previousLabel={"<"}
                 nextLabel={">"}
                 breakLabel={"..."}
                 marginPagesDisplayed={0}
-                pageRangeDisplayed={3}
+                pageRangeDisplayed={2}
                 onPageChange={handlePageClick}
                 containerClassName={"pagination justify-content-center"}
                 pageClassName={"page-item"}

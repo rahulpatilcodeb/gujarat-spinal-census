@@ -43,8 +43,9 @@ export default async function handler(
           .skip(skip)
           .limit(limit)
           .lean();
+        const totalCount = await User.count(req.body.filter);
         console.log(skeeper, skip, "limit", limit);
-        return res.send(post);
+        return res.send({ data: post, totalCount });
     }
   } catch (error) {
     console.error(error);
