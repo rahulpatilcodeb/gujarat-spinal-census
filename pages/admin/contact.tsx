@@ -105,7 +105,7 @@ const Home = () => {
         </center>
       ) : (
         <div className="container pb-3">
-          <table className="table border">
+          <table className="table border" style={{ background: "#F7FCF8" }}>
             <thead style={{ fontSize: "18px" }}>
               <tr>
                 <th>
@@ -117,7 +117,7 @@ const Home = () => {
                 <th>
                   <center>Contact No.</center>
                 </th>
-                <th>
+                <th style={{ width: "45%" }}>
                   <center>Description</center>
                 </th>
               </tr>
