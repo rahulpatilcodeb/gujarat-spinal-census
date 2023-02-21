@@ -12,6 +12,9 @@ import { values } from "lodash";
 //     <label {...props} {...field} helperText={errorText} error={!!errorText} />
 //   );
 // };
+function handler(){
+  console.log("")
+}
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -141,7 +144,7 @@ function Contact(): JSX.Element {
       </div>
 
       <div className="d-flex justify-content-end mt-3 me-3">
-        <button type="reset" onClick={formik.resetForm} className="btn btn-outline-secondary me-3">
+        <button type="reset" onClick={()=>{formik.resetForm()}} className="btn btn-outline-secondary me-3">
           Cancel
         </button>
         <button

@@ -4,7 +4,7 @@ import { Card, Input } from "semantic-ui-react";
 import Pagination from "@/components/Pagination";
 import { paginate } from "@/components/paginate";
 import { RootState } from "@/store/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import ReactLoading from "react-loading";
@@ -18,44 +18,51 @@ export default function Patients() {
   const [APIData, setAPIData] = useState([]);
   const [filteredResults, setFilteredResults] = useState([]);
   // const [searchInput, setSearchInput] = useState("");
+
+  const [reqObj, setReqObj] = useState({
+    filter: {
+      fname: undefined,
+      injuryType: undefined
+    }, page: 1, limit: 10
+  })
   const [search, setSearch] = useState("");
   const [typeData, setTypeData] = useState("");
   const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState<any>(1);
-   let { query: page } = router;
-   const example = parseInt(`${page.page}`);
+  let { query: page } = router;
+  const example = parseInt(`${page.page}`);
   //  console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
   let demo = null;
   // console.log(currentPage, "currentpage")
-  useEffect(() => {
-    try {
-      if (!Ilogin) {
-        router.push("/admin/login");
-      } else {
-        setLoading(true);
-        apiCall();
-        const getPosts = async () => {
-          const { data: res } = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/pagination`
-            // { headers: { Authorization: `${token}` } }
-          );
-          demo = res.data[0].count / 8;
-          setTotalCount(res.data[0].count);
-          console.log("total", res.data[0].count);
-          console.log("this", Math.ceil(demo))
-          // setAPIData(demo.reverse());
-        };
-        getPosts();
-      }
-    } catch (err) {
-      console.log(`error`, err);
-    } finally {
-      setLoading(false);
-    }
-  }, [Ilogin, currentPage]);
+  // useEffect(() => {
+  //   try {
+  //     if (!Ilogin) {
+  //       router.push("/admin/login");
+  //     } else {
+  //       setLoading(true);
+  //       apiCall();
+  //       const getPosts = async () => {
+  //         const { data: res } = await axios.get(
+  //           `${process.env.NEXT_PUBLIC_API_URL}/pagination`
+  //           // { headers: { Authorization: `${token}` } }
+  //         );
+  //         demo = res.data[0].count / 8;
+  //         setTotalCount(res.data[0].count);
+  //         console.log("total", res.data[0].count);
+  //         console.log("this", Math.ceil(demo))
+  //         // setAPIData(demo.reverse());
+  //       };
+  //       getPosts();
+  //     }
+  //   } catch (err) {
+  //     console.log(`error`, err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, [Ilogin, currentPage]);
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
@@ -69,93 +76,62 @@ export default function Patients() {
     setAPIData((resp.data).reverse())
   }
 
-  // const searchItems = (searchValue: any) => {
-  //   setSearchInput(searchValue);
-  //   if (searchInput !== "") {
+
+
+  const searchItems = async (req: any) => {
+    const filteredData = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/filtertype`, req
+    );
+    console.log("gdyag", filteredData)
+    setFilteredResults(filteredData.data);
+  };
+
+  useEffect(() => {
+    searchItems(reqObj);
+  }, [reqObj]);
+
+
+
+
+
+  // const dropItems = (searchValue: any) => {
+  //   setTypeData(searchValue);
+  //   if (typeData != "") {
   //     const filteredData = APIData.filter((item) => {
   //       return Object.values(item)
   //         .join("")
   //         .toLowerCase()
-  //         .includes((searchInput.toLowerCase()));
+  //         .includes(typeData.toLowerCase());
   //     });
   //     setFilteredResults(filteredData);
-  //   } else {
-  //     setFilteredResults(APIData);
   //   }
   // };
-
-  const searchItems = async(searchValue: any) => {
-    setSearch(searchValue);
-    if (search != "") {
-      const filteredData =  await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/searchapi`,
-        {
-          search: search,
-          page: currentPage,
-          type: typeData,
-        }
-      );
-      console.log("gdyag",filteredData)
-      setFilteredResults(filteredData.data);
-    } else {
-       setFilteredResults(APIData);
-    } 
-    };
-
-    useEffect(() => {
-      searchItems("");
-    }, [search,typeData]);
-       
-  //   axios
-  //     .post(`${process.env.NEXT_PUBLIC_API_URL}/searchapi`, {
-  //       search: search,
-  //       page: currentPage,
-  //     })
-  //     .then((response) => {
-  //       // setUserData(response.data.data);
-  //       console.log("userdata info", response.data);
-  //     });
+  // let onOptionChangeType = (event: any) => {
+  //   dropItems(event.target.value);
   // };
-  
-
-
-  const dropItems = (searchValue: any) => {
-    setTypeData(searchValue);
-    if (typeData !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes(typeData.toLowerCase());
-      });
-      setFilteredResults(filteredData);
-    }
-  };
-  let onOptionChangeType = (event: any) => {
-    dropItems(event.target.value);
-  };
-  useEffect(() => {
-    dropItems("");
-  }, [typeData]);
-  const districtItems = (searchValue: any) => {
-    setDistrictData(searchValue);
-    if (districtData !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes(districtData.toLowerCase());
-      });
-      setFilteredResults(filteredData);
-    }
-  };
-  let onOptionChangeDistrict = (event: any) => {
-    districtItems(event.target.value);
-  };
-  useEffect(() => {
-    districtItems("");
-  }, [districtData]);
-  const paginatePosts = paginate(APIData, currentPage, pageSize);
+  // useEffect(() => {
+  //   dropItems("");
+  // }, [typeData]);
+  // const districtItems = (searchValue: any) => {
+  //   console.log()
+  //   setDistrictData(searchValue);
+  //   if (districtData !== "") {
+  //     const filteredData = APIData.filter((item) => {
+  //       return Object.values(item)
+  //         .join("")
+  //         .toLowerCase()
+  //         .includes(districtData.toLowerCase());
+  //     });
+  //     setFilteredResults(filteredData);
+  //   }
+  // };
+  // let onOptionChangeDistrict = (event: any) => {
+  //   districtItems(event.target.value);
+  // };
+  // useEffect(() => {
+  //   districtItems("");
+  // }, [districtData]);
+  // const paginatePosts = paginate(APIData, currentPage, pageSize);
   const filteredPosts = paginate(filteredResults, currentPage, pageSize);
   const Details = (item: any) => {
     const id = `${item._id}`;
@@ -172,7 +148,7 @@ export default function Patients() {
   // console.log("current", currentItems)
   const pageCount = Math.ceil(totalCount / pageSize);
   // Invoke when user click to request another page.
-  const handlePageClick = (event: any, role: any) => {
+  const handlePageClick = (event: any) => {
     const newOffset = (event.selected * pageSize) % totalCount;
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
@@ -189,7 +165,7 @@ export default function Patients() {
       {loading && (
         <center>
           <div style={{ margin: "100px" }}>
-            <ReactLoading type={"spin"} color={"#6BC17A"} />
+            <ReactLoading type={"spin"} color={"background: rgba(73, 242, 102, 1);"} />
           </div>
         </center>
       )}
@@ -224,7 +200,7 @@ export default function Patients() {
             }}
           >
             <select
-              onChange={searchItems}
+              onChange={(e) => { setTypeData(e.target.value) }}
               style={{
                 width: "100%",
                 height: "100%",
@@ -242,7 +218,7 @@ export default function Patients() {
           </div>
           <div style={{ width: "15%" }}>
             <select
-              onChange={onOptionChangeDistrict}
+              // onChange={onOptionChangeDistrict}
               style={{
                 width: "100%",
                 height: "100%",
@@ -265,106 +241,106 @@ export default function Patients() {
         >
           {filteredResults.length > 1
             ? filteredPosts.map((item: any) => {
-                return (
-                  <Card
-                    key={item._id}
-                    style={{
-                      width: "18rem",
-                      padding: "2%",
-                      margin: "1.5%",
-                      background: "#FFFFFF",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      borderRadius: "10px",
+              return (
+                <Card
+                  key={item._id}
+                  style={{
+                    width: "18rem",
+                    padding: "2%",
+                    margin: "1.5%",
+                    background: "#FFFFFF",
+                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Card.Content
+                    onClick={() => {
+                      Details(item);
                     }}
                   >
-                    <Card.Content
-                      onClick={() => {
-                        Details(item);
+                    <div>
+                      <img
+                        style={{
+                          height: "10rem",
+                          width: "14rem",
+                        }}
+                        // src="/user.png"
+                        src={`${url}${item.email}/${item.image}`}
+                        alt="image"
+                      />
+                    </div>
+                    <Card.Header
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "18px",
+                        color: "#181C32",
                       }}
                     >
-                      <div>
-                        <img
-                          style={{
-                            height: "10rem",
-                            width: "14rem",
-                          }}
-                          // src="/user.png"
-                          src={`${url}${item.email}/${item.image}`}
-                          alt="image"
-                        />
-                      </div>
-                      <Card.Header
-                        style={{
-                          fontWeight: 400,
-                          fontSize: "18px",
-                          color: "#181C32",
-                        }}
+                      {item.fname} {item.lname}
+                    </Card.Header>
+                    <br />
+                    <Card.Description>
+                      <textarea
+                        style={{ border: "0", color: "#171919" }}
+                        readOnly
+                        value={item.description}
                       >
-                        {item.fname} {item.lname}
-                      </Card.Header>
-                      <br />
-                      <Card.Description>
-                        <textarea
-                          style={{ border: "0", color: "#171919" }}
-                          readOnly
-                          value={item.description}
-                        >
-                          {/* {item.description} */}
-                        </textarea>
-                      </Card.Description>
-                    </Card.Content>
-                  </Card>
-                );
-              })
+                        {/* {item.description} */}
+                      </textarea>
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              );
+            })
             : APIData.map((item: any) => {
-                return (
-                  <Card
-                    key={item._id}
-                    style={{
-                      width: "18rem",
-                      padding: "2%",
-                      margin: "1.5%",
-                      background: "#FFFFFF",
-                      boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                      borderRadius: "10px",
+              return (
+                <Card
+                  key={item._id}
+                  style={{
+                    width: "18rem",
+                    padding: "2%",
+                    margin: "1.5%",
+                    background: "#FFFFFF",
+                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Card.Content
+                    onClick={() => {
+                      Details(item);
                     }}
                   >
-                    <Card.Content
-                      onClick={() => {
-                        Details(item);
+                    <div>
+                      <img
+                        style={{
+                          height: "8rem",
+                          width: "14rem",
+                        }}
+                        // src="/user.png"
+                        src={`${url}${item.email}/${item.image}`}
+                        alt="image"
+                      />
+                    </div>
+                    <Card.Header
+                      className="headText mt-1"
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "18px",
+                        color: "#181C32",
                       }}
                     >
-                      <div>
-                        <img
-                          style={{
-                            height: "8rem",
-                            width: "14rem",
-                          }}
-                          // src="/user.png"
-                          src={`${url}${item.email}/${item.image}`}
-                          alt="image"
-                        />
-                      </div>
-                      <Card.Header
-                        className="headText mt-1"
-                        style={{
-                          fontWeight: 400,
-                          fontSize: "18px",
-                          color: "#181C32",
-                        }}
-                      >
-                        {item.fname} {item.lname}
-                      </Card.Header>
-                      <br />
-                      <Card.Description className="descText">
-                        <label style={{ border: "0", color: "#171919" }}>
-                          {item.description}
-                        </label>
-                      </Card.Description>
-                    </Card.Content>
-                  </Card>
-                );
-              })}
+                      {item.fname} {item.lname}
+                    </Card.Header>
+                    <br />
+                    <Card.Description className="descText">
+                      <label style={{ border: "0", color: "#171919" }}>
+                        {item.description}
+                      </label>
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              );
+            })}
           {filteredResults.length > 1 ? (
             <div>
               <Pagination
@@ -412,16 +388,17 @@ export default function Patients() {
           )}
         </div>
       </div>
-      {/* ) : (
-        <center>
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </center>
-      )} */}
+      {/* //   ) : (
+    <center>
+      <div className="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </center>
+   )
+     } */}
     </>
   );
 }

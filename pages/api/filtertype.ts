@@ -29,15 +29,19 @@ export default async function handler(
         return res.json({
           data: users,
         });
-        // }
-        // return res.send("Session expired");
-        break;
+      // }
+      // return res.send("Session expired");
+      // break;
       case "POST":
-        console.log(req.body, "this is boyd of post");
-        const limit = 8;
+        console.log(req.body, "this is body of post");
+        const limit = req.body.limit;
         const skeeper = req.body.page;
         const skip = (skeeper - 1) * limit;
-        const post = await User.find({ injuryType: req.body.search })
+        console.log(req.body);
+        const post = await User.find(
+         req.body.filter
+        )
+          // .where(`${req.body.type}`)
           .skip(skip)
           .limit(limit)
           .lean();

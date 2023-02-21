@@ -74,7 +74,7 @@ const Home = () => {
   // console.log("current", currentItems)
   // const [itemOffset, setItemOffset] = useState(0);
   const pageCount = Math.ceil(totalCount / pageSize);
-  const handlePageClick = (event: any, role: any) => {
+  const handlePageClick = (event: any) => {
     const newOffset = (event.selected * pageSize) % totalCount;
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
