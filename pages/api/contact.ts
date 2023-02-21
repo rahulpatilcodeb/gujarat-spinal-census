@@ -1,12 +1,9 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import Contact from "@/models/ContactModel";
 import admin from "@/models/AdminLoginModel";
 import type { NextApiRequest, NextApiResponse } from "next";
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-
 const url = process.env.NEXT_PUBLIC_DATABASE_URL;
-
 const setcretKey = "loginapi";
 
 mongoose.connect(url);
@@ -24,14 +21,11 @@ export default async function handler(
           console.log(verified.email);
           const admins = await admin.find({ email: verified.email });
           console.log(admins);
-          // if (verified) {
-          // }
           if (admins[0].email != undefined) {
             const posts = await Contact.find();
             return res.json({
               data: posts,
             });
-            // console.log("messasge");
           } else {
             return res.send({ msg: "not valid user" });
           }
@@ -46,7 +40,6 @@ export default async function handler(
           description: req.body.description,
         });
         await contact.save();
-        // console.log("Contact", contact);
         return res.send("data saved");
     }
   } catch (error) {

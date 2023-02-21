@@ -1,21 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "@/styles/Home.module.css";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-
-
+import ReactLoading from "react-loading";
 
 const InjuryInfo = ({
   nextStep,
-  handleFormData,
   prevStep,
   values,
-  onsubmit,
   setFormData,
   Ifile,
-  setFile,
-
 }: any) => {
 
   const date = new Date().getFullYear()
@@ -31,28 +26,16 @@ const InjuryInfo = ({
   });
 
   const [initValue, setInitValue] = useState(values);
+  const [loading, setLoading] = useState(false);
 
-
-  // const submitFormData = async () => {
-  //   setFormData(formik.values)
-  //   console.log("in submitFormData")
-
-  //   await onsubmit();
-  //   console.log("after submitFormData")
-  //   nextStep();
-  //   // }
-  // };
   const fileupload = async (file: any) => {
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/image`,
         { name: file.name, type: file.type, email: values.email }
       );
-      console.log(data);
-
       const url = data.url;
       const resp1 = await axios.put(url, file);
-      console.log("resp1", resp1);
     } catch (error) {
       console.log("error", error);
     }
@@ -61,7 +44,6 @@ const InjuryInfo = ({
   function handlePrev() {
     setFormData(formik.values)
     prevStep()
-
   }
 
   const formik = useFormik(
@@ -70,32 +52,32 @@ const InjuryInfo = ({
       enableReinitialize: true,
       validationSchema: schema,
       onSubmit: async (values) => {
-        // console.log("this is onsubmit")
-        console.log("values", values, "formik values", formik.values);
-        setFormData(formik.values)
-
-        fileupload(Ifile);
-        values.avatar = Ifile.name;
-        console.log("formdata in before api call ", values)
-        await axios
-          .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
-          .then(() => console.log("User Added"))
-          .catch((err) => {
-            console.error(err);
-          });
-        console.log("after out submitFormData")
-        nextStep()
-
-
-
-        // alert(JSON.stringify(values, null, 2));
+        try{
+          setLoading(true)
+          setFormData(formik.values)
+          fileupload(Ifile);
+          values.avatar = Ifile.name;
+          await axios
+            .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
+            .catch((err) => {console.error(err)});
+          nextStep()
+        } catch(err) {
+          console.log("error",err)
+        } finally{
+          setLoading(false);
+        }
       },
     });
 
-
   return (
     <>
-      <div>
+    {loading &&
+            <center>
+              <div style={{ margin: "100px" }}>
+                <ReactLoading type={"spin"} color={"#6BC17A"} />
+              </div>
+            </center>}
+      <div>  
         <div
           className="mb-5 d-flex justify-content-center"
           style={{ fontSize: "22px" }}
@@ -133,7 +115,12 @@ const InjuryInfo = ({
             </div>
           </div>
         </div>
-        <form noValidate name="form" onSubmit={formik.handleSubmit} className="pb-5">
+        <form
+          noValidate
+          name="form"
+          onSubmit={formik.handleSubmit}
+          className="pb-5"
+        >
           <div className="container mb-4">
             <div className="mb-4">
               <label
@@ -162,14 +149,9 @@ const InjuryInfo = ({
               />
               {formik.touched.injuryYear && formik.errors.injuryYear && (
                 <p style={{ color: "red" }} className="error">
-                  {(formik.errors.injuryYear).toString()}
+                  {formik.errors.injuryYear.toString()}
                 </p>
               )}
-              {/* <p style={{ color: "red" }} className="error">
-                {formik.errors.injuryYear &&
-                  formik.touched.injuryYear &&
-                  formik.errors.injuryYear}
-              </p> */}
             </div>
             <div className="mb-4">
               <label
@@ -193,14 +175,9 @@ const InjuryInfo = ({
                 placeholder="Road Accident"
                 rows={1}
               ></textarea>
-              {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.injuryReason &&
-                formik.touched.injuryReason &&
-                formik.errors.injuryReason}
-            </p> */}
               {formik.touched.injuryReason && formik.errors.injuryReason && (
                 <p style={{ color: "red" }} className="error">
-                  {(formik.errors.injuryReason).toString()}
+                  {formik.errors.injuryReason.toString()}
                 </p>
               )}
             </div>
@@ -225,7 +202,11 @@ const InjuryInfo = ({
                   color: "rgb(76 76 85)",
                 }}
               >
-                <label className="custom-control-label pe-5" htmlFor="ItypeP">
+                <label
+                  className="custom-control-label pe-5"
+                  htmlFor="ItypeP"
+                  style={{ width: "100%" }}
+                >
                   Paraplagia
                 </label>
                 <input
@@ -250,7 +231,11 @@ const InjuryInfo = ({
                   color: "rgb(76 76 85)",
                 }}
               >
-                <label className="custom-control-label pe-5" htmlFor="ItypeQ">
+                <label
+                  className="custom-control-label pe-5"
+                  htmlFor="ItypeQ"
+                  style={{ width: "100%" }}
+                >
                   Quadriplegia
                 </label>
                 <input
@@ -265,17 +250,11 @@ const InjuryInfo = ({
                   id="ItypeQ"
                 />
               </div>
-              {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.injuryType &&
-                formik.touched.injuryType &&
-                formik.errors.injuryType}
-            </p> */}
               {formik.touched.injuryType && formik.errors.injuryType && (
                 <p style={{ color: "red" }} className="error">
-                  {(formik.errors.injuryType).toString()}
+                  {formik.errors.injuryType.toString()}
                 </p>
               )}
-
             </div>
             <div className="mb-4">
               <label
@@ -292,7 +271,6 @@ const InjuryInfo = ({
                 required
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
-
                 name="injuryLevel"
                 id="Ilevel"
                 className={`form-select ${styles.tcolor}`}
@@ -300,18 +278,28 @@ const InjuryInfo = ({
                 <option defaultChecked value="">
                   Selected
                 </option>
-                <option value="high" selected={formik.values.injuryLevel == "high"}>high</option>
-                <option value="medium" selected={formik.values.injuryLevel == "medium"}>medium</option>
-                <option value="low" selected={formik.values.injuryLevel == "low"}>low</option>
+                <option
+                  value="high"
+                  selected={formik.values.injuryLevel == "high"}
+                >
+                  high
+                </option>
+                <option
+                  value="medium"
+                  selected={formik.values.injuryLevel == "medium"}
+                >
+                  medium
+                </option>
+                <option
+                  value="low"
+                  selected={formik.values.injuryLevel == "low"}
+                >
+                  low
+                </option>
               </select>
-              {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.injuryLevel &&
-                formik.touched.injuryLevel &&
-                formik.errors.injuryLevel}
-            </p> */}
               {formik.touched.injuryLevel && formik.errors.injuryLevel && (
                 <p style={{ color: "red" }} className="error">
-                  {(formik.errors.injuryLevel).toString()}
+                  {formik.errors.injuryLevel.toString()}
                 </p>
               )}
             </div>
@@ -340,6 +328,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="ImplantFix"
+                  style={{ width: "100%" }}
                 >
                   Operated
                 </label>
@@ -368,6 +357,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="Implant-Fix-No"
+                  style={{ width: "100%" }}
                 >
                   Not Operated
                 </label>
@@ -383,16 +373,12 @@ const InjuryInfo = ({
                   id="Implant-Fix-No"
                 />
               </div>
-              {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.implantFixation &&
-                formik.touched.implantFixation &&
-                formik.errors.implantFixation}
-            </p> */}
-              {formik.touched.implantFixation && formik.errors.implantFixation && (
-                <p style={{ color: "red" }} className="error">
-                  {(formik.errors.implantFixation).toString()}
-                </p>
-              )}
+              {formik.touched.implantFixation &&
+                formik.errors.implantFixation && (
+                  <p style={{ color: "red" }} className="error">
+                    {formik.errors.implantFixation.toString()}
+                  </p>
+                )}
             </div>
             <label
               className="form-label"
@@ -414,7 +400,11 @@ const InjuryInfo = ({
                   color: "rgb(76 76 85)",
                 }}
               >
-                <label className="custom-control-label pe-5" htmlFor="Istatus">
+                <label
+                  className="custom-control-label pe-5"
+                  htmlFor="Istatus"
+                  style={{ width: "100%" }}
+                >
                   Completed
                 </label>
                 <input
@@ -442,6 +432,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="Istatusno"
+                  style={{ width: "100%" }}
                 >
                   Incomplete
                 </label>
@@ -457,14 +448,9 @@ const InjuryInfo = ({
                   id="Istatusno"
                 />
               </div>
-              {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.injuryStatus &&
-                formik.touched.injuryStatus &&
-                formik.errors.injuryStatus}
-            </p> */}
               {formik.touched.injuryStatus && formik.errors.injuryStatus && (
                 <p style={{ color: "red" }} className="error">
-                  {(formik.errors.injuryStatus).toString()}
+                  {formik.errors.injuryStatus.toString()}
                 </p>
               )}
             </div>
@@ -491,6 +477,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="PhysicalStatus"
+                  style={{ width: "100%" }}
                 >
                   Dependent
                 </label>
@@ -519,6 +506,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="PhysicalStatusno"
+                  style={{ width: "100%" }}
                 >
                   Independent
                 </label>
@@ -534,16 +522,12 @@ const InjuryInfo = ({
                   id="PhysicalStatusno"
                 />
               </div>
-              {/* <p style={{ color: "red" }} className="error"> */}
-              {/* {formik.errors.physicalStatus &&
-                formik.touched.physicalStatus &&
-                formik.errors.physicalStatus}
-            </p> */}
-              {formik.touched.physicalStatus && formik.errors.physicalStatus && (
-                <p style={{ color: "red" }} className="error">
-                  {(formik.errors.physicalStatus).toString()}
-                </p>
-              )}
+              {formik.touched.physicalStatus &&
+                formik.errors.physicalStatus && (
+                  <p style={{ color: "red" }} className="error">
+                    {formik.errors.physicalStatus.toString()}
+                  </p>
+                )}
             </div>
             <label
               className="form-label"
@@ -568,6 +552,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="Financialdep"
+                  style={{ width: "100%" }}
                 >
                   Dependent
                 </label>
@@ -596,6 +581,7 @@ const InjuryInfo = ({
                 <label
                   className="custom-control-label pe-5"
                   htmlFor="FinancialInd"
+                  style={{ width: "100%" }}
                 >
                   Independent
                 </label>
@@ -611,11 +597,12 @@ const InjuryInfo = ({
                   id="FinancialInd"
                 />
               </div>
-              {/* {formik.touched.financialStatus && formik.errors.financialStatus && (
-                <p style={{ color: "red" }} className="error">
-                  {(formik.errors.financialStatus).toString()}
-                </p>
-              )} */}
+              {formik.touched.financialStatus &&
+                formik.errors.financialStatus && (
+                  <p style={{ color: "red" }} className="error">
+                    {formik.errors.financialStatus.toString()}
+                  </p>
+                )}
             </div>
 
             {formik.values.financialStatus == "Independent" ? (
@@ -633,6 +620,7 @@ const InjuryInfo = ({
                   <label
                     className="custom-control-label pe-5"
                     htmlFor="independentJob"
+                    style={{ width: "100%" }}
                   >
                     Job
                   </label>
@@ -661,6 +649,7 @@ const InjuryInfo = ({
                   <label
                     className="custom-control-label pe-5"
                     htmlFor="independentBus"
+                    style={{ width: "100%" }}
                   >
                     Business
                   </label>
@@ -673,28 +662,18 @@ const InjuryInfo = ({
                     name="independent"
                     className="custom-control-input"
                     value="Business"
-                    id="FinancialBus"
+                    id="independentBus"
                   />
                 </div>
-                {/* {formik.touched.independent && formik.errors.independent && (
-                <p style={{ color: "red" }} className="error">
-                  {(formik.errors.independent).toString()}
-                </p>
-              )} */}
-
-                {/* <p style={{ color: "red" }} className="error">
-                  {formik.errors.financialStatus &&
-                    formik.touched.financialStatus &&
-                    formik.errors.financialStatus}
-                </p> */}
-                {/* {formik.touched.independent && formik.errors.independent && (
+                {formik.touched.independent && formik.errors.independent && (
                   <p style={{ color: "red" }} className="error">
-                    {(formik.errors.independent).toString()}
+                    {formik.errors.independent.toString()}
                   </p>
                 )}
-              </div>) : (<></>)} */}
               </div>
-            ) : (<></>)}
+            ) : (
+              <></>
+            )}
             <div className="div d-flex justify-content-between">
               <button
                 onClick={handlePrev}
@@ -709,7 +688,6 @@ const InjuryInfo = ({
               </button>
               <button
                 type="submit"
-
                 style={{
                   backgroundColor: "rgba(193, 107, 178, 1)",
                   color: "white",
@@ -724,7 +702,6 @@ const InjuryInfo = ({
           </div>
         </form>
       </div>
-
     </>
   );
 };

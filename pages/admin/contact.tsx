@@ -1,35 +1,40 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Pagination from "../../components/Pagination";
-import { paginate } from "../../components/paginate";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import ReactLoading from "react-loading";
-import { flatMap } from "lodash";
-
-// const axiosInstance = axios.create({
-//   baseURL: process.env.,
-// });
-
-// import "../../styles/Home.mod.css"
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [posts, setPosts] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-
   const {
     user: user,
     islogin: Ilogin,
     token: token,
   } = useSelector((state: RootState) => state.users);
-  // const header = `Authorization: Bearer ${token}`
 
-  const [currentPage, setCurrentPage] = useState(1);
+
+ const apiCall = async () => {
+   try {
+     setLoading(true);
+     const resp = await axios.post(
+       `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
+       { page: currentPage }
+     );
+     console.log(resp.data, "resp");
+     setPosts(resp.data);
+   } catch (err) {
+     console.log("error", err);
+   } finally {
+     setLoading(false);
+   }
+ };
 
   useEffect(() => {
       try {
@@ -41,7 +46,6 @@ const Home = () => {
           const getPosts = async () => {
             const { data: res } = await axios.get(
               `${process.env.NEXT_PUBLIC_API_URL}/contactPage`
-              // { headers: { Authorization: `${token}` } }
             );
             setTotalCount(res.data[0].count);
           };
@@ -52,48 +56,14 @@ const Home = () => {
       } finally {
         setLoading(false);
       }
-    // paginatePosts.map((posts)=>{
-    //   console.log("in page",posts.data)
-    // })
   }, [Ilogin, currentPage]);
 
-  // const handlePageChange = (page: any) => {
-  //   setCurrentPage(page);
-  // };
-  const apiCall = async() => {
-    try {
-      setLoading(true);
-       const resp = await axios.post(
-         `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
-         { page: currentPage }
-       );
-       console.log(resp.data, "resp");
-       setPosts(resp.data);
-    } catch(err) {
-      console.log("error",err)
-    } finally {
-      setLoading(false)
-    }
-   
-  }
-
-  // const endOffset = itemOffset + pageSize;
-  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  // const currentItems = APIData.slice(itemOffset, endOffset);
-  // console.log("current", currentItems)
-  // const [itemOffset, setItemOffset] = useState(0);
+ 
   const pageCount = Math.ceil(totalCount / pageSize);
+
   const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * pageSize) % totalCount;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
     setCurrentPage(event.selected + 1);
-    // setItemOffset(newOffset);
   };
-
-
-  const paginatePosts = paginate(posts, currentPage, pageSize);
 
   return (
     <>
@@ -171,12 +141,6 @@ const Home = () => {
                 breakLinkClassName={"page-link"}
                 activeClassName={"active"}
               />
-              {/* <Pagination
-                  items={posts.length}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                /> */}
             </div>
           </div>
         </div>

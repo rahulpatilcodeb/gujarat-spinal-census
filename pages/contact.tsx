@@ -3,18 +3,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import { values } from "lodash";
-
-// const MyTextField = (props: any) => {
-//   const [field, meta] = useField(props);
-//   const errorText = meta.error && meta.touched ? meta.error : "";
-//   return (
-//     <label {...props} {...field} helperText={errorText} error={!!errorText} />
-//   );
-// };
-function handler(){
-  console.log("")
-}
 
 const schema = Yup.object().shape({
   email: Yup.string()

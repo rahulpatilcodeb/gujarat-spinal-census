@@ -5,7 +5,6 @@ import Personal from "./personal";
 import Injury from "./injury";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { Roots } from "aws-sdk/clients/organizations";
 import { RootState } from "@/store/store";
 import ReactLoading from "react-loading";
 
@@ -13,7 +12,6 @@ function UserDetail() {
 
   const { user: user, islogin: Ilogin, token: token } = useSelector((state: RootState) => state.users)
   const [loading, setLoading] = useState(false)
-
   const router = useRouter();
   let { query: id, query: page } = router;
   const example = { id };
@@ -28,8 +26,6 @@ function UserDetail() {
     setstep(step - 1);
   };
 
-
-
   useEffect(() => {
     if (!Ilogin) {
       router.push("/admin/login")
@@ -40,7 +36,6 @@ function UserDetail() {
           .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
           .then((response) => {
             setUserData(response.data.data);
-            // console.log("userdata info", response);
           })
           .catch((err) => console.log(err));
       } catch (err) {
@@ -49,14 +44,6 @@ function UserDetail() {
         setLoading(false)
       }
     }
-
-    // axios
-    //   .post(process.env.NEXT_PUBLIC_API_URL_User as string, example.id)
-    //   .then((response) => {
-    //     setUserData(response.data.data);
-    //     console.log("userdata info", response.data.data);
-    //   })
-    //   .catch((err) => console.log(err));
   }, [Ilogin]);
 
   switch (step) {
@@ -83,17 +70,9 @@ function UserDetail() {
       return (
         <div>
           <Container className="w-50">
-            {loading && (
-              <center>
-                <div style={{ margin: "100px" }}>
-                  <ReactLoading type={"spin"} color={"#6BC17A"} />
-                </div>
-              </center>
-            )}
             <Row>
               <Col className="custom-margin pb-5">
                 <Injury
-                  nextStep={nextStep}
                   prevStep={prevStep}
                   value={userData}
                   page={currentPage}

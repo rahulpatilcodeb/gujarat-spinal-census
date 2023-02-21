@@ -10,12 +10,9 @@ import { useEffect, useState } from "react";
 function Navbars() {
   const dispatch = useDispatch();
 
-  // const [login, setlogin] = useState(true );
-
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
   );
-  // const [signin, setSignin] = useState(false);
 
   function handleClick(e: any) {
     e.preventDefault();
@@ -25,7 +22,6 @@ function Navbars() {
 
   useEffect(() => {
     console.log(Ilogin);
-    // setlogin(Ilogin);
     if (Ilogin) {
       router.push("/admin/patients");
     }

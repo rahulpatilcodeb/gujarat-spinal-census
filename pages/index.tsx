@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Register from "@/components/Register";
 import axios from "axios";
 import InjuryInfo from "@/components/InjuryInfo";
-import UserRegister from "@/components/UserRegister";
+import UserRegister from "@/components/userInfo";
 
 function Common() {
   const [step, setstep] = useState(1);

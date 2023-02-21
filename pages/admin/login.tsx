@@ -3,46 +3,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
 import { RootState } from "@/store/store";
-import Style from "@/styles/loader.module.scss";
-import ReactLoading from "react-loading";
 
 const Login = () => {
-  // const [data, setData] = useState(null);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await axiosInstance.get("/data");
-  //     setData(response.data);
-  //   };
-  //   fetchData();
-  // }, []);
-
   const router = useRouter();
 
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
   );
 
-  const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  // const [signin, setSignin] = useState(false);
 
   useEffect(() => {
     console.log(Ilogin);
-    // setSignin(Ilogin);
     if (Ilogin) {
       router.push("/admin/patients");
     }
-    setLoading(true);
   }, [Ilogin]);
 
   async function onSubmit(e: any) {
     e.preventDefault();
-    // setLoading(false);
     try {
-      // Send a request to the server to check the username and password
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adminlogin`,
         {
@@ -53,32 +34,20 @@ const Login = () => {
       );
       const datadb = await response.json();
       console.log(datadb);
-      // alert(datadb.msg);
-      // if success
       if (response.ok) {
         console.log("first if", datadb.payload.name);
         if (datadb.payload.name != undefined) {
-          // console.log("second if");
-          // console.log(datadb);
-          // setCookie("token", datadb.key);
           dispatch(
             login({ user: datadb.payload.name, token: datadb.payload.key })
           );
-          // console.log(response);
-          // axios.defaults.headers.common.Authorization = `Bearer ${datadb.key}`;
-          // return true;
-          // setLoading(true);
           router.push("/admin/patients");
         }
       } else {
-        // setLoading(true);
         return alert("invalid input");
       }
     } catch (error) {
-      // setLoading(true);
       alert(`\n Please provide correct input.\n  \n thank you!`);
     } finally {
-      // setLoading(false);
     }
   }
 

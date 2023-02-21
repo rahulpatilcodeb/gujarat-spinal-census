@@ -1,20 +1,14 @@
 import React from "react";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
-import axios from "axios";
 
-const Injury = ({ nextStep, prevStep, value,page }: any) => {
-  const submitFormData = async (e: any) => {
-    nextStep();
-  };
+const Injury = ({  prevStep, value,page }: any) => {
   const router = useRouter();
-
+  
   const onclick = (e:any) => {
     e.preventDefault()
     router.push(`/admin/patients?page=${page}`);
     console.log("hhhs",page)
-
-    // router.push("/admin/patients");
   };
 
   return (
