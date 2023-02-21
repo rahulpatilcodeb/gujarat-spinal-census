@@ -38,12 +38,10 @@ export default async function handler(
         const skeeper = req.body.page;
         const skip = (skeeper - 1) * limit;
         console.log(req.body);
-        const post = await User.find(
-         req.body.filter
-        )
+        const post = await User.find(req.body.filter)
           // .where(`${req.body.type}`)
           .skip(skip)
-          .limit(limit) 
+          .limit(limit)
           .lean();
         console.log(skeeper, skip, "limit", limit);
         return res.send(post);

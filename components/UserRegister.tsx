@@ -89,7 +89,7 @@ const UserRegister = ({
     <>
       <div
         className="mb-5 d-flex justify-content-center"
-        style={{  fontSize: "22px" }}
+        style={{ fontSize: "22px" }}
       >
         <div style={{ marginRight: "50px" }}>
           <div className="col">
@@ -675,8 +675,8 @@ const UserRegister = ({
                 value={
                   formik.values.description
                 }
-                style={{overflow: "hidden:", resize: "none"}}  
-                
+                style={{ overflow: "hidden:", resize: "none" }}
+
               ></textarea>
               {formik.touched.description && formik.errors.description && (
                 <p style={{ color: "red" }} className="error">

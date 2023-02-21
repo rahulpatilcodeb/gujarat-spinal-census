@@ -22,8 +22,11 @@ export default function Patients() {
   const [reqObj, setReqObj] = useState<any>({
     filter: {
       fname: undefined,
-      injuryType: undefined
-    }, page: 1, limit: 8
+      injuryType: undefined,
+      district: undefined
+    },
+    page: 1,
+    limit: 8
   })
   const [search, setSearch] = useState("");
   const [typeData, setTypeData] = useState("");
@@ -93,23 +96,24 @@ export default function Patients() {
   const searchItems = async (req: any) => {
     try {
       setLoading(true)
-       const filteredData = await axios.post(
-         `${process.env.NEXT_PUBLIC_API_URL}/filtertype`,
-         req
-       );
-       console.log("gdyag", filteredData.data);
-       setAPIData(filteredData.data);
-    } catch(err) {
-      console.log("error",err)
-    } finally{
+      const filteredData = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/filtertype`,
+        req
+      );
+      console.log("gdyag", filteredData.data);
+      setAPIData(filteredData.data);
+    } catch (err) {
+      console.log("error", err)
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+
     getPosts()
     searchItems(reqObj);
-  }, [reqObj,currentPage]);
+  }, [reqObj, currentPage]);
 
 
   // const dropItems = (searchValue: any) => {
@@ -243,7 +247,12 @@ export default function Patients() {
           </div>
           <div style={{ width: "15%" }}>
             <select
-              // onChange={onOptionChangeDistrict}
+              onChange={(e) =>
+                setReqObj({
+                  ...reqObj,
+                  filter: { ...reqObj.filter, district: e.target.value },
+                })
+              }
               style={{
                 width: "100%",
                 height: "100%",
@@ -270,8 +279,8 @@ export default function Patients() {
                 <ReactLoading type={"spin"} color={"#6BC17A"} />
               </div>
             </center>
-          ):(
-          
+          ) : (
+
             APIData.map((item: any) => {
               return (
                 <Card
