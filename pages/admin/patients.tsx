@@ -16,8 +16,6 @@ export default function Patients() {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
-  const [filteredResults, setFilteredResults] = useState([]);
-  // const [searchInput, setSearchInput] = useState("");
 
   const [reqObj, setReqObj] = useState<any>({
     filter: {
@@ -28,27 +26,10 @@ export default function Patients() {
     page: 1,
     limit: 8
   })
-  const [search, setSearch] = useState("");
-  const [typeData, setTypeData] = useState("");
-  const [districtData, setDistrictData] = useState("");
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState<any>(1);
-  let { query: page } = router;
-  const example = parseInt(`${page.page}`);
-  //  console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
-
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page);
-  };
-
-
-
-
-
-
-
 
   const searchItems = async (req: any) => {
     try {
@@ -74,34 +55,8 @@ export default function Patients() {
     else {
       router.push("/admin/login");
     }
-
   }, [reqObj, currentPage, Ilogin]);
 
-
-
-  const filteredPosts = paginate(filteredResults, currentPage, pageSize);
-  const Details = (item: any) => {
-    const id = `${item._id}`;
-    const page = currentPage
-    router.push({
-      pathname: "/admin/userDetail",
-      query: { id, page },
-    });
-  };
-  const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * pageSize) % totalCount;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    setCurrentPage(event.selected + 1);
-    setReqObj({
-      ...reqObj,
-      page: event.selected + 1,
-    });
-    // setItemOffset(newOffset);
-  };
-
-  console.log("pageeeeee", currentPage)
 
   const searchChange = debounce((e) => {
     setReqObj({
@@ -110,9 +65,25 @@ export default function Patients() {
     })
   }, 500)
 
+  const handlePageClick = (event: any) => {
+    setCurrentPage(event.selected + 1);
+    setReqObj({
+      ...reqObj,
+      page: event.selected + 1,
+    });
+  };
+
+  const Details = (item: any) => {
+    const id = `${item._id}`;
+    const page = currentPage;
+    router.push({
+      pathname: "/admin/userDetail",
+      query: { id, page },
+    });
+  };
+
   return (
     <>
-      {/* {loading ? ( */}
       <div style={{ padding: 20 }}>
         <div
           className="d-flex justify-content-between p-2"
@@ -225,7 +196,6 @@ export default function Patients() {
                           height: "8rem",
                           width: "14rem",
                         }}
-                        // src="/user.png"
                         src={`${url}${item.email}/${item.image}`}
                         alt="image"
                       />
