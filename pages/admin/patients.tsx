@@ -38,51 +38,14 @@ export default function Patients() {
   const example = parseInt(`${page.page}`);
   //  console.log("page current", example);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
-  let demo = null;
-  // console.log(currentPage, "currentpage")
-  // useEffect(() => {
-  //   try {
-  //     if (!Ilogin) {
-  //       router.push("/admin/login");
-  //     } else {
-  //       setLoading(true);
-  //       apiCall();
-  //       const getPosts = async () => {
-  //         const { data: res } = await axios.get(
-  //           `${process.env.NEXT_PUBLIC_API_URL}/pagination`
-  //           // { headers: { Authorization: `${token}` } }
-  //         );
-  //         demo = res.data[0].count / 8;
-  //         setTotalCount(res.data[0].count);
-  //         console.log("total", res.data[0].count);
-  //         console.log("this", Math.ceil(demo))
-  //         // setAPIData(demo.reverse());
-  //       };
-  //       getPosts();
-  //     }
-  //   } catch (err) {
-  //     console.log(`error`, err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, [Ilogin, currentPage]);
+
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
 
 
 
-  const getPosts = async () => {
-    const { data: res } = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/pagination`
-      // { headers: { Authorization: `${token}` } }
-    );
-    demo = res.data[0].count / 8;
-    // setTotalCount(res.data[0].count);
-    console.log("total", res.data[0].count);
-    console.log("this", Math.ceil(demo))
-    // setAPIData(demo.reverse());
-  };
+
 
 
 
@@ -106,7 +69,6 @@ export default function Patients() {
 
   useEffect(() => {
     if (Ilogin) {
-      getPosts()
       searchItems(reqObj);
     }
     else {
@@ -116,44 +78,7 @@ export default function Patients() {
   }, [reqObj, currentPage, Ilogin]);
 
 
-  // const dropItems = (searchValue: any) => {
-  //   setTypeData(searchValue);
-  //   if (typeData != "") {
-  //     const filteredData = APIData.filter((item) => {
-  //       return Object.values(item)
-  //         .join("")
-  //         .toLowerCase()
-  //         .includes(typeData.toLowerCase());
-  //     });
-  //     setFilteredResults(filteredData);
-  //   }
-  // };
-  // let onOptionChangeType = (event: any) => {
-  //   dropItems(event.target.value);
-  // };
-  // useEffect(() => {
-  //   dropItems("");
-  // }, [typeData]);
-  // const districtItems = (searchValue: any) => {
-  //   console.log()
-  //   setDistrictData(searchValue);
-  //   if (districtData !== "") {
-  //     const filteredData = APIData.filter((item) => {
-  //       return Object.values(item)
-  //         .join("")
-  //         .toLowerCase()
-  //         .includes(districtData.toLowerCase());
-  //     });
-  //     setFilteredResults(filteredData);
-  //   }
-  // };
-  // let onOptionChangeDistrict = (event: any) => {
-  //   districtItems(event.target.value);
-  // };
-  // useEffect(() => {
-  //   districtItems("");
-  // }, [districtData]);
-  // const paginatePosts = paginate(APIData, currentPage, pageSize);
+
   const filteredPosts = paginate(filteredResults, currentPage, pageSize);
   const Details = (item: any) => {
     const id = `${item._id}`;
@@ -163,12 +88,6 @@ export default function Patients() {
       query: { id, page },
     });
   };
-  // const [itemOffset, setItemOffset] = useState(0);
-  // const endOffset = itemOffset + pageSize;
-  // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-  // const currentItems = APIData.slice(itemOffset, endOffset);
-  // console.log("current", currentItems)
-  // Invoke when user click to request another page.
   const handlePageClick = (event: any) => {
     const newOffset = (event.selected * pageSize) % totalCount;
     console.log(
