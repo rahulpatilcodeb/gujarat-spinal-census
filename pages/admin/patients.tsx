@@ -68,13 +68,13 @@ export default function Patients() {
   };
 
 
-  async function apiCall() {
-    const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
-      { page: currentPage }
-    )
-    // console.log(resp.data, "resp");
-    setAPIData((resp.data).reverse())
-  }
+  // async function apiCall() {
+  //   const resp = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/pagination`,
+  //     { page: currentPage }
+  //   )
+  //   // console.log(resp.data, "resp");
+  //   setAPIData((resp.data).reverse())
+  // }
   const getPosts = async () => {
     const { data: res } = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}/pagination`
@@ -94,17 +94,14 @@ export default function Patients() {
     const filteredData = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/filtertype`, req
     );
-    console.log("gdyag", filteredData)
-    setFilteredResults(filteredData.data);
+    console.log("gdyag", filteredData.data)
+    setAPIData(filteredData.data);
   };
 
   useEffect(() => {
     getPosts()
     searchItems(reqObj);
-  }, [reqObj]);
-
-
-
+  }, [reqObj,currentPage]);
 
 
   // const dropItems = (searchValue: any) => {
@@ -178,7 +175,10 @@ export default function Patients() {
       {loading && (
         <center>
           <div style={{ margin: "100px" }}>
-            <ReactLoading type={"spin"} color={"background: rgba(73, 242, 102, 1);"} />
+            <ReactLoading
+              type={"spin"}
+              color={"background: rgba(73, 242, 102, 1);"}
+            />
           </div>
         </center>
       )}
@@ -204,7 +204,12 @@ export default function Patients() {
                 borderRadius: "10px",
               }}
               placeholder="Search..."
-              onChange={(e) => setReqObj({ ...reqObj, filter: { ...reqObj.filter, fname: e.target.value } })}
+              onChange={(e) =>
+                setReqObj({
+                  ...reqObj,
+                  filter: { ...reqObj.filter, fname: e.target.value },
+                })
+              }
             />
           </div>
           <div
@@ -213,7 +218,12 @@ export default function Patients() {
             }}
           >
             <select
-              onChange={(e) => setReqObj({ ...reqObj, filter: { ...reqObj.filter, injuryType: e.target.value } })}
+              onChange={(e) =>
+                setReqObj({
+                  ...reqObj,
+                  filter: { ...reqObj.filter, injuryType: e.target.value },
+                })
+              }
               style={{
                 width: "100%",
                 height: "100%",
@@ -252,60 +262,9 @@ export default function Patients() {
           style={{ marginTop: 20, justifyContent: "center" }}
           className="row pb-5"
         >
-          {filteredResults.length > 1
-            ? filteredPosts.map((item: any) => {
-              return (
-                <Card
-                  key={item._id}
-                  style={{
-                    width: "18rem",
-                    padding: "2%",
-                    margin: "1.5%",
-                    background: "#FFFFFF",
-                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <Card.Content
-                    onClick={() => {
-                      Details(item);
-                    }}
-                  >
-                    <div>
-                      <img
-                        style={{
-                          height: "10rem",
-                          width: "14rem",
-                        }}
-                        // src="/user.png"
-                        src={`${url}${item.email}/${item.image}`}
-                        alt="image"
-                      />
-                    </div>
-                    <Card.Header
-                      style={{
-                        fontWeight: 400,
-                        fontSize: "18px",
-                        color: "#181C32",
-                      }}
-                    >
-                      {item.fname} {item.lname}
-                    </Card.Header>
-                    <br />
-                    <Card.Description>
-                      <textarea
-                        style={{ border: "0", color: "#171919" }}
-                        readOnly
-                        value={item.description}
-                      >
-                        {/* {item.description} */}
-                      </textarea>
-                    </Card.Description>
-                  </Card.Content>
-                </Card>
-              );
-            })
-            : APIData.map((item: any) => {
+          {APIData && 
+           
+         APIData.map((item: any) => {
               return (
                 <Card
                   key={item._id}
@@ -354,16 +313,6 @@ export default function Patients() {
                 </Card>
               );
             })}
-          {filteredResults.length > 1 ? (
-            <div>
-              <Pagination
-                items={filteredResults.length}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          ) : (
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
                 <p>
@@ -390,28 +339,11 @@ export default function Patients() {
                   breakLinkClassName={"page-link"}
                   activeClassName={"active"}
                 />
-                {/* <Pagination
-                    items={APIData.length}
-                    pageSize={pageSize}
-                    currentPage={currentPage}
-                    onPageChange={handlePageChange}
-                  /> */}
+               
               </div>
-            </div>
-          )}
+            </div>          
         </div>
       </div>
-      {/* //   ) : (
-    <center>
-      <div className="lds-ring">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </div>
-    </center>
-   )
-     } */}
     </>
   );
 }
