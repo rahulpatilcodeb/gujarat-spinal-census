@@ -8,12 +8,8 @@ import {persistor, store } from '../store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Head from 'next/head';
 import image from '@/public/gsc.svg'
-// import style from "@/styles/loader.css"
-
 
 export default function App({ Component, pageProps }: AppProps) {
-
-
 
   return (
     <>
@@ -26,7 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
       
       <Navbars />
       <Component {...pageProps} />
-      {/* <div className="lds-ring"><div></div><div></div><div></div><div></div></div> */}
       <Footer />
       
       </PersistGate>

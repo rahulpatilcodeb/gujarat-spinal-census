@@ -3,8 +3,6 @@ import "@/styles/Home.module.css";
 import regi from "@/public/regi.png"
 
 const Register =() => {
-
-
   function registered(){
     window.location.href="/"
   }

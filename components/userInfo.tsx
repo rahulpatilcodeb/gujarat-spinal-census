@@ -85,6 +85,14 @@ const UserRegister = ({
     fileSelect?.click();
   }
 
+  // useEffect(() => {
+  //   if (Object.keys(formik.errors).length > 0) {
+  //     document
+  //        .getElementsByName(Object.keys(formik.errors)[0])[0].scrollIntoView({ block: "center" });
+  //   }
+
+  // }, [formik]);
+
   return (
     <>
       <div
@@ -159,14 +167,13 @@ const UserRegister = ({
             }}
           >
             <input
-              // required
+              required
               accept="image/*"
               id="avatar"
               // onBlur={formik.handleBlur}
               // onChange={(e)=>{formik.handleChange( setFile(e.target.files[0]));
               // console.log(Ifile,"infiles")
               // }}
-
 
               onChange={(e) => {
                 handleFormData("avatar");
@@ -221,7 +228,7 @@ const UserRegister = ({
               />
               {formik.touched.fname && formik.errors.fname && (
                 <p style={{ color: "red" }} className="error">
-                  {(formik.errors.fname).toString()}
+                  {formik.errors.fname.toString()}
                 </p>
               )}
             </div>
@@ -240,9 +247,7 @@ const UserRegister = ({
               <input
                 onBlur={formik.handleBlur}
                 name="lname"
-                value={
-                  formik.values.lname
-                }
+                value={formik.values.lname}
                 onChange={formik.handleChange}
                 type="text"
                 className={`form-control ${styles.tcolor}`}
@@ -321,9 +326,7 @@ const UserRegister = ({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   name="contact"
-                  value={
-                    formik.values.contact
-                  }
+                  value={formik.values.contact}
                   type="number"
                   placeholder="9999999999"
                   className={`form-control ${styles.tcolor}`}
@@ -365,7 +368,11 @@ const UserRegister = ({
                     color: "rgb(76 76 85)",
                   }}
                 >
-                  <label className="custom-control-label" htmlFor="male">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="male"
+                    style={{ width: "100%" }}
+                  >
                     Male
                   </label>
                   <input
@@ -389,7 +396,11 @@ const UserRegister = ({
                     color: "rgb(76 76 85)",
                   }}
                 >
-                  <label className="custom-control-label" htmlFor="female">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="female"
+                    style={{ width: "100%" }}
+                  >
                     Female
                   </label>
                   <input
@@ -413,7 +424,11 @@ const UserRegister = ({
                     color: "rgb(76 76 85)",
                   }}
                 >
-                  <label className="custom-control-label" htmlFor="others">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="others"
+                    style={{ width: "100%" }}
+                  >
                     Others
                   </label>
                   <input
@@ -424,7 +439,7 @@ const UserRegister = ({
                     type="radio"
                     className="custom-control-input"
                     name="gender"
-                    id="other"
+                    id="others"
                   />
                 </div>
                 {formik.touched.gender && formik.errors.gender && (
@@ -454,9 +469,7 @@ const UserRegister = ({
             <input
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              value={
-                formik.values.email
-              }
+              value={formik.values.email}
               name="email"
               type="email"
               className={`form-control ${styles.tcolor}`}
@@ -492,9 +505,7 @@ const UserRegister = ({
               name="qualification"
               className={`form-control ${styles.tcolor}`}
               id="Qualification"
-              value={
-                formik.values.qualification
-              }
+              value={formik.values.qualification}
               rows={1}
             ></textarea>
             {formik.touched.qualification && formik.errors.qualification && (
@@ -528,9 +539,7 @@ const UserRegister = ({
               id="address"
               rows={1}
               minLength={10}
-              value={
-                formik.values.address
-              }
+              value={formik.values.address}
             ></textarea>
             {formik.touched.address && formik.errors.address && (
               <p style={{ color: "red" }} className="error">
@@ -562,13 +571,23 @@ const UserRegister = ({
               name="district"
               className={`form-select ${styles.tcolor}`}
               onBlur={formik.handleBlur}
-            // value={values.district}
+              // value={values.district}
             >
               <option defaultChecked value="">
                 District
               </option>
-              <option value="Ahmedabad" selected={formik.values.district == "Ahmedabad"}>Ahmedabad</option>
-              <option value="Amreli" selected={formik.values.district == "Amreli"}>Amreli</option>
+              <option
+                value="Ahmedabad"
+                selected={formik.values.district == "Ahmedabad"}
+              >
+                Ahmedabad
+              </option>
+              <option
+                value="Amreli"
+                selected={formik.values.district == "Amreli"}
+              >
+                Amreli
+              </option>
             </select>
             {formik.touched.district && formik.errors.district && (
               <p style={{ color: "red" }} className="error">
@@ -605,7 +624,11 @@ const UserRegister = ({
                     color: "rgb(76 76 85)",
                   }}
                 >
-                  <label className="custom-control-label" htmlFor="bpl">
+                  <label
+                    className="custom-control-label"
+                    htmlFor="bpl"
+                    style={{ width: "100%" }}
+                  >
                     Yes
                   </label>
                   <input
@@ -629,8 +652,12 @@ const UserRegister = ({
                     color: "rgb(76 76 85)",
                   }}
                 >
-                  <label className="custom-control-label" htmlFor="bplno">
-                    NO
+                  <label
+                    className="custom-control-label"
+                    htmlFor="bplno"
+                    style={{ width: "100%" }}
+                  >
+                    No
                   </label>
                   <input
                     onBlur={formik.handleBlur}
@@ -672,11 +699,8 @@ const UserRegister = ({
                 className={`form-control ${styles.tcolor}`}
                 id="Description"
                 rows={1}
-                value={
-                  formik.values.description
-                }
+                value={formik.values.description}
                 style={{ overflow: "hidden:", resize: "none" }}
-
               ></textarea>
               {formik.touched.description && formik.errors.description && (
                 <p style={{ color: "red" }} className="error">

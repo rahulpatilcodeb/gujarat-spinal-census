@@ -1,4 +1,3 @@
-import { paginate } from "@/components/paginate";
 import { RootState } from "@/store/store";
 import axios from "axios";
 import { useRouter } from "next/router";

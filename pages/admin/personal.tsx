@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/Home.module.css";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
-import { Router } from "express";
 import { useRouter } from "next/router";
 
 const Personal = ({ nextStep, value }: any) => {
@@ -23,7 +22,6 @@ const Personal = ({ nextStep, value }: any) => {
     nextStep();
   }
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
-
 
 
   return (
@@ -75,7 +73,6 @@ const Personal = ({ nextStep, value }: any) => {
                   key={user._id}
                 >
                   <img
-                    // onChange={(e)=>setImg(e)}
                     className="manImg"
                     style={{ height: "80px ", marginRight: "15px " }}
                     alt=""

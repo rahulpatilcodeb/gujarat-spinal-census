@@ -1,10 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import User from "@/models/UserModel";
 import type { NextApiRequest, NextApiResponse } from "next";
 const mongoose = require("mongoose");
-import S3 from "aws-sdk/clients/s3";
-import admin from "@/models/AdminLoginModel";
-import { count } from "console";
 const jwt = require("jsonwebtoken");
 const url = process.env.NEXT_PUBLIC_DATABASE_URL;
 const setcretKey = "loginapi";
@@ -39,7 +35,6 @@ export default async function handler(
         const skip = (skeeper - 1) * limit;
         console.log(req.body);
         const post = await User.find(req.body.filter)
-          // .where(`${req.body.type}`)
           .skip(skip)
           .limit(limit)
           .lean();

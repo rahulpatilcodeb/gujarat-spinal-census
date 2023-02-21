@@ -1,12 +1,9 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import admin from "@/models/AdminLoginModel";
 import type { NextApiRequest, NextApiResponse } from "next";
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const url = process.env.NEXT_PUBLIC_DATABASE_URL;
-
 const secretKey = "loginapi";
 
 mongoose.connect(url);
@@ -61,14 +58,9 @@ export default async function handler(
           console.log("in catch block");
           return res.json({ msg: "not valid user" });
         }
-        // return console.log("loged in");
-        // result == true
-
-        // return console.error("not matched");
       } else {
         return res.json({ msg: "not matched" });
       }
-    // console.log("in api", user);
   }
 }
 catch(error){
