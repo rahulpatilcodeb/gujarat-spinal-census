@@ -43,7 +43,7 @@ export default async function handler(
         )
           // .where(`${req.body.type}`)
           .skip(skip)
-          .limit(limit)
+          .limit(limit) 
           .lean();
         console.log(skeeper, skip, "limit", limit);
         return res.send(post);

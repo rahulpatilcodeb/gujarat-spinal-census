@@ -204,7 +204,7 @@ export default function Patients() {
                 borderRadius: "10px",
               }}
               placeholder="Search..."
-              onChange={(e) => setReqObj({ filter: { fname: e.target.value } })}
+              onChange={(e) => setReqObj({ ...reqObj, filter: { ...reqObj.filter, fname: e.target.value } })}
             />
           </div>
           <div
@@ -213,7 +213,7 @@ export default function Patients() {
             }}
           >
             <select
-              onChange={(e) => setReqObj({ filter: { injuryType: e.target.value } })}
+              onChange={(e) => setReqObj({ ...reqObj, filter: { ...reqObj.filter, injuryType: e.target.value } })}
               style={{
                 width: "100%",
                 height: "100%",
