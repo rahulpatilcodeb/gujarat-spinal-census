@@ -19,11 +19,11 @@ export default function Patients() {
   const [filteredResults, setFilteredResults] = useState([]);
   // const [searchInput, setSearchInput] = useState("");
 
-  const [reqObj, setReqObj] = useState({
+  const [reqObj, setReqObj] = useState<any>({
     filter: {
       fname: undefined,
       injuryType: undefined
-    }, page: 1, limit: 10
+    }, page: 1, limit: 8
   })
   const [search, setSearch] = useState("");
   const [typeData, setTypeData] = useState("");
@@ -75,6 +75,18 @@ export default function Patients() {
     // console.log(resp.data, "resp");
     setAPIData((resp.data).reverse())
   }
+  const getPosts = async () => {
+    const { data: res } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/pagination`
+      // { headers: { Authorization: `${token}` } }
+    );
+    demo = res.data[0].count / 8;
+    setTotalCount(res.data[0].count);
+    console.log("total", res.data[0].count);
+    console.log("this", Math.ceil(demo))
+    // setAPIData(demo.reverse());
+  };
+
 
 
 
@@ -87,6 +99,7 @@ export default function Patients() {
   };
 
   useEffect(() => {
+    getPosts()
     searchItems(reqObj);
   }, [reqObj]);
 
@@ -191,7 +204,7 @@ export default function Patients() {
                 borderRadius: "10px",
               }}
               placeholder="Search..."
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => setReqObj({ filter: { fname: e.target.value } })}
             />
           </div>
           <div
@@ -200,7 +213,7 @@ export default function Patients() {
             }}
           >
             <select
-              onChange={(e) => { setTypeData(e.target.value) }}
+              onChange={(e) => setReqObj({ filter: { injuryType: e.target.value } })}
               style={{
                 width: "100%",
                 height: "100%",
