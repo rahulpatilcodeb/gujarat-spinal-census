@@ -159,7 +159,7 @@ const UserRegister = ({
             }}
           >
             <input
-              required
+              // required
               accept="image/*"
               id="avatar"
               // onBlur={formik.handleBlur}

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import ReactLoading from "react-loading";
+import { flatMap } from "lodash";
 
 // const axiosInstance = axios.create({
 //   baseURL: process.env.,
@@ -59,13 +60,21 @@ const Home = () => {
   // const handlePageChange = (page: any) => {
   //   setCurrentPage(page);
   // };
-  async function apiCall() {
-    const resp = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
-      { page: currentPage }
-    );
-    console.log(resp.data, "resp");
-    setPosts((resp.data).reverse());
+  const apiCall = async() => {
+    try {
+      setLoading(true);
+       const resp = await axios.post(
+         `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
+         { page: currentPage }
+       );
+       console.log(resp.data, "resp");
+       setPosts(resp.data);
+    } catch(err) {
+      console.log("error",err)
+    } finally {
+      setLoading(false)
+    }
+   
   }
 
   // const endOffset = itemOffset + pageSize;
@@ -88,108 +97,90 @@ const Home = () => {
 
   return (
     <>
-      {loading && (
+      {loading ? (
         <center>
           <div style={{ margin: "100px" }}>
             <ReactLoading type={"spin"} color={"#6BC17A"} />
           </div>
         </center>
-      )}
-      {/* {loading ? ( */}
-      <div className="container pb-3">
-        <table className="table border">
-          <thead style={{ fontSize: "18px" }}>
-            <tr>
-              <th>
-                <center>Sr.No.</center>
-              </th>
-              <th>
-                <center>Email</center>
-              </th>
-              <th>
-                <center>Contact No.</center>
-              </th>
-              <th>
-                <center>Description</center>
-              </th>
-            </tr>
-          </thead>
-          <tbody style={{ fontSize: "16px" }}>
-            {posts.map((post: any, index) => (
-              <tr key={post._id}>
-                <td>
-                  <center> {index + 1}</center>
-                </td>
-                <td>
-                  <center> {post.email}</center>
-                </td>
-                <td>
-                  <center> {post.contact}</center>
-                </td>
-                <td>
-                  <center>
-                    <textarea
-                      style={{
-                        width: "100%",
-                        height: "30px",
-                        resize: "none",
-                      }}
-                      readOnly
-                      value={post.description}
-                    >
-                      {/* {post.description} */}
-                    </textarea>
-                  </center>
-                </td>
+      ) : (
+        <div className="container pb-3">
+          <table className="table border">
+            <thead style={{ fontSize: "18px" }}>
+              <tr>
+                <th>
+                  <center>Sr.No.</center>
+                </th>
+                <th>
+                  <center>Email</center>
+                </th>
+                <th>
+                  <center>Contact No.</center>
+                </th>
+                <th>
+                  <center>Description</center>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div>
-            <p>
-              {currentPage} of {Math.ceil(totalCount / pageSize)}
-            </p>
-          </div>
-          <div>
-            <ReactPaginate
-              pageCount={pageCount}
-              previousLabel={"<"}
-              nextLabel={">"}
-              breakLabel={"..."}
-              marginPagesDisplayed={0}
-              pageRangeDisplayed={3}
-              onPageChange={handlePageClick}
-              containerClassName={"pagination justify-content-center"}
-              pageClassName={"page-item"}
-              pageLinkClassName={"page-link"}
-              previousClassName={"page-item"}
-              previousLinkClassName={"page-link"}
-              nextClassName={"page-item"}
-              nextLinkClassName={"page-link"}
-              breakClassName={"page-item"}
-              breakLinkClassName={"page-link"}
-              activeClassName={"active"}
-            />
-            {/* <Pagination
+            </thead>
+            <tbody style={{ fontSize: "16px" }}>
+              {posts.map((post: any, index) => (
+                <tr key={post._id}>
+                  <td>
+                    <center> {index + 1}</center>
+                  </td>
+                  <td>
+                    <center> {post.email}</center>
+                  </td>
+                  <td>
+                    <center> {post.contact}</center>
+                  </td>
+                  <td>
+                    <center>
+                      <div className="border">
+                        {post.description.slice(0, 50)}...
+                      </div>
+                    </center>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <p>
+                {currentPage} of {Math.ceil(totalCount / pageSize)}
+              </p>
+            </div>
+            <div>
+              <ReactPaginate
+                pageCount={pageCount}
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                marginPagesDisplayed={0}
+                pageRangeDisplayed={3}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+              />
+              {/* <Pagination
                   items={posts.length}
                   pageSize={pageSize}
                   currentPage={currentPage}
                   onPageChange={handlePageChange}
                 /> */}
+            </div>
           </div>
         </div>
-      </div>
-      {/* ) : (
-          <center>
-            <div className="lds-ring">
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </center>
-        )} */}
+      )}
       ;
     </>
   );
