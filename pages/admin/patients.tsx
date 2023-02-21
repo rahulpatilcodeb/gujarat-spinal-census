@@ -91,11 +91,19 @@ export default function Patients() {
 
 
   const searchItems = async (req: any) => {
-    const filteredData = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/filtertype`, req
-    );
-    console.log("gdyag", filteredData.data)
-    setAPIData(filteredData.data);
+    try {
+      setLoading(true)
+       const filteredData = await axios.post(
+         `${process.env.NEXT_PUBLIC_API_URL}/filtertype`,
+         req
+       );
+       console.log("gdyag", filteredData.data);
+       setAPIData(filteredData.data);
+    } catch(err) {
+      console.log("error",err)
+    } finally{
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -164,6 +172,10 @@ export default function Patients() {
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
     setCurrentPage(event.selected + 1);
+    setReqObj({
+      ...reqObj,
+      page: event.selected + 1,
+    });
     // setItemOffset(newOffset);
   };
 
@@ -172,16 +184,6 @@ export default function Patients() {
   return (
     <>
       {/* {loading ? ( */}
-      {loading && (
-        <center>
-          <div style={{ margin: "100px" }}>
-            <ReactLoading
-              type={"spin"}
-              color={"background: rgba(73, 242, 102, 1);"}
-            />
-          </div>
-        </center>
-      )}
       <div style={{ padding: 20 }}>
         <div
           className="d-flex justify-content-between p-2"
@@ -262,9 +264,15 @@ export default function Patients() {
           style={{ marginTop: 20, justifyContent: "center" }}
           className="row pb-5"
         >
-          {APIData && 
-           
-         APIData.map((item: any) => {
+          {loading ? (
+            <center>
+              <div style={{ margin: "100px" }}>
+                <ReactLoading type={"spin"} color={"#6BC17A"} />
+              </div>
+            </center>
+          ):(
+          
+            APIData.map((item: any) => {
               return (
                 <Card
                   key={item._id}
@@ -312,36 +320,36 @@ export default function Patients() {
                   </Card.Content>
                 </Card>
               );
-            })}
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>
-                <p>
-                  {currentPage} of {Math.ceil(totalCount / pageSize)}
-                </p>
-              </div>
-              <div>
-                <ReactPaginate
-                  pageCount={pageCount}
-                  previousLabel={"<"}
-                  nextLabel={">"}
-                  breakLabel={"..."}
-                  marginPagesDisplayed={0}
-                  pageRangeDisplayed={3}
-                  onPageChange={handlePageClick}
-                  containerClassName={"pagination justify-content-center"}
-                  pageClassName={"page-item"}
-                  pageLinkClassName={"page-link"}
-                  previousClassName={"page-item"}
-                  previousLinkClassName={"page-link"}
-                  nextClassName={"page-item"}
-                  nextLinkClassName={"page-link"}
-                  breakClassName={"page-item"}
-                  breakLinkClassName={"page-link"}
-                  activeClassName={"active"}
-                />
-               
-              </div>
-            </div>          
+            }))
+          }
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <p>
+                {currentPage} of {Math.ceil(totalCount / pageSize)}
+              </p>
+            </div>
+            <div>
+              <ReactPaginate
+                pageCount={pageCount}
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                marginPagesDisplayed={0}
+                pageRangeDisplayed={3}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>
