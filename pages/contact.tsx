@@ -9,22 +9,8 @@ const schema = Yup.object().shape({
     .required("Email is a required field")
     .email("Invalid email format"),
   description: Yup.string().required("Please enter description here!"),
-  // password: Yup.string()
-  //   .required("Password is a required field")
-  //   .min(8, "Password must be at least 8 characters"),
   contact: Yup.string().required("Please enter your phone number!"),
 });
-
-// const formik = useFormik({
-//   initialValues:{
-//     contact: "",
-//     email: "",
-//     description: "",
-// },
-// onSubmit:()=>{
-
-// }
-// )
 
 function Contact(): JSX.Element {
   const router = useRouter();
@@ -38,16 +24,12 @@ function Contact(): JSX.Element {
     validationSchema:schema,
     onSubmit: (values) => {
       console.log("this is onsubmit")
-      // alert(JSON.stringify(values, null, 2));
       handleSubmit();
     },
   });
 
-  // console.log("formData", formData);
-
   async function handleSubmit() {
     console.log("this is handlesubmit")
-    // e.preventDefault();
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formik.values)
       .then(() => alert("Thank You !! \n We will reach to you soon"))

@@ -7,8 +7,12 @@ const Injury = ({  prevStep, value,page }: any) => {
   
   const onclick = (e:any) => {
     e.preventDefault()
-    router.push(`/admin/patients?page=${page}`);
-    console.log("hhhs",page)
+    const pages = page;
+    router.push({
+      pathname: "/admin/patients",
+      query: { pages },
+    });
+    // router.push(`/admin/patients?page=${page}`);
   };
 
   return (
