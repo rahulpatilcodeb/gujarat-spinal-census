@@ -35,6 +35,7 @@ export default async function handler(
         const skip = (skeeper - 1) * limit;
         console.log(req.body);
         const post = await User.find(req.body.filter)
+          .sort({ _id: -1 })
           .skip(skip)
           .limit(limit)
           .lean();

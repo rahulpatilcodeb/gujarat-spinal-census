@@ -10,7 +10,6 @@ const InjuryInfo = ({
   prevStep,
   values,
   setFormData,
-  Ifile,
 }: any) => {
 
   const date = new Date().getFullYear()
@@ -46,24 +45,26 @@ const InjuryInfo = ({
     prevStep()
   }
 
+
   const formik = useFormik(
     {
       initialValues: initValue,
       enableReinitialize: true,
       validationSchema: schema,
       onSubmit: async (values) => {
-        try{
+        try {
+          fileupload(values.file);
           setLoading(true)
           setFormData(formik.values)
-          fileupload(Ifile);
-          values.avatar = Ifile.name;
+          // fileupload(Ifile);
+          values.avatar = values.file.name;
           await axios
             .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
-            .catch((err) => {console.error(err)});
+            .catch((err) => { console.error(err) });
           nextStep()
-        } catch(err) {
-          console.log("error",err)
-        } finally{
+        } catch (err) {
+          console.log("error", err)
+        } finally {
           setLoading(false);
         }
       },
@@ -71,13 +72,13 @@ const InjuryInfo = ({
 
   return (
     <>
-    {loading &&
-            <center>
-              <div style={{ margin: "100px" }}>
-                <ReactLoading type={"spin"} color={"#6BC17A"} />
-              </div>
-            </center>}
-      <div>  
+      {loading &&
+        <center>
+          <div style={{ margin: "100px" }}>
+            <ReactLoading type={"spin"} color={"#6BC17A"} />
+          </div>
+        </center>}
+      <div>
         <div
           className="mb-5 d-flex justify-content-center"
           style={{ fontSize: "22px" }}

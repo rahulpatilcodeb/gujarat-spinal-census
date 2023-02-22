@@ -7,8 +7,8 @@ import UserRegister from "@/components/userInfo";
 
 function Common() {
   const [step, setstep] = useState(1);
-  const [file, setFile] = useState<any>({});
   const [formData, setFormData] = useState<any>({
+    file: null,
     avatar: null,
     fname: "",
     lname: "",
@@ -29,7 +29,7 @@ function Common() {
     injuryStatus: "",
     physicalStatus: "",
     financialStatus: "",
-    independent:"",
+    independent: "",
   });
 
   useEffect(() => {
@@ -37,49 +37,10 @@ function Common() {
   }, [formData])
   console.log("hzsudhui", formData);
 
-  const onsubmit = async () => {
-    console.log("in onsubmit index")
-    formData.avatar = file.name;
-    fileupload(file);
-    console.log("formdata in before api call ", formData)
-    const response = await axios
-      .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, formData)
-      .then(() => console.log("User Added"))
-      .catch((err) => {
-        console.error(err);
-      });
-    console.log("after out submitFormData")
-  };
-  const fileupload = async (file: any) => {
-    try {
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/image`,
-        { name: file.name, type: file.type, email: formData.email }
-      );
-      console.log(data);
-
-      const url = data.url;
-      const resp1 = await axios.put(url, file);
-      console.log("resp1", resp1);
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  // useEffect(() => {
-  //   setFile(file)
-  //   if (file) {
-
-  //     console.log("this is in useEffect",file)
-  //     // fileupload(file);
-  //   }
-  // }, [file])
-
   useEffect(() => {
-    console.log("this is in useEffect", file?.name);
+    console.log("this is in useEffect", formData.file?.name);
 
-    // fileupload(file);
-  }, [file]);
+  }, [formData.file]);
 
 
   const nextStep = () => {
@@ -90,18 +51,14 @@ function Common() {
     setstep(step - 1);
   };
 
-  const selectedFile = (e: any) => {
-    setFile(e.target.files[0]);
-    console.log(e.target.files[0]);
-    console.log(file);
-  };
+
 
   const handleInputData = (input: any) => (e: any) => {
     const { value } = e.target;
     //updating for data state taking previous state and then adding new value to create new object
     setFormData((prevState: any) => ({
       ...prevState,
-      avatar: file?.name,
+      avatar: formData.file?.name,
       [input]: value,
     }));
   };
@@ -114,12 +71,9 @@ function Common() {
             <Row>
               <Col className="custom-margin">
                 <UserRegister
-                  Ifile={file}
-                  setFile={setFile}
                   nextStep={nextStep}
                   setFormData={setFormData}
                   handleFormData={handleInputData}
-                  selectedFile={selectedFile}
                   values={formData}
                 />
               </Col>
@@ -134,15 +88,12 @@ function Common() {
             <Row>
               <Col className="custom-margin">
                 <InjuryInfo
-                  Ifile={file}
-                  setFile={setFile}
                   nextStep={nextStep}
                   prevStep={prevStep}
                   handleFormData={handleInputData}
                   values={formData}
                   onsubmit={onsubmit}
                   setFormData={setFormData}
-                  selectedFile={selectedFile}
                 />
               </Col>
             </Row>

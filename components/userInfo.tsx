@@ -4,18 +4,14 @@ import styles from "@/styles/Home.module.css";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { fromPairs } from "lodash";
+
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
 
 const UserRegister = ({
   nextStep,
-  handleFormData,
-  Ifile,
   values,
-  selectedFile,
-  setFile,
   setFormData,
 }: any) => {
   const [initValue, setInitValue] = useState(values);
@@ -42,21 +38,10 @@ const UserRegister = ({
     gender: Yup.string().required("Please enter gender here"),
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
-    // avatar: Yup.array().min(1, "select at least 1 file").max(1, "Only one file can pe selsecter"),
+    file: Yup.mixed().required("image please")
   });
 
-  // const imagePreviewElement = document.querySelector("avatar");
-  // let imageSrc;
-  // if(Ifile!=undefined){
-  //   const imageSrc = URL.createObjectURL(Ifile);
-  //   // imagePreviewElement.src = imageSrc;
-  // }
 
-  // console.log(imagePreviewElement);
-
-  // const { register, handleSubmit } = useForm();
-
-  // console.log("image is ", url, img);
   const formik = useFormik({
     initialValues: initValue,
     enableReinitialize: true,
@@ -65,18 +50,10 @@ const UserRegister = ({
       setFormData(formik.values)
       console.log("values", values, "formik values", formik.values);
       nextStep();
-      // alert(JSON.stringify(values, null, 2));
     },
   });
 
-  const [selectedImage, setSelectedImage] = useState();
 
-  const imageChange = (e: any) => {
-    if (e.target.files && e.target.files.length > 0) {
-      console.log("in file", e.target.files.length);
-      setSelectedImage(e.target.files[0]);
-    }
-  };
 
   function linkClick(e: any) {
     e.preventDefault();
@@ -85,13 +62,6 @@ const UserRegister = ({
     fileSelect?.click();
   }
 
-  // useEffect(() => {
-  //   if (Object.keys(formik.errors).length > 0) {
-  //     document
-  //        .getElementsByName(Object.keys(formik.errors)[0])[0].scrollIntoView({ block: "center" });
-  //   }
-
-  // }, [formik]);
 
   return (
     <>
@@ -134,6 +104,7 @@ const UserRegister = ({
       </div>
 
       <form
+        noValidate
         name="formhome"
         onSubmit={formik.handleSubmit}
         className="pb-3 form-group"
@@ -148,9 +119,8 @@ const UserRegister = ({
                 marginRight: "25px ",
               }}
               alt=""
-              // src={img?`${url}${img}`:bimg.src}
               src={
-                selectedImage ? URL.createObjectURL(selectedImage) : bimg.src
+                formik.values.file ? URL.createObjectURL(formik.values.file) : bimg.src
               }
             />
           </div>
@@ -170,22 +140,22 @@ const UserRegister = ({
               required
               accept="image/*"
               id="avatar"
-              // onBlur={formik.handleBlur}
-              // onChange={(e)=>{formik.handleChange( setFile(e.target.files[0]));
-              // console.log(Ifile,"infiles")
-              // }}
+              name="file"
+              onBlur={formik.handleBlur}
 
-              onChange={(e) => {
-                handleFormData("avatar");
-                selectedFile(e);
-                imageChange(e);
+
+              onChange={(e: any) => {
+
+                formik.setFieldValue("file", e.target.files[0])
+                console.log(e.target.files[0])
+
               }}
-              // style={{ marginLeft: "10px ", display: "none" }}
+              style={{ marginLeft: "10px ", display: "none" }}
               type="file"
               className="form-control"
             />
 
-            {/* <p style={{ color: "black", paddingTop: "10px" }}>
+            <p style={{ color: "black", paddingTop: "10px" }}>
               {" "}
               <img style={{ width: "20px" }} src="upload.png" alt="" />
               <a
@@ -197,9 +167,14 @@ const UserRegister = ({
                 Click here
               </a>{" "}
               to select picture from media
-            </p> */}
+            </p>
           </div>
         </div>
+        {formik.touched.file && formik.errors.file && (
+          <p style={{ color: "red" }} className="error">
+            {JSON.stringify(formik.errors.file)}
+          </p>
+        )}
 
         <div className="container mb-4">
           <div className="row mb-4">
@@ -227,6 +202,7 @@ const UserRegister = ({
                 aria-label="First name"
               />
               {formik.touched.fname && formik.errors.fname && (
+
                 <p style={{ color: "red" }} className="error">
                   {formik.errors.fname.toString()}
                 </p>
@@ -260,11 +236,7 @@ const UserRegister = ({
                   {JSON.stringify(formik.errors.lname)}
                 </p>
               )}
-              {/* <p style={{ color: "red" }} className="error">
-                {formik.errors.lname &&
-                  formik.touched.lname &&
-                  formik.errors.lname}
-              </p> */}
+
             </div>
 
             {"    "}
@@ -337,11 +309,7 @@ const UserRegister = ({
                     {JSON.stringify(formik.errors.contact)}
                   </p>
                 )}
-                {/* <p style={{ color: "red" }} className="error">
-                  {formik.errors.contact &&
-                    formik.touched.contact &&
-                    formik.errors.contact}
-                </p> */}
+
               </div>
             </div>
           </div>
@@ -447,11 +415,7 @@ const UserRegister = ({
                     {JSON.stringify(formik.errors.gender)}
                   </p>
                 )}
-                {/* <p style={{ color: "red" }} className="error">
-                  {formik.errors.gender &&
-                    formik.touched.gender &&
-                    formik.errors.gender}
-                </p> */}
+
               </div>
             </div>
           </div>
@@ -481,11 +445,7 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.email)}
               </p>
             )}
-            {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.email &&
-                formik.touched.email &&
-                formik.errors.email}
-            </p> */}
+
           </div>
           <div className="mb-4">
             <label
@@ -513,11 +473,7 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.qualification)}
               </p>
             )}
-            {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.qualification &&
-                formik.touched.qualification &&
-                formik.errors.qualification}
-            </p> */}
+
           </div>
 
           <div className="mb-4">
@@ -546,12 +502,7 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.address)}
               </p>
             )}
-            {/* <div className="invalid-feedback">Please Type valid Address.</div> */}
-            {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.address &&
-                formik.touched.address &&
-                formik.errors.address}
-            </p> */}
+
           </div>
 
           <div className="mb-4">
@@ -571,7 +522,7 @@ const UserRegister = ({
               name="district"
               className={`form-select ${styles.tcolor}`}
               onBlur={formik.handleBlur}
-              // value={values.district}
+            // value={values.district}
             >
               <option defaultChecked value="">
                 District
@@ -594,12 +545,7 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.district)}
               </p>
             )}
-            {/* <div className="invalid-feedback">Please choose a District.</div> */}
-            {/* <p style={{ color: "red" }} className="error">
-              {formik.errors.district &&
-                formik.touched.district &&
-                formik.errors.district}
-            </p> */}
+
           </div>
 
           <div className="mb-4">
@@ -716,6 +662,7 @@ const UserRegister = ({
             <div className="d-flex justify-content-end mb-5">
               <button
                 type="submit"
+                // disabled={formik.isSubmitting}
                 // onClick={submitFormData}
                 style={{
                   backgroundColor: "rgba(193, 107, 178, 1)",

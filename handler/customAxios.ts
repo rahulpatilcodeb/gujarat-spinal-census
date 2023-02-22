@@ -7,7 +7,7 @@ import { store } from "@/store/store";
 const customAxios = axios.create({
   //   baseURL: `${process.env.REACT_APP_API_URL}`,
   baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
-  timeout: 30000,
+  timeout: 10000,
 });
 // Step-2: Create request, response & error handlers
 const requestHandler = (request: any) => {

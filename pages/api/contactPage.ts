@@ -39,13 +39,13 @@ export default async function handler(
         });
         // }
         // return res.send("Session expired");
-        break;
+        // break;
       case "POST":
         console.log(req.body, "this is boyd of post");
         const limit = 10;
         const skeeper = req.body.page;
         const skip = (skeeper - 1) * limit;
-        const post = await Contact.find().skip(skip).limit(limit).lean();
+        const post = await Contact.find().sort({ _id: -1 }).skip(skip).limit(limit).lean();
         console.log(skeeper, skip, "limit contact", limit);
         return res.send(post);
     }
