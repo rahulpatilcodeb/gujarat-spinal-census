@@ -4,6 +4,7 @@ import styles from "@/styles/Home.module.css";
 import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Link from "next/link";
 
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
@@ -158,14 +159,14 @@ const UserRegister = ({
             <p style={{ color: "black", paddingTop: "10px" }}>
               {" "}
               <img style={{ width: "20px" }} src="upload.png" alt="" />
-              <a
+              <Link
                 style={{ textDecoration: "none", color: "rgb(78, 244, 105)" }}
                 href="/"
                 onClick={linkClick}
                 id="fileSelect"
               >
                 Click here
-              </a>{" "}
+              </Link>{" "}
               to select picture from media
             </p>
           </div>
