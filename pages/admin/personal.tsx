@@ -125,7 +125,7 @@ const Personal = ({ nextStep, value }: any) => {
                       </div>
                     </div>
 
-                    <div className="row mb-4">
+                    {/* <div className="row mb-4">
                       <label
                         htmlFor="fname"
                         className="form-label"
@@ -145,6 +145,54 @@ const Personal = ({ nextStep, value }: any) => {
                           defaultValue={user.dob}
                           readOnly
                         />
+                      </div>
+                    </div> */}
+                    <div className="row mb-4">
+                      <div className="col">
+                        <label
+                          htmlFor="fname"
+                          className="form-label"
+                          style={{
+                            fontWeight: 400,
+                            fontSize: "18px",
+                          }}
+                        >
+                          Date of Birth
+                        </label>
+
+                        <input
+                          type="text"
+                          id="day"
+                          name="dob"
+                          className={`form-control ${styles.tcolor}`}
+                          defaultValue={user.dob.slice(0, 10)}
+                          readOnly
+                        />
+                      </div>
+                      <div className="col">
+                        <label
+                          htmlFor="Mnumber"
+                          className="form-label"
+                          style={{
+                            fontWeight: 400,
+                            fontSize: "18px",
+                          }}
+                        >
+                          Mobile Number
+                        </label>
+                        <div className="input-group mb-4">
+                          <span className="input-group-text" id="basic-addon1">
+                            +91
+                          </span>
+                          <input
+                            name="contact"
+                            defaultValue={user.contact}
+                            type="text"
+                            className={`form-control ${styles.tcolor}`}
+                            id="Mnumber"
+                            readOnly
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -259,76 +307,6 @@ const Personal = ({ nextStep, value }: any) => {
 
                     <div className="mb-4">
                       <label
-                        htmlFor="address"
-                        className="form-label"
-                        style={{
-                          fontWeight: 400,
-                          fontSize: "18px",
-                        }}
-                      >
-                        Address
-                      </label>
-                      <textarea
-                        name="address"
-                        className={`form-control ${styles.tcolor}`}
-                        id="address"
-                        rows={1}
-                        defaultValue={user.address}
-                        readOnly
-                      ></textarea>
-                    </div>
-
-                    <div className="mb-4">
-                      <label
-                        htmlFor="District"
-                        className="form-label"
-                        style={{
-                          fontWeight: 400,
-                          fontSize: "18px",
-                        }}
-                      >
-                        District
-                      </label>
-                      <select
-                        id="District"
-                        name="district"
-                        className={`form-select ${styles.tcolor}`}
-                        defaultValue={user.district}
-                      >
-                        <option defaultChecked value="">
-                          District
-                        </option>
-                        <option value="Ahmedabad">Ahmedabad</option>
-                        <option value="Amreli">Amreli</option>
-                      </select>
-                    </div>
-                    <div className="mb-4">
-                      <label
-                        htmlFor="Mnumber"
-                        className="form-label"
-                        style={{
-                          fontWeight: 400,
-                          fontSize: "18px",
-                        }}
-                      >
-                        Mobile Number
-                      </label>
-                      <div className="input-group mb-4">
-                        <span className="input-group-text" id="basic-addon1">
-                          +91
-                        </span>
-                        <input
-                          name="contact"
-                          defaultValue={user.contact}
-                          type="text"
-                          className={`form-control ${styles.tcolor}`}
-                          id="Mnumber"
-                          readOnly
-                        />
-                      </div>
-                    </div>
-                    <div className="mb-4">
-                      <label
                         htmlFor="Email"
                         className="form-label"
                         style={{
@@ -368,6 +346,48 @@ const Personal = ({ nextStep, value }: any) => {
                         rows={1}
                         readOnly
                       ></textarea>
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="address"
+                        className="form-label"
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "18px",
+                        }}
+                      >
+                        Address
+                      </label>
+                      <textarea
+                        name="address"
+                        className={`form-control ${styles.tcolor}`}
+                        id="address"
+                        rows={1}
+                        defaultValue={user.address}
+                        readOnly
+                      ></textarea>
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        htmlFor="District"
+                        className="form-label"
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "18px",
+                        }}
+                      >
+                        District
+                      </label>
+                      <input
+                        id="District"
+                        name="district"
+                        className={`form-select ${styles.tcolor}`}
+                        defaultValue={user.district}
+                        readOnly
+                      >
+                      </input>
                     </div>
 
                     <div className="col ">

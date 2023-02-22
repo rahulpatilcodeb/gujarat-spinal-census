@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
-
+import Select from "react-select";
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
@@ -39,7 +39,7 @@ const UserRegister = ({
     gender: Yup.string().required("Please enter gender here"),
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
-    file: Yup.mixed().required("image please")
+    // file: Yup.mixed().required("image please")
   });
 
 
@@ -62,6 +62,16 @@ const UserRegister = ({
 
     fileSelect?.click();
   }
+  const options = [
+    { value: "Ahmedabad", label: "Ahmedabad" },
+    { value: "Amreli", label: "Amreli" },
+    { value: "Bharuch", label: "Bharuch" },
+    { value: "Bhavnagar", label: "Bhavnagar" },
+    { value: "Jamnagar", label: "Jamnagar" },
+    { value: "Mehsana", label: "Mehsana" },
+     { value: "Rajkot", label: "Rajkot" },
+    { value: "Surat", label: "Surat" },
+  ];
 
 
   return (
@@ -121,7 +131,9 @@ const UserRegister = ({
               }}
               alt=""
               src={
-                formik.values.file ? URL.createObjectURL(formik.values.file) : bimg.src
+                formik.values.file
+                  ? URL.createObjectURL(formik.values.file)
+                  : bimg.src
               }
             />
           </div>
@@ -138,18 +150,14 @@ const UserRegister = ({
             }}
           >
             <input
-              required
+              // required
               accept="image/*"
               id="avatar"
               name="file"
               onBlur={formik.handleBlur}
-
-
               onChange={(e: any) => {
-
-                formik.setFieldValue("file", e.target.files[0])
-                console.log(e.target.files[0])
-
+                formik.setFieldValue("file", e.target.files[0]);
+                console.log(e.target.files[0]);
               }}
               style={{ marginLeft: "10px ", display: "none" }}
               type="file"
@@ -203,7 +211,6 @@ const UserRegister = ({
                 aria-label="First name"
               />
               {formik.touched.fname && formik.errors.fname && (
-
                 <p style={{ color: "red" }} className="error">
                   {formik.errors.fname.toString()}
                 </p>
@@ -237,7 +244,6 @@ const UserRegister = ({
                   {JSON.stringify(formik.errors.lname)}
                 </p>
               )}
-
             </div>
 
             {"    "}
@@ -310,7 +316,6 @@ const UserRegister = ({
                     {JSON.stringify(formik.errors.contact)}
                   </p>
                 )}
-
               </div>
             </div>
           </div>
@@ -416,7 +421,6 @@ const UserRegister = ({
                     {JSON.stringify(formik.errors.gender)}
                   </p>
                 )}
-
               </div>
             </div>
           </div>
@@ -446,7 +450,6 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.email)}
               </p>
             )}
-
           </div>
           <div className="mb-4">
             <label
@@ -474,7 +477,6 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.qualification)}
               </p>
             )}
-
           </div>
 
           <div className="mb-4">
@@ -503,7 +505,6 @@ const UserRegister = ({
                 {JSON.stringify(formik.errors.address)}
               </p>
             )}
-
           </div>
 
           <div className="mb-4">
@@ -517,7 +518,7 @@ const UserRegister = ({
             >
               District
             </label>
-            <select
+            {/* <Select
               onChange={formik.handleChange}
               id="District"
               name="district"
@@ -540,13 +541,23 @@ const UserRegister = ({
               >
                 Amreli
               </option>
-            </select>
+            </Select> */}
+
+            <Select
+              defaultValue={options.find((e) => formik.values.district == e.value)}
+              onChange={(e:any) => formik.setFieldValue("district", e.value)}
+              options={options}
+              id="District"
+              name="district"
+              // className={`form-select ${styles.tcolor}`}
+              onBlur={formik.handleBlur}
+              // value={values.district}
+            />
             {formik.touched.district && formik.errors.district && (
               <p style={{ color: "red" }} className="error">
                 {JSON.stringify(formik.errors.district)}
               </p>
             )}
-
           </div>
 
           <div className="mb-4">

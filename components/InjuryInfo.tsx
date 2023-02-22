@@ -4,6 +4,7 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import ReactLoading from "react-loading";
+import Select from "react-select";
 
 const InjuryInfo = ({
   nextStep,
@@ -53,11 +54,11 @@ const InjuryInfo = ({
       validationSchema: schema,
       onSubmit: async (values) => {
         try {
-          fileupload(values.file);
+          // fileupload(values.file);
           setLoading(true)
           setFormData(formik.values)
           // fileupload(Ifile);
-          values.avatar = values.file.name;
+          // values.avatar = values.file.name;
           await axios
             .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
             .catch((err) => { console.error(err) });
@@ -69,6 +70,12 @@ const InjuryInfo = ({
         }
       },
     });
+
+     const options = [
+       { value: "high", label: "high" },
+       { value: "low", label: "low" },
+       { value: "medium", label: "medium" },
+     ];
 
   return (
     <>
@@ -269,7 +276,7 @@ const InjuryInfo = ({
                 >
                   Injury Level
                 </label>
-                <select
+                {/* <select
                   required
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -298,7 +305,18 @@ const InjuryInfo = ({
                   >
                     low
                   </option>
-                </select>
+                </select> */}
+                <Select
+                  defaultValue={options.find(
+                    (e) => formik.values.injuryLevel == e.value
+                  )}
+                  onChange={(e:any) => formik.setFieldValue("injuryLevel", e.value)}
+                  options={options}
+                  name="injuryLevel"
+                  id="Ilevel"
+                  onBlur={formik.handleBlur}
+                  // value={values.district}
+                />
                 {formik.touched.injuryLevel && formik.errors.injuryLevel && (
                   <p style={{ color: "red" }} className="error">
                     {formik.errors.injuryLevel.toString()}

@@ -185,16 +185,14 @@ const Injury = ({  prevStep, value,page }: any) => {
                         >
                           Injury Level
                         </label>
-                        <select
+                        <input
                           name="injuryLevel"
                           id="Ilevel"
                           defaultValue={user.injuryLevel}
                           className={`form-select ${styles.tcolor}`}
-                        >
-                          <option value="high">High</option>
-                          <option value="medium">Medium</option>
-                          <option value="low">Low</option>
-                        </select>
+                          readOnly
+                        />
+                          
                       </div>
                       <label
                         htmlFor="ImplantFix"
