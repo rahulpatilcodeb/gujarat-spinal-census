@@ -45,7 +45,7 @@ function Contact(): JSX.Element {
   }
 
   return (
-    <form noValidate className="container mb-5 w-50" onSubmit={formik.handleSubmit}>
+    <form noValidate className="container w-50" style={{marginBottom:"7%"}} onSubmit={formik.handleSubmit}>
       <div className="col d-flex justify-content-center">
         <span>
           <b style={{ fontSize: "18px" }}>--Contact Us --</b>

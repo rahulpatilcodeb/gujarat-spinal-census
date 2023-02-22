@@ -51,18 +51,18 @@ function UserDetail() {
       return (
         <div>
           <Container className="w-50">
-            {loading && (
+            {loading ? (
               <center>
                 <div style={{ margin: "100px" }}>
                   <ReactLoading type={"spin"} color={"#6BC17A"} />
                 </div>
               </center>
-            )}
-            <Row>
+            ): ( <Row>
               <Col className="custom-margin">
                 <Personal nextStep={nextStep} value={userData} />
               </Col>
-            </Row>
+            </Row>)}
+           
           </Container>
         </div>
       );

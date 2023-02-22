@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
 import { RootState } from "@/store/store";
+import ReactLoading from "react-loading";
 
 const Login = () => {
   const router = useRouter();
@@ -13,6 +14,7 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     console.log(Ilogin);
@@ -40,6 +42,7 @@ const Login = () => {
           dispatch(
             login({ user: datadb.payload.name, token: datadb.payload.key })
           );
+          setLoading(true)
           router.push("/admin/patients");
         }
       } else {
@@ -60,9 +63,17 @@ const Login = () => {
 
   return (
     <>
+    {loading ? (
+            <center>
+              <div style={{ margin: "100px" }}>
+                <ReactLoading type={"spin"} color={"#6BC17A"} />
+              </div>
+            </center>
+          ) : (
         <form
           onSubmit={onSubmit}
-          className="container w-25 mb-5"
+          className="container w-25"
+          style={{marginBottom:"13%"}}
         >
           <div className="col d-flex justify-content-center">
             <span>
@@ -117,6 +128,7 @@ const Login = () => {
             </button>
           </div>
         </form>
+        ) }
       
     </>
   );
