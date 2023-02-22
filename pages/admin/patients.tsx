@@ -1,317 +1,255 @@
-import React, { useState, useEffect } from "react";
+import { RootState } from "@/store/store";
 import axios from "axios";
-import { Card, Input } from "semantic-ui-react";
-import Pagination from "@/components/Pagination";
-import { paginate } from "@/components/paginate";
- import { RootState } from "@/store/store";
- import { stat } from "fs";
- import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
-import { isEmpty } from "lodash";
-import { searchData, typeData, districtData } from "@/store/filterSlice";
+import { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
+import ReactPaginate from "react-paginate";
+import { useSelector } from "react-redux";
+import { Card } from "semantic-ui-react";
+import { debounce } from 'lodash'
 
 export default function Patients() {
-   const { user: user, islogin: Ilogin } = useSelector(
+  const { user: user, islogin: Ilogin, token: token } = useSelector(
     (state: RootState) => state.users
   );
-  const dispatch = useDispatch();
-  const searchDataRedux = useSelector(
-    (state:RootState) => state.filter.searchData
-  );
-  console.log("redux",searchDataRedux)
-  const typeDataRedux = useSelector(
-    (state: RootState) => state.filter.typeData
-  );
-  const districtDataRedux = useSelector(
-    (state: RootState) => state.filter.districtData
-  );
   const router = useRouter();
-  const [loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
-  const [filteredResults, setFilteredResults] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [typeData, setTypeData] = useState("");
-  const [districtData, setDistrictData] = useState("");
+
+  const [reqObj, setReqObj] = useState<any>({
+    filter: {
+      fname: undefined,
+      injuryType: undefined,
+      district: undefined
+    },
+    page: 1,
+    limit: 8
+  })
   const pageSize = 8;
-  const [currentPage, setCurrentPage] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState<any>(1);
+  const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
-  useEffect(() => {
+  const searchItems = async (req: any) => {
     try {
-      if (!Ilogin) {
-        router.push("/admin/login");
-      } else {
-        setLoading(true)
-        const getPosts = async () => {
-          const { data: res } = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}/users`
-          );
-          setAPIData(res.data);
-        };
-        getPosts();
-      }
+      setLoading(true)
+      const filteredData = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/filtertype`,
+        req
+      );
+      console.log("gdyag", filteredData.data);
+      setAPIData(filteredData.data.data);
+      setTotalCount(filteredData.data.totalCount);
     } catch (err) {
-      console.log(`error`, err);
-    } 
-  }, [Ilogin]);
-
-  const handlePageChange = (page: any) => {
-    setCurrentPage(page);
-  };
-
-  const searchItems = (searchValue: any) => {
-    setSearchInput(searchValue);
-    if (searchInput !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes((searchInput.toLowerCase()));
-      });
-      setFilteredResults(filteredData);
-    } else {
-      setFilteredResults(APIData);
+      console.log("error", err)
+    } finally {
+      setLoading(false);
     }
   };
 
-  const dropItems = (searchValue: any) => {
-    setTypeData(searchValue);
-    if (typeData !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes(typeData.toLowerCase());
-      });
-      setFilteredResults(filteredData);
-    } 
-  };
-
-  let onOptionChangeType = (event: any) => {
-    dropItems(event.target.value);
-  };
-
   useEffect(() => {
-    dropItems("");
-  }, [typeData]);
+    if (Ilogin) {
+      searchItems(reqObj);
+    }
+    else {
+      router.push("/admin/login");
+    }
+  }, [reqObj, currentPage, Ilogin]);
 
 
-  const districtItems = (searchValue: any) => {
-    setDistrictData(searchValue);
-    if (districtData !== "") {
-      const filteredData = APIData.filter((item) => {
-        return Object.values(item)
-          .join("")
-          .toLowerCase()
-          .includes(districtData.toLowerCase());
-      });
-      setFilteredResults(filteredData);
-    } 
+  const searchChange = debounce((e) => {
+    setReqObj({
+      ...reqObj,
+      filter: { ...reqObj.filter, fname: { $regex: e.target.value, $options: "i" } },
+    })
+  }, 500)
+
+  const handlePageClick = (event: any) => {
+    setCurrentPage(event.selected + 1);
+    setReqObj({
+      ...reqObj,
+      page: event.selected + 1,
+    });
   };
-
-  let onOptionChangeDistrict = (event: any) => {
-    districtItems(event.target.value);
-  };
-
-   useEffect(() => {
-     districtItems("");
-   }, [districtData]);
- 
-  const paginatePosts = paginate(APIData, currentPage, pageSize);
-  const filteredPosts = paginate(filteredResults, currentPage, pageSize);
 
   const Details = (item: any) => {
     const id = `${item._id}`;
+    const page = currentPage;
     router.push({
       pathname: "/admin/userDetail",
-      query: { id },
+      query: { id, page },
     });
   };
 
   return (
     <>
-      {loading ? (
-        <div style={{ padding: 20 }}>
+      <div style={{ padding: 20 }}>
+        <div
+          className="d-flex justify-content-between p-2"
+          style={{
+            background: "#F7FCF8",
+            borderRadius: "5px",
+            justifyContent: "center",
+          }}
+        >
           <div
             style={{
-              display: "flex",
-              padding: "2%",
-              background: "#F7FCF8",
-              borderRadius: "5px",
-              justifyContent: "center",
+              width: "60%",
             }}
           >
-            <div
+            <input
               style={{
-                width: "60%",
+                width: "100%",
+                background: "#FFFFFF",
+                border: "1px solid rgba(181, 181, 195, 0.4)",
+                borderRadius: "10px",
               }}
-            >
-              <input
-                style={{
-                  width: "100%",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(181, 181, 195, 0.4)",
-                  borderRadius: "10px",
-                }}
-                placeholder="Search..."
-                onChange={(e) => searchItems(e.target.value)}
-              />
-            </div>
-            <div
-              style={{
-                width: "15%",
-              }}
-            >
-              <select
-                onChange={onOptionChangeType}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(181, 181, 195, 0.4)",
-                  borderRadius: "10px",
-                }}
-              >
-                <option defaultChecked value="">
-                  Type
-                </option>
-                <option value="Paraplagia">Paraplegia</option>
-                <option value="Quadriplegia">Quadriplegia</option>
-              </select>
-            </div>
-            <div style={{ width: "15%" }}>
-              <select
-                onChange={onOptionChangeDistrict}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  background: "#FFFFFF",
-                  border: "1px solid rgba(181, 181, 195, 0.4)",
-                  borderRadius: "10px",
-                }}
-              >
-                <option defaultChecked value="">
-                  District
-                </option>
-                <option value="Ahmedabad">Ahmedabad</option>
-                <option value="Amreli">Amreli</option>
-              </select>
-            </div>
+              placeholder="Search..."
+              onChange={searchChange}
+            />
           </div>
-
           <div
-            style={{ marginTop: 20, justifyContent: "center" }}
-            className="row pb-5"
+            style={{
+              width: "15%",
+            }}
           >
-            {searchInput.length > 1 || filteredResults.length > 1
-              ? filteredPosts.map((item: any) => {
-                  return (
-                    <Card
-                      key={item._id}
-                      style={{
-                        width: "18rem",
-                        padding: "2%",
-                        margin: "1.5%",
-                        background: "#FFFFFF",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Card.Content
-                        onClick={() => {
-                          Details(item);
-                        }}
-                      >
-                        <div>
-                          <img
-                            style={{
-                              height: "10rem",
-                              width: "14rem",
-                            }}
-                            src="/user.png"
-                            alt="image"
-                          />
-                        </div>
-
-                        <Card.Header>
-                          {item.fname} {item.lname}
-                        </Card.Header>
-                        <br />
-                        <Card.Description>{item.description}</Card.Description>
-                      </Card.Content>
-                    </Card>
-                  );
+            <select
+              onChange={(e) =>
+                setReqObj({
+                  ...reqObj,
+                  filter: { ...reqObj.filter, injuryType: e.target.value },
                 })
-              : paginatePosts.map((item: any) => {
-                  return (
-                    <Card
-                      key={item._id}
-                      style={{
-                        width: "18rem",
-                        padding: "2%",
-                        margin: "1.5%",
-                        background: "#FFFFFF",
-                        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Card.Content
-                        onClick={() => {
-                          Details(item);
-                        }}
-                      >
-                        <div>
-                          <img
-                            style={{
-                              height: "10rem",
-                              width: "14rem",
-                            }}
-                            src="/user.png"
-                            alt="image"
-                          />
-                        </div>
-
-                        <Card.Header className="headText">
-                          {item.fname} {item.lname}
-                        </Card.Header>
-                        <br />
-                        <Card.Description className="descText">
-                          {item.description}
-                        </Card.Description>
-                      </Card.Content>
-                    </Card>
-                  );
-                })}
-            {searchInput.length > 1 || filteredResults.length > 1 ? (
-              <div>
-                <Pagination
-                  items={filteredResults.length}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            ) : (
-              <div>
-                <Pagination
-                  items={APIData.length}
-                  pageSize={pageSize}
-                  currentPage={currentPage}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            )}
+              }
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "#FFFFFF",
+                border: "1px solid rgba(181, 181, 195, 0.4)",
+                borderRadius: "10px",
+              }}
+            >
+              <option defaultChecked value="">
+                Type
+              </option>
+              <option value="Paraplagia">Paraplegia</option>
+              <option value="Quadriplegia">Quadriplegia</option>
+            </select>
+          </div>
+          <div style={{ width: "15%" }}>
+            <select
+              onChange={(e) =>
+                setReqObj({
+                  ...reqObj,
+                  filter: { ...reqObj.filter, district: e.target.value },
+                })
+              }
+              style={{
+                width: "100%",
+                height: "100%",
+                background: "#FFFFFF",
+                border: "1px solid rgba(181, 181, 195, 0.4)",
+                borderRadius: "10px",
+              }}
+            >
+              <option defaultChecked value="">
+                District
+              </option>
+              <option value="Ahmedabad">Ahmedabad</option>
+              <option value="Amreli">Amreli</option>
+            </select>
           </div>
         </div>
-      ) : (
-        <center>
-          <div className="lds-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+        <div
+          style={{ marginTop: 20, justifyContent: "center" }}
+          className="row pb-5"
+        >
+          {loading ? (
+            <center>
+              <div style={{ margin: "100px" }}>
+                <ReactLoading type={"spin"} color={"#6BC17A"} />
+              </div>
+            </center>
+          ) : (
+
+            APIData.map((item: any) => {
+              return (
+                <Card
+                  key={item._id}
+                  style={{
+                    width: "18rem",
+                    padding: "2%",
+                    margin: "1.5%",
+                    background: "#FFFFFF",
+                    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <Card.Content
+                    onClick={() => {
+                      Details(item);
+                    }}
+                  >
+                    <div>
+                      <img
+                        style={{
+                          height: "8rem",
+                          width: "14rem",
+                        }}
+                        src={`${url}${item.email}/${item.image}`}
+                        alt="image"
+                      />
+                    </div>
+                    <Card.Header
+                      className="headText mt-1"
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "18px",
+                        color: "#181C32",
+                      }}
+                    >
+                      {item.fname} {item.lname}
+                    </Card.Header>
+                    <br />
+                    <Card.Description className="descText">
+                      <label style={{ border: "0", color: "#171919" }}>
+                        {item.description}
+                      </label>
+                    </Card.Description>
+                  </Card.Content>
+                </Card>
+              );
+            }))
+          }
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div>
+              <p>
+                {currentPage} of {Math.ceil(totalCount / pageSize)}
+              </p>
+            </div>
+            <div>
+              <ReactPaginate
+                pageCount={Math.ceil(totalCount / pageSize)}
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                marginPagesDisplayed={0}
+                pageRangeDisplayed={2}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+              />
+            </div>
           </div>
-        </center>
-      )}
+        </div>
+      </div>
     </>
   );
 }

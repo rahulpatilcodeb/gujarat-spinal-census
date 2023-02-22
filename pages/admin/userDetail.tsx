@@ -4,11 +4,18 @@ import axios from "axios";
 import Personal from "./personal";
 import Injury from "./injury";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import ReactLoading from "react-loading";
 
 function UserDetail() {
+
+  const { user: user, islogin: Ilogin, token: token } = useSelector((state: RootState) => state.users)
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
-  const { query: id } = router;
+  let { query: id, query: page } = router;
   const example = { id };
+  const currentPage = parseInt(`${page.page}`);
   const [step, setstep] = useState(1);
   const [userData, setUserData] = useState([]);
 
@@ -20,31 +27,37 @@ function UserDetail() {
   };
 
   useEffect(() => {
-    try {
-      axios
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
-        .then((response) => {
-          setUserData(response.data.data);
-          // console.log("userdata info", response);
-        })
-        .catch((err) => console.log(err));
-    } catch (err) {
-      console.log(`error`, err);
+    if (!Ilogin) {
+      router.push("/admin/login")
+    } else {
+      setLoading(true)
+      try {
+        axios
+          .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
+          .then((response) => {
+            setUserData(response.data.data);
+          })
+          .catch((err) => console.log(err));
+      } catch (err) {
+        console.log(`error`, err);
+      } finally {
+        setLoading(false)
+      }
     }
-    // axios
-    //   .post(process.env.NEXT_PUBLIC_API_URL_User as string, example.id)
-    //   .then((response) => {
-    //     setUserData(response.data.data);
-    //     console.log("userdata info", response.data.data);
-    //   })
-    //   .catch((err) => console.log(err));
-  }, []);
+  }, [Ilogin]);
 
   switch (step) {
     case 1:
       return (
         <div>
-          <Container>
+          <Container className="w-50">
+            {loading && (
+              <center>
+                <div style={{ margin: "100px" }}>
+                  <ReactLoading type={"spin"} color={"#6BC17A"} />
+                </div>
+              </center>
+            )}
             <Row>
               <Col className="custom-margin">
                 <Personal nextStep={nextStep} value={userData} />
@@ -56,13 +69,13 @@ function UserDetail() {
     case 2:
       return (
         <div>
-          <Container>
+          <Container className="w-50">
             <Row>
-              <Col className="custom-margin">
+              <Col className="custom-margin pb-5">
                 <Injury
-                  nextStep={nextStep}
                   prevStep={prevStep}
                   value={userData}
+                  page={currentPage}
                 />
               </Col>
             </Row>

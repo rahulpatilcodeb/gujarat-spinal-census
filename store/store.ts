@@ -9,8 +9,8 @@ import filterSlice from "./filterSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["users"],
-};
+  // whitelist: ["users"],
+}; 
 // const rootPersistConfig = {
 // 	key: 'root',
 // 	storage,

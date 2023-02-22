@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = {
+    image: String,
     fname: String,
     lname: String,
     dob: Date,
@@ -21,6 +22,7 @@ const userSchema = {
     injuryStatus: String,
     physicalStatus: String,
     financialStatus: String,
+    independent: String,
 };
 
 export default mongoose.models.User || mongoose.model('User', userSchema)
