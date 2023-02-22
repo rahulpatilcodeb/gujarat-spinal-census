@@ -15,19 +15,21 @@ export default function Patients() {
   const router = useRouter();
   const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
-
+  const [currentPage, setCurrentPage] = useState<any>(1);
+   let { query: page } = router;
+   const activepage = parseInt(`${page.pages}`);
+   console.log("active page number",activepage)
   const [reqObj, setReqObj] = useState<any>({
     filter: {
       fname: undefined,
       injuryType: undefined,
       district: undefined
     },
-    page: 1,
+    page: activepage || 1,
     limit: 8
   })
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState<any>(1);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
   const searchItems = async (req: any) => {
@@ -40,6 +42,7 @@ export default function Patients() {
       console.log("gdyag", filteredData.data);
       setAPIData(filteredData.data.data);
       setTotalCount(filteredData.data.totalCount);
+      // router.push(`/admin/patients?page=${activepage}`);
     } catch (err) {
       console.log("error", err)
     } finally {
@@ -70,6 +73,7 @@ export default function Patients() {
       ...reqObj,
       page: event.selected + 1,
     });
+  
   };
 
   const Details = (item: any) => {
@@ -170,7 +174,6 @@ export default function Patients() {
               </div>
             </center>
           ) : (
-
             APIData.map((item: any) => {
               return (
                 <Card
@@ -218,12 +221,12 @@ export default function Patients() {
                   </Card.Content>
                 </Card>
               );
-            }))
-          }
+            })
+          )}
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
               <p>
-                {currentPage} of {Math.ceil(totalCount / pageSize)}
+                {reqObj.page} of {Math.ceil(totalCount / pageSize)}
               </p>
             </div>
             <div>
@@ -245,6 +248,7 @@ export default function Patients() {
                 breakClassName={"page-item"}
                 breakLinkClassName={"page-link"}
                 activeClassName={"active"}
+                forcePage={reqObj.page - 1}
               />
             </div>
           </div>

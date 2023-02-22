@@ -12,7 +12,7 @@ function Footer() {
         className="d-flex justify-content-between"
         style={{
           zIndex:10,
-          position: "fixed",
+          // position: "fixed",
           left: "0",
           bottom: "0",
           width: "100%",
@@ -20,14 +20,14 @@ function Footer() {
           backgroundColor: "#FFFFFF",
         }}
       >
-        <h6 className="d-none   my-2 ms-5 d-sm-block">
+        <h6 className="d-none my-2 ms-4 d-sm-block">
           © 2023 Spinal Injury. All Rights Reserved.
         </h6>
         <p className="d-block fs-6  my-2 ms-3 d-sm-none ">
           © 2023 Spinal Injury. All Rights Reserved.
         </p>
 
-        <span className="my-2 me- justify-content-content d-sm-flex">
+        <span className="my-2 me-3 justify-content-content d-sm-flex">
           <img
             style={{ height: "33px", width: "33px" }}
             alt=""
