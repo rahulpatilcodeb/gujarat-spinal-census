@@ -34,7 +34,7 @@ const Home = () => {
 
   // try {
   const apiCall = async () => {
-    // setLoading(true);
+    setLoading(true);
     const resp = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
       { reqObj }, {
@@ -57,6 +57,8 @@ const Home = () => {
 
 
         }
+      }).finally(() => {
+        setLoading(false)
       });
 
   }
@@ -67,19 +69,19 @@ const Home = () => {
   // }
 
   useEffect(() => {
-    try {
-      if (!Ilogin) {
-        router.push("/admin/login");
-      } else {
-        setLoading(true);
-        apiCall();
+    // try {
+    if (!Ilogin) {
+      router.push("/admin/login");
+    } else {
+      setLoading(true);
+      apiCall();
 
-      }
     }
-    finally {
-      console.log("error")
-      setLoading(false);
-    }
+    // }
+    // finally {
+    //   console.log("error")
+    //   setLoading(false);
+    // }
   }, [Ilogin, currentPage]);
 
 
@@ -146,8 +148,8 @@ const Home = () => {
                   <td>
                     <center>
                       <LightTooltip title={post.description} >
-                          <p>{post.description.slice(0, 30)}...</p>
-                      </LightTooltip>                  
+                        <p>{post.description.slice(0, 30)}...</p>
+                      </LightTooltip>
                     </center>
                   </td>
                 </tr>
@@ -155,36 +157,36 @@ const Home = () => {
             </tbody>
           </table>
 
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>
-              <p>
-                {currentPage} of {Math.ceil(totalCount / pageSize)}
-              </p>
-            </div>
-            <div>
-              <ReactPaginate
-                pageCount={pageCount}
-                previousLabel={"<"}
-                nextLabel={">"}
-                breakLabel={"..."}
-                marginPagesDisplayed={0}
-                pageRangeDisplayed={3}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination justify-content-center"}
-                pageClassName={"page-item"}
-                pageLinkClassName={"page-link"}
-                previousClassName={"page-item"}
-                previousLinkClassName={"page-link"}
-                nextClassName={"page-item"}
-                nextLinkClassName={"page-link"}
-                breakClassName={"page-item"}
-                breakLinkClassName={"page-link"}
-                activeClassName={"active"}
-              />
-            </div>
-          </div>
         </div>
       )}
+      <div className="px-5" style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <p>
+            {currentPage} of {Math.ceil(totalCount / pageSize)}
+          </p>
+        </div>
+        <div>
+          <ReactPaginate
+            pageCount={pageCount}
+            previousLabel={"<"}
+            nextLabel={">"}
+            breakLabel={"..."}
+            marginPagesDisplayed={0}
+            pageRangeDisplayed={3}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination justify-content-center"}
+            pageClassName={"page-item"}
+            pageLinkClassName={"page-link"}
+            previousClassName={"page-item"}
+            previousLinkClassName={"page-link"}
+            nextClassName={"page-item"}
+            nextLinkClassName={"page-link"}
+            breakClassName={"page-item"}
+            breakLinkClassName={"page-link"}
+            activeClassName={"active"}
+          />
+        </div>
+      </div>
       ;
     </>
   );
