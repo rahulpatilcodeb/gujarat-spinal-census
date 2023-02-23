@@ -39,7 +39,7 @@ const UserRegister = ({
     gender: Yup.string().required("Please enter gender here"),
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
-    // file: Yup.mixed().required("image please")
+    file: Yup.mixed().required("please select an image")
   });
 
 
@@ -178,12 +178,12 @@ const UserRegister = ({
               to select picture from media
             </p>
           </div>
-        </div>
         {formik.touched.file && formik.errors.file && (
           <p style={{ color: "red" }} className="error">
             {JSON.stringify(formik.errors.file)}
           </p>
         )}
+        </div>
 
         <div className="container mb-4">
           <div className="row mb-4">
