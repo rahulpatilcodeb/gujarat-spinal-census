@@ -54,11 +54,11 @@ const InjuryInfo = ({
       validationSchema: schema,
       onSubmit: async (values) => {
         try {
-          // fileupload(values.file);
+          fileupload(values.file);
           setLoading(true)
           setFormData(formik.values)
           // fileupload(Ifile);
-          // values.avatar = values.file.name;
+          values.avatar = values.file.name;
           await axios
             .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
             .catch((err) => { console.error(err) });

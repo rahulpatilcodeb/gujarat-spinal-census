@@ -84,13 +84,13 @@ const UserRegister = ({
           <div className="col">
             <span
               style={{
-                
+
                 backgroundColor: "rgb(78, 244, 105)",
                 padding: "6px 13px",
                 borderRadius: "10px",
                 marginRight: "10px",
-                color:"white"
-                
+                color: "white"
+
               }}
             >
               1
@@ -122,13 +122,14 @@ const UserRegister = ({
         className="pb-3 form-group"
         encType="multipart/jpeg"
       >
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center align-items-center">
           <div>
             <img
-              className="manImg"
+              className="manImg mt-4"
               style={{
                 width: "70px ",
                 marginRight: "25px ",
+                
               }}
               alt=""
               src={
@@ -139,7 +140,7 @@ const UserRegister = ({
             />
           </div>
           <div
-            className="align-items-center align-middle"
+            className="align-items-center "
             style={{
               borderRadius: "10px",
               padding: "0px 20px",
@@ -148,10 +149,11 @@ const UserRegister = ({
               border: "2px solid rgb(215, 215, 215)",
               backgroundColor: "rgba(244, 246, 251, 0.727)",
               height: "65px",
+
             }}
           >
             <input
-              // required
+              required
               accept="image/*"
               id="avatar"
               name="file"
@@ -179,6 +181,8 @@ const UserRegister = ({
               to select picture from media
             </p>
           </div>
+        </div>
+        <div className="d-flex justify-content-center">
           {formik.touched.file && formik.errors.file && (
             <p style={{ color: "red" }} className="error">
               {JSON.stringify(formik.errors.file)}
@@ -550,7 +554,7 @@ const UserRegister = ({
               options={options}
               id="District"
               name="district"
-             
+
               // className={`form-select ${styles.tcolor}`}
               onBlur={formik.handleBlur}
             // value={values.district}
