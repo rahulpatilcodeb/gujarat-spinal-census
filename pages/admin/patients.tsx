@@ -178,6 +178,12 @@ export default function Patients() {
               </option>
               <option value="Ahmedabad">Ahmedabad</option>
               <option value="Amreli">Amreli</option>
+              <option value="Bharuch">Bharuch</option>
+              <option value="Bhavnagar">Bhavnagar</option>
+              <option value="Jamnagar">Jamnagar</option>
+              <option value="Mehsana">Mehsana</option>
+              <option value="Rajkot">Rajkot</option>
+              <option value="Surat">Surat</option>
             </select>
           </div>
         </div>
