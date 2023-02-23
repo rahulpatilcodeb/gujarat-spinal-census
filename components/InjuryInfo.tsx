@@ -4,6 +4,7 @@ import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import ReactLoading from "react-loading";
+import Select from "react-select";
 
 const InjuryInfo = ({
   nextStep,
@@ -70,6 +71,12 @@ const InjuryInfo = ({
       },
     });
 
+  const options = [
+    { value: "high", label: "high" },
+    { value: "low", label: "low" },
+    { value: "medium", label: "medium" },
+  ];
+
   return (
     <>
       {loading ? (
@@ -88,10 +95,9 @@ const InjuryInfo = ({
               <div className="col">
                 <span
                   style={{
-                    border: "px solid rgb(231, 231, 231)",
                     backgroundColor: "rgb(228, 233, 229)",
-                    padding: "5px 8px",
-                    borderRadius: "5px",
+                    padding: "6px 13px",
+                    borderRadius: "10px",
                     marginRight: "10px",
                   }}
                 >
@@ -104,11 +110,11 @@ const InjuryInfo = ({
               <div className="col">
                 <span
                   style={{
-                    border: "2px solid rgb(0, 238, 40)",
                     backgroundColor: "rgb(78, 244, 105)",
-                    padding: "5px 8px ",
-                    borderRadius: "5px",
+                    padding: "6px 13px",
+                    borderRadius: "10px",
                     marginRight: "10px",
+                    color: "white"
                   }}
                 >
                   2
@@ -269,7 +275,7 @@ const InjuryInfo = ({
                 >
                   Injury Level
                 </label>
-                <select
+                {/* <select
                   required
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -298,7 +304,18 @@ const InjuryInfo = ({
                   >
                     low
                   </option>
-                </select>
+                </select> */}
+                <Select
+                  defaultValue={options.find(
+                    (e) => formik.values.injuryLevel == e.value
+                  )}
+                  onChange={(e: any) => formik.setFieldValue("injuryLevel", e.value)}
+                  options={options}
+                  name="injuryLevel"
+                  id="Ilevel"
+                  onBlur={formik.handleBlur}
+                // value={values.district}
+                />
                 {formik.touched.injuryLevel && formik.errors.injuryLevel && (
                   <p style={{ color: "red" }} className="error">
                     {formik.errors.injuryLevel.toString()}

@@ -16,40 +16,57 @@ export default async function handler(
   try {
     switch (req.method) {
       case "GET":
-        // const verified = jwt.verify(req.headers.authorization, setcretKey);
-        // console.log(verified.email);
-        // const admins = await admin.find({ email: verified.email });
-        // console.log(admins);
+      // const verified = jwt.verify(req.headers.authorization, setcretKey);
+      // console.log(verified.email);
+      // const admins = await admin.find({ email: verified.email });
+      // console.log(admins);
 
-        // if (admins[0].email != undefined) {
-        console.log("thisi starting of get");
-        const posts = await Contact.aggregate([
-          {
-            $group: {
-              _id: "total",
-              count: {
-                $sum: +1,
-              },
-            },
-          },
-        ]);
-        console.log(posts[0].count, "this is posts");
-        return res.json({
-          data: posts,
-        });
-        // }
-        // return res.send("Session expired");
-        // break;
+      // if (admins[0].email != undefined) {
+      // console.log("thisi starting of get");
+      // const posts = await Contact.aggregate([
+      //   {
+      //     $group: {
+      //       _id: "total",
+      //       count: {
+      //         $sum: +1,
+      //       },
+      //     },
+      //   },
+      // ]);
+      // console.log(posts[0].count, "this is posts");
+      // return res.json({
+      //   data: posts,
+      // });
+      // }
+      // return res.send("Session expired");
+      // break;
       case "POST":
-        console.log(req.body, "this is boyd of post");
-        const limit = 10;
-        const skeeper = req.body.page;
-        const skip = (skeeper - 1) * limit;
-        const post = await Contact.find().sort({ _id: -1 }).skip(skip).limit(limit).lean();
-        console.log(skeeper, skip, "limit contact", limit);
-        return res.send(post);
+        console.log("this s token", req.headers);
+        const authHeader = req.headers.authorization;
+        const token = authHeader && authHeader.split(" ")[1];
+        console.log("this is token", token);
+        const verified = jwt.verify(token, setcretKey);
+        console.log(verified.email);
+        const admins = await admin.find({ email: verified.email });
+        console.log(admins);
+        if (admins[0].email != undefined) {
+          console.log(req.body, "this is boyd of post");
+          const limit = req.body.reqObj.limit;
+          const page = req.body.reqObj.page;
+          const skip = (page - 1) * limit;
+          const post = await Contact.find()
+            .sort({ _id: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean();
+          console.log(page, skip, "limit contact", limit);
+          const count = await Contact.count();
+          console.log(count);
+          return res.send({ post, count });
+        }
     }
-  } catch (error) {
-    console.error(error);
+  } catch (error: any) {
+    console.log("this is ", error.message);
+    return res.status(400).json(error.message);
   }
 }
