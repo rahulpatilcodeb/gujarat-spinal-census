@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import ReactLoading from "react-loading";
+import { styled } from "@mui/material/styles";
+import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -65,6 +67,17 @@ const Home = () => {
     setCurrentPage(event.selected + 1);
   };
 
+  const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      background: "#c6edc2",
+      color: "black",
+      boxShadow: theme.shadows[1],
+      fontSize: 16,
+    },
+  }));
+
   return (
     <>
       {loading ? (
@@ -87,7 +100,7 @@ const Home = () => {
                 <th>
                   <center>Contact No.</center>
                 </th>
-                <th style={{ width: "45%" }}>
+                <th style={{ width: "40%" }}>
                   <center>Description</center>
                 </th>
               </tr>
@@ -106,15 +119,16 @@ const Home = () => {
                   </td>
                   <td>
                     <center>
-                      <div className="border">
-                        {post.description.slice(0, 50)}...
-                      </div>
+                      <LightTooltip title={post.description} className="border" sx={{}}>
+                          <p>{post.description.slice(0, 30)}...</p>
+                      </LightTooltip>                  
                     </center>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
               <p>
@@ -151,3 +165,5 @@ const Home = () => {
 };
 
 export default Home;
+
+

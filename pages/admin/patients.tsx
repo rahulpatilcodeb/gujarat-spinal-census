@@ -73,6 +73,7 @@ export default function Patients() {
       ...reqObj,
       page: event.selected + 1,
     });
+    router.push(`/admin/patients?page=${event.selected + 1}`);
   
   };
 
