@@ -39,7 +39,18 @@ const UserRegister = ({
     gender: Yup.string().required("Please enter gender here"),
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
-    file: Yup.mixed().required("please select an image")
+    file: Yup.mixed().required("please select an image").test("file", "Unsupported File Format",
+      (value:any) => {
+        if (value) {
+          return (
+            value.type === "image/jpeg" ||
+            value.type === "image/jpg" ||
+            value.type === "image/png" 
+          );
+        } else {
+          return true;
+        }
+      })
   });
 
 
@@ -125,11 +136,12 @@ const UserRegister = ({
         <div className="d-flex justify-content-center align-items-center">
           <div>
             <img
-              className="manImg mt-4"
+              className="manImg mt-1"
               style={{
-                width: "70px ",
+                width: "50px ",
+                height: "60px",
                 marginRight: "25px ",
-                
+
               }}
               alt=""
               src={
