@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import ReactPaginate from "react-paginate";
 import ReactLoading from "react-loading";
 import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import { logout } from "@/store/userSlice";
+
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -15,56 +17,80 @@ const Home = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
+  const [reqObj, setReqObj] = useState<any>({
+    filter: {
+      fname: undefined,
+    },
+    page: 1,
+    limit: 10
+  })
   const {
     user: user,
     islogin: Ilogin,
     token: token,
   } = useSelector((state: RootState) => state.users);
 
+  const dispatch = useDispatch()
 
- const apiCall = async () => {
-   try {
-     setLoading(true);
-     const resp = await axios.post(
-       `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
-       { page: currentPage }
-     );
-     console.log(resp.data, "resp");
-     setPosts(resp.data);
-   } catch (err) {
-     console.log("error", err);
-   } finally {
-     setLoading(false);
-   }
- };
+  // try {
+  const apiCall = async () => {
+    // setLoading(true);
+    const resp = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/contactPage`,
+      { reqObj }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).then((resp) => {
+      console.log(resp.data, "resp");
+      setPosts(resp.data.post);
+      setTotalCount(resp.data.count)
+    })
+      .catch((err) => {
+        console.log("err", err)
+
+        console.log(err.response.data == "jwt expired")
+        if (err.response.data == "jwt expired") {
+          alert("seesion expired")
+          dispatch(logout());
+
+
+        }
+      });
+
+  }
+
+  // }catch(err)
+  // {
+  //   console.log(err)
+  // }
 
   useEffect(() => {
-      try {
-        if (!Ilogin) {
-          router.push("/admin/login");
-        } else {
-          setLoading(true);
-          apiCall();
-          const getPosts = async () => {
-            const { data: res } = await axios.get(
-              `${process.env.NEXT_PUBLIC_API_URL}/contactPage`
-            );
-            setTotalCount(res.data[0].count);
-          };
-          getPosts();
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
+    try {
+      if (!Ilogin) {
+        router.push("/admin/login");
+      } else {
+        setLoading(true);
+        apiCall();
+
       }
+    }
+    finally {
+      console.log("error")
+      setLoading(false);
+    }
   }, [Ilogin, currentPage]);
 
- 
+
   const pageCount = Math.ceil(totalCount / pageSize);
 
   const handlePageClick = (event: any) => {
     setCurrentPage(event.selected + 1);
+    setReqObj({
+      ...reqObj,
+      page: event.selected + 1,
+    });
   };
 
   const LightTooltip = styled(({ className, ...props }: TooltipProps) => (

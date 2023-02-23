@@ -311,12 +311,13 @@ const UserRegister = ({
                   className={`form-control ${styles.tcolor}`}
                   id="Mnumber"
                 />
+
+              </div>
                 {formik.touched.contact && formik.errors.contact && (
                   <p style={{ color: "red" }} className="error">
                     {JSON.stringify(formik.errors.contact)}
                   </p>
                 )}
-              </div>
             </div>
           </div>
 

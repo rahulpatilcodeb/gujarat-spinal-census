@@ -49,7 +49,7 @@ const Login = () => {
         return alert("invalid input");
       }
     } catch (error) {
-      alert(`\n Please provide correct input.\n  \n thank you!`);
+      alert(`\n Please provide correct input.  \n thank you!`);
     } finally {
     }
   }

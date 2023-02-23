@@ -33,16 +33,19 @@ export default async function handler(
     console.log(req.headers.authorization);
     switch (req.method) {
       case "GET":
+        if (!req.headers.authorization) {
+          throw Error("jwt expired");
+        }
         const verified = jwt.verify(req.headers.authorization, setcretKey);
         console.log(verified.email);
         const admins = await admin.find({ email: verified.email });
         console.log(admins);
-      
+
         if (admins[0].email != undefined) {
           const posts = await User.find();
           return res.json({
             data: posts,
-          })
+          });
         }
         // return res.send("Session expired");
         break;
@@ -68,7 +71,7 @@ export default async function handler(
           injuryStatus: req.body.injuryStatus,
           physicalStatus: req.body.physicalStatus,
           financialStatus: req.body.financialStatus,
-          independent: req.body.independent
+          independent: req.body.independent,
         });
         await user.save();
         console.log("User", user);

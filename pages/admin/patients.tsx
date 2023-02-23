@@ -4,21 +4,24 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import ReactPaginate from "react-paginate";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Card } from "semantic-ui-react";
 import { debounce } from 'lodash'
+import { logout } from "@/store/userSlice";
+
 
 export default function Patients() {
   const { user: user, islogin: Ilogin, token: token } = useSelector(
     (state: RootState) => state.users
   );
   const router = useRouter();
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false)
   const [APIData, setAPIData] = useState([]);
   const [currentPage, setCurrentPage] = useState<any>(1);
-   let { query: page } = router;
-   const activepage = parseInt(`${page.pages}`);
-   console.log("active page number",activepage)
+  let { query: page } = router;
+  const activepage = parseInt(`${page.pages}`);
+  console.log("active page number", activepage)
   const [reqObj, setReqObj] = useState<any>({
     filter: {
       fname: undefined,
@@ -31,20 +34,36 @@ export default function Patients() {
   const pageSize = 8;
   const [totalCount, setTotalCount] = useState(0);
   const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
+  // const headers = {
+  //   'Content-Type': 'application/json',
+  //   'Authorization': `Bearer ${token}`
+  // }
+
 
   const searchItems = async (req: any) => {
     try {
       setLoading(true)
       const filteredData = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/filtertype`,
-        req
-      );
+        `${process.env.NEXT_PUBLIC_API_URL}/filtertype`, {
+        body: req
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log(filteredData)
       console.log("gdyag", filteredData.data);
       setAPIData(filteredData.data.data);
       setTotalCount(filteredData.data.totalCount);
       // router.push(`/admin/patients?page=${activepage}`);
-    } catch (err) {
-      console.log("error", err)
+
+    } catch (err: any) {
+      console.log(err.response.data == "jwt expired")
+      if (err.response.data == "jwt expired") {
+        alert("seesion expired")
+        dispatch(logout());
+      }
     } finally {
       setLoading(false);
     }
@@ -73,8 +92,6 @@ export default function Patients() {
       ...reqObj,
       page: event.selected + 1,
     });
-    router.push(`/admin/patients?page=${event.selected + 1}`);
-  
   };
 
   const Details = (item: any) => {
