@@ -13,10 +13,20 @@ function Navbars() {
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
   );
+  const [homeColor, setHomeColor] = useState("#6BC17A");
+  const [contactColor, setContactColor]=useState("#181C32")
+
+  const handleChangeHomeColor = (e:any) => {
+    setHomeColor("#6BC17A");
+    setContactColor("#181C32")
+  };
+   const handleChangeContactColor = (e: any) => {
+     setHomeColor("#181C32");
+     setContactColor("#6BC17A");
+   };
 
   function handleClick(e: any) {
     e.preventDefault();
-
     dispatch(logout());
   }
 
@@ -29,9 +39,7 @@ function Navbars() {
 
   return (
     <>
-      <div
-        className="my-3 d-flex justify-content-between"
-      >
+      <div className="my-3 d-flex justify-content-between">
         <div className="col ms-5">
           <span>
             <img
@@ -46,14 +54,16 @@ function Navbars() {
             {!Ilogin ? (
               <Link
                 href="/"
-                style={{ color: "rgba(107, 193, 122, 1)", fontSize: "18px" }}
+                onClick={handleChangeHomeColor}
+                style={{ color: homeColor, fontSize: "18px" }}
               >
                 Home
               </Link>
             ) : (
               <Link
                 href="/admin/patients"
-                style={{ color: "rgba(107, 193, 122, 1)", fontSize: "18px" }}
+                onClick={handleChangeHomeColor}
+                style={{ color: homeColor, fontSize: "18px" }}
               >
                 Home
               </Link>
@@ -63,21 +73,23 @@ function Navbars() {
               <Link
                 className="ms-2"
                 href="/contact"
-                style={{ color: "rgba(0, 0, 0)", fontSize: "18px" }}
+                onClick={handleChangeContactColor}
+                style={{ color: contactColor, fontSize: "18px" }}
               >
                 Contact
               </Link>
             ) : (
               <Link
+                onClick={handleChangeContactColor}
                 className="ms-2"
                 href="/admin/contact"
-                style={{ color: "rgba(0, 0, 0)", fontSize: "18px" }}
+                style={{ color: contactColor, fontSize: "18px" }}
               >
                 Contact
               </Link>
             )}
             <button
-              style={{ display: Ilogin ? "inline" : "none" ,}}
+              style={{ display: Ilogin ? "inline" : "none" }}
               className="btn btn-sm btn-primary ms-2 "
               onClick={handleClick}
             >
