@@ -71,11 +71,11 @@ const InjuryInfo = ({
       },
     });
 
-     const options = [
-       { value: "high", label: "high" },
-       { value: "low", label: "low" },
-       { value: "medium", label: "medium" },
-     ];
+  const options = [
+    { value: "high", label: "high" },
+    { value: "low", label: "low" },
+    { value: "medium", label: "medium" },
+  ];
 
   return (
     <>
@@ -95,10 +95,9 @@ const InjuryInfo = ({
               <div className="col">
                 <span
                   style={{
-                    border: "px solid rgb(231, 231, 231)",
                     backgroundColor: "rgb(228, 233, 229)",
-                    padding: "5px 8px",
-                    borderRadius: "5px",
+                    padding: "6px 13px",
+                    borderRadius: "10px",
                     marginRight: "10px",
                   }}
                 >
@@ -111,11 +110,11 @@ const InjuryInfo = ({
               <div className="col">
                 <span
                   style={{
-                    border: "2px solid rgb(0, 238, 40)",
                     backgroundColor: "rgb(78, 244, 105)",
-                    padding: "5px 8px ",
-                    borderRadius: "5px",
+                    padding: "6px 13px",
+                    borderRadius: "10px",
                     marginRight: "10px",
+                    color: "white"
                   }}
                 >
                   2
@@ -310,12 +309,12 @@ const InjuryInfo = ({
                   defaultValue={options.find(
                     (e) => formik.values.injuryLevel == e.value
                   )}
-                  onChange={(e:any) => formik.setFieldValue("injuryLevel", e.value)}
+                  onChange={(e: any) => formik.setFieldValue("injuryLevel", e.value)}
                   options={options}
                   name="injuryLevel"
                   id="Ilevel"
                   onBlur={formik.handleBlur}
-                  // value={values.district}
+                // value={values.district}
                 />
                 {formik.touched.injuryLevel && formik.errors.injuryLevel && (
                   <p style={{ color: "red" }} className="error">

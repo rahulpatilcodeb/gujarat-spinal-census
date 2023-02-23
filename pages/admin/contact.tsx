@@ -145,7 +145,7 @@ const Home = () => {
                   </td>
                   <td>
                     <center>
-                      <LightTooltip title={post.description} className="border" sx={{}}>
+                      <LightTooltip title={post.description} >
                           <p>{post.description.slice(0, 30)}...</p>
                       </LightTooltip>                  
                     </center>

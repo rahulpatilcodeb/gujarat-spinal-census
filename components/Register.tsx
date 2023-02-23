@@ -4,11 +4,11 @@ import regi from "@/public/regi.png"
 import { useState } from "react";
 import ReactLoading from "react-loading";
 
-const Register =() => {
+const Register = () => {
   const [loading, setLoading] = useState(false);
-  function registered(){
+  function registered() {
     setLoading(true)
-    window.location.href="/"
+    window.location.href = "/"
   }
 
 
@@ -47,7 +47,7 @@ const Register =() => {
         </div>
       )}
     </>
-  ); 
+  );
 }
 
 export default Register;

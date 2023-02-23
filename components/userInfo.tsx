@@ -69,7 +69,7 @@ const UserRegister = ({
     { value: "Bhavnagar", label: "Bhavnagar" },
     { value: "Jamnagar", label: "Jamnagar" },
     { value: "Mehsana", label: "Mehsana" },
-     { value: "Rajkot", label: "Rajkot" },
+    { value: "Rajkot", label: "Rajkot" },
     { value: "Surat", label: "Surat" },
   ];
 
@@ -84,11 +84,13 @@ const UserRegister = ({
           <div className="col">
             <span
               style={{
-                border: "2px solid rgb(0, 238, 40)",
+                
                 backgroundColor: "rgb(78, 244, 105)",
-                padding: "5px 8px",
-                borderRadius: "5px",
+                padding: "6px 13px",
+                borderRadius: "10px",
                 marginRight: "10px",
+                color:"white"
+                
               }}
             >
               1
@@ -100,10 +102,9 @@ const UserRegister = ({
           <div className="col">
             <span
               style={{
-                border: "2px solid rgb(231, 231, 231)",
                 backgroundColor: "rgb(228, 233, 229)",
-                padding: "5px 8px ",
-                borderRadius: "5px",
+                padding: "6px 13px",
+                borderRadius: "10px",
                 marginRight: "10px",
               }}
             >
@@ -126,7 +127,7 @@ const UserRegister = ({
             <img
               className="manImg"
               style={{
-                width: "80px ",
+                width: "70px ",
                 marginRight: "25px ",
               }}
               alt=""
@@ -178,11 +179,11 @@ const UserRegister = ({
               to select picture from media
             </p>
           </div>
-        {formik.touched.file && formik.errors.file && (
-          <p style={{ color: "red" }} className="error">
-            {JSON.stringify(formik.errors.file)}
-          </p>
-        )}
+          {formik.touched.file && formik.errors.file && (
+            <p style={{ color: "red" }} className="error">
+              {JSON.stringify(formik.errors.file)}
+            </p>
+          )}
         </div>
 
         <div className="container mb-4">
@@ -249,7 +250,7 @@ const UserRegister = ({
             {"    "}
           </div>
 
-          <div className="row mb-4">
+          <div className="row mb-1">
             <div className="col">
               <label
                 htmlFor="fname"
@@ -311,17 +312,16 @@ const UserRegister = ({
                   className={`form-control ${styles.tcolor}`}
                   id="Mnumber"
                 />
-
-              </div>
                 {formik.touched.contact && formik.errors.contact && (
                   <p style={{ color: "red" }} className="error">
                     {JSON.stringify(formik.errors.contact)}
                   </p>
                 )}
+              </div>
             </div>
           </div>
 
-          <div className="mb-4">
+          <div className="mb-2">
             <label
               className="form-label"
               style={{
@@ -546,13 +546,14 @@ const UserRegister = ({
 
             <Select
               defaultValue={options.find((e) => formik.values.district == e.value)}
-              onChange={(e:any) => formik.setFieldValue("district", e.value)}
+              onChange={(e: any) => formik.setFieldValue("district", e.value)}
               options={options}
               id="District"
               name="district"
+             
               // className={`form-select ${styles.tcolor}`}
               onBlur={formik.handleBlur}
-              // value={values.district}
+            // value={values.district}
             />
             {formik.touched.district && formik.errors.district && (
               <p style={{ color: "red" }} className="error">
