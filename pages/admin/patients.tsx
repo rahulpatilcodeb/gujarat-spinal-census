@@ -8,6 +8,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card } from "semantic-ui-react";
 import { debounce } from 'lodash'
 import { logout } from "@/store/userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 export default function Patients() {
@@ -60,9 +62,12 @@ export default function Patients() {
 
     } catch (err: any) {
       console.log(err.response.data == "jwt expired")
+      const expire = () => {dispatch(logout());}
+      const myTimeout = setTimeout(expire, 5000);
       if (err.response.data == "jwt expired") {
+        // toast.error("Session Expired!");
         alert("seesion expired")
-        dispatch(logout());
+        // setTimeout(expire, 10000)
       }
     } finally {
       setLoading(false);
@@ -278,6 +283,7 @@ export default function Patients() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }

@@ -8,7 +8,8 @@ import ReactLoading from "react-loading";
 import { styled } from "@mui/material/styles";
 import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
 import { logout } from "@/store/userSlice";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -18,9 +19,6 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const [reqObj, setReqObj] = useState<any>({
-    filter: {
-      fname: undefined,
-    },
     page: 1,
     limit: 10
   })
@@ -32,7 +30,6 @@ const Home = () => {
 
   const dispatch = useDispatch()
 
-  // try {
   const apiCall = async () => {
     setLoading(true);
     const resp = await axios.post(
@@ -52,10 +49,8 @@ const Home = () => {
 
         console.log(err.response.data == "jwt expired")
         if (err.response.data == "jwt expired") {
-          alert("seesion expired")
+           toast.error("Session Expired!");
           dispatch(logout());
-
-
         }
       }).finally(() => {
         setLoading(false)
@@ -147,7 +142,7 @@ const Home = () => {
                   </td>
                   <td>
                     <center>
-                      <LightTooltip title={post.description} >
+                      <LightTooltip title={post.description}>
                         <p>{post.description.slice(0, 30)}...</p>
                       </LightTooltip>
                     </center>
@@ -156,10 +151,12 @@ const Home = () => {
               ))}
             </tbody>
           </table>
-
         </div>
       )}
-      <div className="px-5" style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        className="px-5"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
         <div>
           <p>
             {currentPage} of {Math.ceil(totalCount / pageSize)}
@@ -188,6 +185,7 @@ const Home = () => {
         </div>
       </div>
       ;
+      <ToastContainer />
     </>
   );
 };

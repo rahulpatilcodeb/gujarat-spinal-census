@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
 import { RootState } from "@/store/store";
 import ReactLoading from "react-loading";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const router = useRouter();
@@ -46,11 +47,7 @@ const Login = () => {
             login({ user: datadb.payload.name, token: datadb.payload.key })
           );
           setLoading(false)
-          toast("Login Success", {
-            hideProgressBar: true,
-            autoClose: 2000,
-            type: "success",
-          });
+          toast.success("Login Success");
           router.push("/admin/patients");
         }
       } else {
@@ -58,12 +55,8 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false)
-      // toast("Login Success", {
-      //   hideProgressBar: true,
-      //   autoClose: 2000,
-      //   type: "success",
-      // });
-      alert(`Please provide correct input!`);
+      toast.error("Please provide correct input!");
+      // alert(`Please provide correct input!`);
     } finally {
       setLoading(false)
     }
@@ -144,7 +137,7 @@ const Login = () => {
           </div>
         </form>
       )}
-
+      <ToastContainer />
     </>
   );
 };
