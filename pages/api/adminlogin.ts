@@ -44,7 +44,7 @@ export default async function handler(
               console.log("in the try block");
 
               const jtoken = jwt.sign({ email: user.email }, secretKey, {
-                expiresIn: "300000",
+                expiresIn: "18000000",
               });
               useris = {
                 name: user.email,
