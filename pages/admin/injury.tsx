@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "@/styles/Home.module.css";
 import { useRouter } from "next/router";
 
-const Injury = ({  prevStep, value,page }: any) => {
+const Injury = ({ prevStep, value, page }: any) => {
   const router = useRouter();
-  
-  const onclick = (e:any) => {
+
+  const onclick = (e: any) => {
     e.preventDefault()
     const pages = page;
     router.push({
@@ -14,6 +14,9 @@ const Injury = ({  prevStep, value,page }: any) => {
     });
     // router.push(`/admin/patients?page=${page}`);
   };
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   return (
     <>
@@ -192,7 +195,7 @@ const Injury = ({  prevStep, value,page }: any) => {
                           className={`form-select ${styles.tcolor}`}
                           readOnly
                         />
-                          
+
                       </div>
                       <label
                         htmlFor="ImplantFix"

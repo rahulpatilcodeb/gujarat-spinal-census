@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const url = process.env.NEXT_PUBLIC_DATABASE_URL;
 const secretKey = "loginapi";
+import { toast } from "react-toastify";
 
 mongoose.connect(url);
 
@@ -28,9 +29,13 @@ export default async function handler(
         });
         console.log(req.body.email, req.body.password);
         const user = await admin.findOne({ email: req.body.email });
-        console.log(user);
-        const valid = await bcrypt.compare(Admin.password, user.password);
-        console.log(valid);
+        let valid
+        if(user){
+
+          console.log(user);
+          valid = await bcrypt.compare(Admin.password, user.password);
+          console.log(valid);
+        }
 
         if (req.body.email != undefined && user !== null && valid) {
           let useris, Payload;

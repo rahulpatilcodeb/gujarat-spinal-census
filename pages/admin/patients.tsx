@@ -239,7 +239,7 @@ export default function Patients() {
                     <br />
                     <Card.Description className="descText">
                       <label style={{ border: "0", color: "#171919" }}>
-                        {item.description}
+                        {item.description.slice(0, 30)}...
                       </label>
                     </Card.Description>
                   </Card.Content>

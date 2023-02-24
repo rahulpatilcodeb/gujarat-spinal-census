@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/Home.module.css";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
@@ -40,6 +40,9 @@ const InjuryInfo = ({
       console.log("error", error);
     }
   };
+  useEffect(()=> {
+    window.scrollTo(0, 0)
+  },[])
 
   function handlePrev() {
     setFormData(formik.values)

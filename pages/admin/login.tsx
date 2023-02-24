@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { login } from "@/store/userSlice";
 import { RootState } from "@/store/store";
 import ReactLoading from "react-loading";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const Login = () => {
 
   async function onSubmit(e: any) {
     e.preventDefault();
+    setLoading(true)
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adminlogin`,
@@ -39,18 +41,31 @@ const Login = () => {
       if (response.ok) {
         console.log("first if", datadb.payload.name);
         if (datadb.payload.name != undefined) {
+          
           dispatch(
             login({ user: datadb.payload.name, token: datadb.payload.key })
           );
-          setLoading(true)
+          setLoading(false)
+          toast("Login Success", {
+            hideProgressBar: true,
+            autoClose: 2000,
+            type: "success",
+          });
           router.push("/admin/patients");
         }
       } else {
         return alert("invalid input");
       }
     } catch (error) {
-      alert(`\n Please provide correct input.  \n thank you!`);
+      setLoading(false)
+      // toast("Login Success", {
+      //   hideProgressBar: true,
+      //   autoClose: 2000,
+      //   type: "success",
+      // });
+      alert(`Please provide correct input!`);
     } finally {
+      setLoading(false)
     }
   }
 
@@ -63,17 +78,17 @@ const Login = () => {
 
   return (
     <>
-    {loading ? (
-            <center>
-              <div style={{ margin: "100px" }}>
-                <ReactLoading type={"spin"} color={"#6BC17A"} />
-              </div>
-            </center>
-          ) : (
+      {loading ? (
+        <center>
+          <div style={{ margin: "100px" }}>
+            <ReactLoading type={"spin"} color={"#6BC17A"} />
+          </div>
+        </center>
+      ) : (
         <form
           onSubmit={onSubmit}
           className="container w-25"
-          style={{marginBottom:"13%"}}
+          style={{ marginBottom: "13%" }}
         >
           <div className="col d-flex justify-content-center">
             <span>
@@ -128,8 +143,8 @@ const Login = () => {
             </button>
           </div>
         </form>
-        ) }
-      
+      )}
+
     </>
   );
 };
