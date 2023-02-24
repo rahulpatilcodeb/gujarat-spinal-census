@@ -1,6 +1,7 @@
 import User from "@/models/UserModel";
 import admin from "@/models/AdminLoginModel";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { remove } from "lodash";
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const url = process.env.NEXT_PUBLIC_DATABASE_URL;
@@ -14,36 +15,49 @@ export default async function handler(
     // console.log(req.headers.authorization);
     switch (req.method) {
       case "GET":
-        // const verified = jwt.verify(req.headers.authorization, setcretKey);
-        // console.log(verified.email);
-        // const admins = await admin.find({ email: verified.email });
-        // console.log(admins);
-        // if (admins[0].email != undefined) {
-        // console.log("thisi starting of get");
-        // const posts = await User.find();
-        // const users = posts[0].count;
-        // console.log(posts[0].count, "this is posts");
-        // return res.json({
-        //   data: users,
-        // });
+      // const verified = jwt.verify(req.headers.authorization, setcretKey);
+      // console.log(verified.email);
+      // const admins = await admin.find({ email: verified.email });
+      // console.log(admins);
+      // if (admins[0].email != undefined) {
+      // console.log("thisi starting of get");
+      // const posts = await User.find();
+      // const users = posts[0].count;
+      // console.log(posts[0].count, "this is posts");
+      // return res.json({
+      //   data: users,
+      // });
       // }
       // return res.send("Session expired");
       // break;
       case "POST":
-        console.log("this s token", req.headers);
+        console.log("this is filete", req.body.body.filter);
+
+        // let { fname, injuryType, district } = req.body.body.filter;
+        // console.log("this is me", fname, injuryType, district);
+        if(req.body.body.filter.district=="")
+        {
+          delete req.body.body.filter.district;
+        }
+        if(req.body.body.filter.injuryType=="")
+        {
+          delete req.body.body.filter.injuryType;
+        }
+        console.log(req.body.body.filter)
+        // console.log("this s token", req.headers);
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(" ")[1];
-        console.log("this is token", token);
+        // console.log("this is token", token);
         const verified = jwt.verify(token, setcretKey);
         // const verified = jwt.verify(req.headers.authorization, setcretKey);
         console.log(verified.email);
         const admins = await admin.find({ email: verified.email });
-        console.log(admins);
+        // console.log(admins);
         if (admins[0].email != undefined) {
           const limit = req.body.body.limit;
           const skeeper = req.body.body.page;
           const skip = (skeeper - 1) * limit;
-          console.log(req);
+          // console.log(req);
           const post = await User.find(req.body.body.filter)
             .sort({ _id: -1 })
             .skip(skip)

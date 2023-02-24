@@ -40,16 +40,20 @@ const UserRegister = ({
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
     file: Yup.mixed().required("please select an image").test("file", "Unsupported File Format",
-      (value:any) => {
+      (value: any) => {
         if (value) {
           return (
             value.type === "image/jpeg" ||
             value.type === "image/jpg" ||
-            value.type === "image/png" 
+            value.type === "image/png"
           );
         } else {
           return true;
         }
+      }).test('file', 'file size should less than 3MB', (value: any) => {
+        // console.log(value.size<=1024 * 1024)
+
+        return !value || (value && value.size <= 1024 * 1024 * 3)
       })
   });
 
@@ -197,7 +201,7 @@ const UserRegister = ({
         <div className="d-flex justify-content-center">
           {formik.touched.file && formik.errors.file && (
             <p style={{ color: "red" }} className="error">
-              {JSON.stringify(formik.errors.file)}
+              {(formik.errors.file).toString()}
             </p>
           )}
         </div>
@@ -258,7 +262,7 @@ const UserRegister = ({
               />
               {formik.touched.lname && formik.errors.lname && (
                 <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.lname)}
+                  {(formik.errors.lname).toString()}
                 </p>
               )}
             </div>
@@ -291,15 +295,10 @@ const UserRegister = ({
               />
               {formik.touched.dob && formik.errors.dob && (
                 <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.dob)}
+                  {(formik.errors.dob).toString()}
                 </p>
               )}
-              {/* <div className="invalid-feedback">
-                Please choose a Date of Birth.
-              </div> */}
-              {/* <p style={{ color: "red" }} className="error">
-                {formik.errors.dob && formik.touched.dob && formik.errors.dob}
-              </p> */}
+              
             </div>
             <div className="col">
               <label
@@ -330,7 +329,7 @@ const UserRegister = ({
                 />
                 {formik.touched.contact && formik.errors.contact && (
                   <p style={{ color: "red" }} className="error">
-                    {JSON.stringify(formik.errors.contact)}
+                    {(formik.errors.contact).toString()}
                   </p>
                 )}
               </div>
@@ -435,7 +434,7 @@ const UserRegister = ({
                 </div>
                 {formik.touched.gender && formik.errors.gender && (
                   <p style={{ color: "red" }} className="error">
-                    {JSON.stringify(formik.errors.gender)}
+                    {(formik.errors.gender).toString()}
                   </p>
                 )}
               </div>
@@ -464,7 +463,7 @@ const UserRegister = ({
             />
             {formik.touched.email && formik.errors.email && (
               <p style={{ color: "red" }} className="error">
-                {JSON.stringify(formik.errors.email)}
+                {(formik.errors.email).toString()}
               </p>
             )}
           </div>
@@ -491,7 +490,7 @@ const UserRegister = ({
             ></textarea>
             {formik.touched.qualification && formik.errors.qualification && (
               <p style={{ color: "red" }} className="error">
-                {JSON.stringify(formik.errors.qualification)}
+                {(formik.errors.qualification).toString()}
               </p>
             )}
           </div>
@@ -519,7 +518,7 @@ const UserRegister = ({
             ></textarea>
             {formik.touched.address && formik.errors.address && (
               <p style={{ color: "red" }} className="error">
-                {JSON.stringify(formik.errors.address)}
+                {(formik.errors.address).toString()}
               </p>
             )}
           </div>
@@ -573,7 +572,7 @@ const UserRegister = ({
             />
             {formik.touched.district && formik.errors.district && (
               <p style={{ color: "red" }} className="error">
-                {JSON.stringify(formik.errors.district)}
+                {(formik.errors.district).toString()}
               </p>
             )}
           </div>
@@ -648,7 +647,7 @@ const UserRegister = ({
                 </div>
                 {formik.touched.bpl && formik.errors.bpl && (
                   <p style={{ color: "red" }} className="error">
-                    {JSON.stringify(formik.errors.bpl)}
+                    {(formik.errors.bpl).toString()}
                   </p>
                 )}
                 {/* <p style={{ color: "red" }} className="error">
@@ -680,14 +679,9 @@ const UserRegister = ({
               ></textarea>
               {formik.touched.description && formik.errors.description && (
                 <p style={{ color: "red" }} className="error">
-                  {JSON.stringify(formik.errors.description)}
+                  {(formik.errors.description).toString()}
                 </p>
               )}
-              {/* <p style={{ color: "red" }} className="error">
-                {formik.errors.description &&
-                  formik.touched.description &&
-                  formik.errors.description}
-              </p> */}
             </div>
             <div className="d-flex justify-content-end mb-5">
               <button
