@@ -9,7 +9,7 @@ const url = process.env.NEXT_PUBLIC_DATABASE_URL;
 mongoose.connect(url);
 
 const s3 = new S3({
-  region: "ap-south-1",
+  region: "us-east-1",
   accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY,
   secretAccessKey: process.env.NEXT_PUBLIC_SECRET_KEY,
   signatureVersion: "v4",
@@ -36,7 +36,6 @@ export default async function handler(
         Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
         Key: `${email}/${name}`,
         ContentType: type,
-        ACL: "public-read",
       };
 
       const url = await s3.getSignedUrlPromise("putObject", fileParams);
