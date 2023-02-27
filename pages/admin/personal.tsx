@@ -22,7 +22,6 @@ const Personal = ({ nextStep, value }: any) => {
     nextStep();
   }
   // const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
-  https://gujrat-spinal-selsus.s3.us-east-1.amazonaws.com/amarjeet@gm.com//
   const url = "https://gujrat-spinal-selsus.s3.amazonaws.com/";
 
 
