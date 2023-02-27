@@ -21,7 +21,8 @@ const Personal = ({ nextStep, value }: any) => {
   function submitFormData(e: any) {
     nextStep();
   }
-  const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
+  // const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
+  const url = "https://gujrat-spinal-selsus.s3.amazonaws.com/";
 
 
   return (
