@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 
 // let flag = true;
-const about = () => {
+const About = () => {
 
   const router = useRouter();
 
@@ -99,4 +99,4 @@ const about = () => {
   );
 };
 
-export default about;
+export default About;
