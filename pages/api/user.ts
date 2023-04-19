@@ -11,14 +11,14 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const Id = mongoose.Types.ObjectId(req.body.id);
-  console.log(req.body.id);
+  // console.log(req.body.id);
   switch (req.method) {
     case "POST":
       const posts = await User.find({ _id: Id });
       res.json({
         data: posts,
       });
-      console.log("post data",posts);
+      // console.log("post data",posts);
       break;
   }
 }

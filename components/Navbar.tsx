@@ -14,22 +14,33 @@ function Navbars() {
     (state: RootState) => state.users
   );
   const [homeColor, setHomeColor] = useState("#6BC17A");
-  const [contactColor, setContactColor]=useState("#181C32")
+  const [contactColor, setContactColor] = useState("#181C32")
+  const [aboutColor, setAboutColor] = useState("#181C32");
 
-  const handleChangeHomeColor = (e:any) => {
+// to update the current color of link.
+  const handleChangeHomeColor = (e: any) => {
     setHomeColor("#6BC17A");
     setContactColor("#181C32")
+    setAboutColor("#181C32");
   };
-   const handleChangeContactColor = (e: any) => {
-     setHomeColor("#181C32");
-     setContactColor("#6BC17A");
-   };
+  const handleChangeAboutColor = (e: any) => {
+    setAboutColor("#6BC17A");
+    setContactColor("#181C32")
+    setHomeColor("#181C32")
+  };
+  const handleChangeContactColor = (e: any) => {
+    setContactColor("#6BC17A");
+    setHomeColor("#181C32");
+    setAboutColor("#181C32");
 
+  };
+//logout function performs action in redux.
   function handleClick(e: any) {
     e.preventDefault();
     dispatch(logout());
   }
 
+  // to check user loged in or not.
   useEffect(() => {
     console.log(Ilogin);
     if (Ilogin) {
@@ -69,6 +80,7 @@ function Navbars() {
               </Link>
             )}
 
+
             {!Ilogin ? (
               <Link
                 className="ms-2"
@@ -95,6 +107,18 @@ function Navbars() {
             >
               Logout
             </button>
+          </span>
+          <span>
+            {!Ilogin && (
+              <Link
+                className="ms-2"
+                href="/about"
+                onClick={handleChangeAboutColor}
+                style={{ color: aboutColor, fontSize: "18px" }}
+              >
+                About Us
+              </Link>
+            )}
           </span>
         </div>
       </div>

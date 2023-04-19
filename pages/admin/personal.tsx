@@ -17,7 +17,7 @@ const Personal = ({ nextStep, value }: any) => {
       router.push("/admin/login")
     }
   }, [Ilogin])
-  console.log("personal value", value);
+  // console.log("personal value", value);
   function submitFormData(e: any) {
     nextStep();
   }

@@ -23,7 +23,7 @@ export default function Patients() {
   const [currentPage, setCurrentPage] = useState<any>(1);
   let { query: page } = router;
   const activepage = parseInt(`${page.pages}`);
-  console.log("active page number", activepage)
+  // console.log("active page number", activepage)
   const [reqObj, setReqObj] = useState<any>({
     filter: {
       fname: undefined,
@@ -55,8 +55,8 @@ export default function Patients() {
           'Authorization': `Bearer ${token}`
         }
       });
-      console.log(filteredData)
-      console.log("gdyag", filteredData.data);
+      // console.log(filteredData)
+      // console.log("gdyag", filteredData.data);
       setAPIData(filteredData.data.data);
       setTotalCount(filteredData.data.totalCount);
       // router.push(`/admin/patients?page=${activepage}`);

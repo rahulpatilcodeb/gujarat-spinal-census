@@ -33,12 +33,12 @@ function Common() {
   });
 
   useEffect(() => {
-    console.log("in formdata", formData)
+    // console.log("in formdata", formData)
   }, [formData])
-  console.log("hzsudhui", formData);
+  // console.log("hzsudhui", formData);
 
   useEffect(() => {
-    console.log("this is in useEffect", formData.file?.name);
+    // console.log("this is in useEffect", formData.file?.name);
 
   }, [formData.file]);
 

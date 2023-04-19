@@ -23,7 +23,7 @@ function Contact(): JSX.Element {
     enableReinitialize:true,
     validationSchema:schema,
     onSubmit: (values) => {
-      console.log("this is onsubmit")
+      // console.log("this is onsubmit")
       handleSubmit();
     },
   });

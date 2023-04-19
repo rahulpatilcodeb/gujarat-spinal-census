@@ -64,7 +64,7 @@ const UserRegister = ({
     validationSchema: schema,
     onSubmit: (values) => {
       setFormData(formik.values)
-      console.log("values", values, "formik values", formik.values);
+      // console.log("values", values, "formik values", formik.values);
       nextStep();
     },
   });
@@ -176,7 +176,7 @@ const UserRegister = ({
               onBlur={formik.handleBlur}
               onChange={(e: any) => {
                 formik.setFieldValue("file", e.target.files[0]);
-                console.log(e.target.files[0]);
+                // console.log(e.target.files[0]);
               }}
               style={{ marginLeft: "10px ", display: "none" }}
               type="file"

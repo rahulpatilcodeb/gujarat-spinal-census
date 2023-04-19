@@ -40,7 +40,7 @@ const Home = () => {
         'Authorization': `Bearer ${token}`
       }
     }).then((resp) => {
-      console.log(resp.data, "resp");
+      // console.log(resp.data, "resp");
       setPosts(resp.data.post);
       setTotalCount(resp.data.count)
     })

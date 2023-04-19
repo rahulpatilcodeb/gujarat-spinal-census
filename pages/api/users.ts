@@ -30,16 +30,16 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    console.log(req.headers.authorization);
+    // console.log(req.headers.authorization);
     switch (req.method) {
       case "GET":
         if (!req.headers.authorization) {
           throw Error("jwt expired");
         }
         const verified = jwt.verify(req.headers.authorization, setcretKey);
-        console.log(verified.email);
+        // console.log(verified.email);
         const admins = await admin.find({ email: verified.email });
-        console.log(admins);
+        // console.log(admins);
 
         if (admins[0].email != undefined) {
           const posts = await User.find();
@@ -74,7 +74,7 @@ export default async function handler(
           independent: req.body.independent,
         });
         await user.save();
-        console.log("User", user);
+        // console.log("User", user);
         return res.send("data saved");
     }
   } catch (error) {

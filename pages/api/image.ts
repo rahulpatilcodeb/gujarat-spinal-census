@@ -29,7 +29,7 @@ export default async function handler(
 ) {
   try {
     {
-      console.log(req.body);
+      // console.log(req.body);
       let { name, type, email } = req.body;
 
       const fileParams = {

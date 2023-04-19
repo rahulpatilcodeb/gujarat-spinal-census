@@ -41,16 +41,16 @@ export default async function handler(
       // return res.send("Session expired");
       // break;
       case "POST":
-        console.log("this s token", req.headers);
+        // console.log("this s token", req.headers);
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(" ")[1];
-        console.log("this is token", token);
+        // console.log("this is token", token);
         const verified = jwt.verify(token, setcretKey);
-        console.log(verified.email);
+        // console.log(verified.email);
         const admins = await admin.find({ email: verified.email });
-        console.log(admins);
+        // console.log(admins);
         if (admins[0].email != undefined) {
-          console.log(req.body, "this is boyd of post");
+          // console.log(req.body, "this is boyd of post");
           const limit = req.body.reqObj.limit;
           const page = req.body.reqObj.page;
           const skip = (page - 1) * limit;
@@ -59,9 +59,9 @@ export default async function handler(
             .skip(skip)
             .limit(limit)
             .lean();
-          console.log(page, skip, "limit contact", limit);
+          // console.log(page, skip, "limit contact", limit);
           const count = await Contact.count();
-          console.log(count);
+          // console.log(count);
           return res.send({ post, count });
         }
     }
