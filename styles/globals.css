@@ -205,9 +205,7 @@ body {
   transform: rotateZ(180deg);
 }
 
-.button-container {
-  padding: 40px;
-}
+
 
 .gsc {
   display: flex;

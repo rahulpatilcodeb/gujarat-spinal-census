@@ -4,11 +4,12 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { logout } from "@/store/userSlice";
-import router from "next/router";
+import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 function Navbars() {
   const dispatch = useDispatch();
+  const { pathname } = useRouter();
 
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
@@ -18,17 +19,17 @@ function Navbars() {
   const [aboutColor, setAboutColor] = useState("#181C32");
 
   // to update the current color of link.
-  const handleChangeHomeColor = (e: any) => {
+  const handleChangeHomeColor = () => {
     setHomeColor("#6BC17A");
     setContactColor("#181C32")
     setAboutColor("#181C32");
   };
-  const handleChangeAboutColor = (e: any) => {
+  const handleChangeAboutColor = () => {
     setAboutColor("#6BC17A");
     setContactColor("#181C32")
     setHomeColor("#181C32")
   };
-  const handleChangeContactColor = (e: any) => {
+  const handleChangeContactColor = () => {
     setContactColor("#6BC17A");
     setHomeColor("#181C32");
     setAboutColor("#181C32");
@@ -42,10 +43,30 @@ function Navbars() {
 
   // to check user loged in or not.
   useEffect(() => {
-    console.log(Ilogin);
+    // console.log(Ilogin);
     if (Ilogin) {
-      router.push("/admin/patients");
+      if (pathname == "/admin/patients") {
+        handleChangeHomeColor();
+        router.push("/admin/patients");
+      } else if (pathname == "/admin/contact") {
+        handleChangeContactColor();
+        router.push("/admin/contact");
+      } else {
+        router.push("/admin/patients");
+      }
     }
+    console.log(pathname);
+    if (pathname == "/") {
+      handleChangeHomeColor();
+      router.push("/");
+    } else if (pathname === "/about") {
+      handleChangeAboutColor();
+      router.push("/about")
+    } else if (pathname === "/contact") {
+      handleChangeContactColor();
+      router.push("/contact")
+    }
+
   }, [Ilogin]);
 
   return (
@@ -53,9 +74,9 @@ function Navbars() {
       <div className="my-3 d-flex justify-content-between">
         <div className="col ms-5">
 
-          <span className="button-container">
+          <span>
 
-            <button className="btn gsc" onClick={(e) => { router.push("/");handleChangeHomeColor(e) }} style={{ border: "none" }}>
+            <button className="btn gsc" onClick={(e) => { router.push("/"); handleChangeHomeColor() }} style={{ border: "none" }}>
               <img src={logo.src} width="100px" />
             </button>
 
