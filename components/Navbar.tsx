@@ -17,7 +17,7 @@ function Navbars() {
   const [contactColor, setContactColor] = useState("#181C32")
   const [aboutColor, setAboutColor] = useState("#181C32");
 
-// to update the current color of link.
+  // to update the current color of link.
   const handleChangeHomeColor = (e: any) => {
     setHomeColor("#6BC17A");
     setContactColor("#181C32")
@@ -34,7 +34,7 @@ function Navbars() {
     setAboutColor("#181C32");
 
   };
-//logout function performs action in redux.
+  //logout function performs action in redux.
   function handleClick(e: any) {
     e.preventDefault();
     dispatch(logout());
@@ -52,12 +52,19 @@ function Navbars() {
     <>
       <div className="my-3 d-flex justify-content-between">
         <div className="col ms-5">
-          <span>
-            <img
+
+          <span className="button-container">
+
+            <button className="btn gsc" onClick={(e) => { router.push("/");handleChangeHomeColor(e) }} style={{ border: "none" }}>
+              <img src={logo.src} width="100px" />
+            </button>
+
+            {/* <img
               style={{ height: "100px ", width: "120px " }}
               alt=""
               src={logo.src}
-            ></img>
+
+            ></img> */}
           </span>
         </div>
         <div className="col d-flex justify-content-end me-5 my-3">

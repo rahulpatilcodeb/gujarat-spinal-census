@@ -97,7 +97,7 @@ body {
   width: 600px;
   margin: 80px auto;
   counter-reset: button-counter;
-} */ 
+} */
 
 .row {
   display: table-row;
@@ -203,4 +203,14 @@ body {
 #button-6 .checkbox:checked~.layer {
   background-color: #fcebeb;
   transform: rotateZ(180deg);
+}
+
+.button-container {
+  padding: 40px;
+}
+
+.gsc {
+  display: flex;
+  align-items: center;
+  outline-width: none;
 }
