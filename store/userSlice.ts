@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { stat } from "fs";
 // import { getCookie } from "cookies-next";
 
 const initialState = {
   user:null as any,
   islogin:false as boolean,
-  token:"" as string
+  token:"" as string,
 }
 // const initialState = getCookie("token")
 //   ? {

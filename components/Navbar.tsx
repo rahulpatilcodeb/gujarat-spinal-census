@@ -3,20 +3,35 @@ import "@/styles/Home.module.css";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { logout } from "@/store/userSlice";
+import { login, logout } from "@/store/userSlice";
 import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useTranslation } from 'next-i18next';
+import Select from "react-select";
+import About from "@/pages/about";
+import { currentlng } from "@/store/languageSlice";
+
+// import 
+
+
+
 
 function Navbars() {
   const dispatch = useDispatch();
   const { pathname } = useRouter();
 
+  const { t } = useTranslation('common');
+
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
+  );
+  let { language: lng } = useSelector(
+    (state: RootState) => state.language
   );
   const [homeColor, setHomeColor] = useState("#6BC17A");
   const [contactColor, setContactColor] = useState("#181C32")
   const [aboutColor, setAboutColor] = useState("#181C32");
+  // const [ language, setLanguage] = useState<any>("english")
 
   // to update the current color of link.
   const handleChangeHomeColor = () => {
@@ -38,8 +53,10 @@ function Navbars() {
   //logout function performs action in redux.
   function handleClick(e: any) {
     e.preventDefault();
-    dispatch(logout());
+    dispatch(logout(e.value));
   }
+
+
 
   // to check user loged in or not.
   useEffect(() => {
@@ -68,6 +85,17 @@ function Navbars() {
     }
 
   }, [Ilogin]);
+  const NewValue = (e: any) => {
+    dispatch(
+      currentlng({ language: e.value })
+    );
+  }
+
+  const opt: any = [
+    { value: 'gujarati', label: 'ગુજરાતી' },
+    { value: 'english', label: 'English' }
+  ]
+
 
   return (
     <>
@@ -88,7 +116,17 @@ function Navbars() {
             ></img> */}
           </span>
         </div>
-        <div className="col d-flex justify-content-end me-5 my-3">
+        <div className="col d-flex justify-content-end me-5 my-3  align-items-center">
+          <span className="pe-3">
+            <Select options={opt}
+              defaultValue={() => {
+                return opt.find((o: any) => o.value == lng)
+              }}
+              id="lng"
+              name="language"
+              onChange={NewValue}
+            />
+          </span>
           <span>
             {!Ilogin ? (
               <Link
@@ -116,7 +154,9 @@ function Navbars() {
                 onClick={handleChangeContactColor}
                 style={{ color: contactColor, fontSize: "18px" }}
               >
-                Contact
+                {t('contact')}
+                {/* Contact */}
+
               </Link>
             ) : (
               <Link
@@ -125,7 +165,8 @@ function Navbars() {
                 href="/admin/contact"
                 style={{ color: contactColor, fontSize: "18px" }}
               >
-                Contact
+                {t('contact')}
+                {/* Contact */}
               </Link>
             )}
             <button
@@ -148,6 +189,7 @@ function Navbars() {
               </Link>
             )}
           </span>
+
         </div>
       </div>
     </>

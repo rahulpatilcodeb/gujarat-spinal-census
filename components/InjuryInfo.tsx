@@ -64,7 +64,7 @@ const InjuryInfo = ({
           values.avatar = values.file.name;
           await axios
             .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
-            .catch((err) => { console.error(err) });
+            .catch((err:any) => { console.error(err) });
           nextStep()
         } catch (err) {
           console.log("error", err)

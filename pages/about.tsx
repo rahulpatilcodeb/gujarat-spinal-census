@@ -2,13 +2,14 @@ import { RootState } from "@/store/store";
 import { login } from "@/store/userSlice";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
 
 // let flag = true;
-const About = () => {
+const About = ({ language }: any) => {
 
   const router = useRouter();
+
+
 
   const {
     user: user,
@@ -16,7 +17,12 @@ const About = () => {
     token: token,
   } = useSelector((state: RootState) => state.users);
 
-  const [flag, setFlag] = useState(false)
+  const {
+    language:lng
+  } = useSelector((state: RootState) => state.language);
+
+  // const [flag, setFlag] = useState(false)
+
 
   // const toggle = (e: any) => {
   //   // e.preventDefault()
@@ -26,11 +32,14 @@ const About = () => {
   //   console.log('flag', flag)
   // }
   useEffect(() => {
+    // debugger;
     if (Ilogin) {
+      // console.log("login",Ilogin,user,token)
       router.push("/admin/login");
     }
     // router.push("/about");
-  }, [flag, Ilogin])
+    console.log("lngs", lng)
+  }, [ Ilogin, lng])
 
   return (
     <>
@@ -38,7 +47,7 @@ const About = () => {
 
       <div className="" style={{ width: "100%", fontSize: "15px", paddingLeft: "300px", paddingRight: "300px" }} >
 
-        <div className="toggle-button-cover" style={{ display: "block" }}>
+        {/* <div className="toggle-button-cover" style={{ display: "block" }}>
           <div className="button-cover">
             <div className="button r" id="button-6">
               <input onChange={() => setFlag(!flag)} type="checkbox" className="checkbox" />
@@ -46,32 +55,12 @@ const About = () => {
               <div className="layer"></div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <div style={{ display: flag ? 'none' : "block" }}>
-          <p>&emsp;&emsp;&emsp;Spinal cord injury is one type of injury that damage spinal cord. In this injury,
-            body below the spot of injury lost sensory as well as momentary ability.
-            This condition is mainly identifying as two types. One is paraplegia where
-            body below waste lost sensation and movement. Second is quadriplegia where body
-            below neck lost sensation and movement.
-          </p><p>&emsp;&emsp;&emsp;In such condition(SCI), person have to face multiple complication like bedsore,
-            deep vein thrombosis, frequent UTI, etc. Apart from this, to maintain mental stability is
-            another big challenge. Therefore, this condition(SCI) requires comprehensive rehab therapy
-            which encompass physiotherapy, nursing care, skin care and also a psychological counseling.</p>
-          <p>&emsp;&emsp;&emsp; Number of patient of SCI in India is increasing day by day due to rapid urbanization and
-            various life style disorder. Road accident, fall, violence and disease like cancer and t.b.
-            are major cause for spinal cord injury. According one estimate, around 25,000 to 30,000 spinal
-            cord injuries registered in India every year. In spite of this dark situation India has only
-            4 to 5 rehab Centre which can treat SCI patient properly. Therefore, it is a need of hour
-            that every state of India must have at least one well equipped rehab Centre.
-          </p><p>&emsp;&emsp;&emsp;To materialize this idea, initiative called GUJARAT SPINAL CENSUS is started. so that we
-            can find the exact number of SCI patients in Gujarat and evaluate their physical and financial
-            condition. By using this comprehensive data, we could get help of government, social
-            organization, private institute and individuals to have a proper rehab Centre in Gujarat.
-          </p>
-        </div>
-
-        <div style={{ display: flag ? "block" : "none" }}>
+        {lng === "gujarati" ? 
+        (
+          <div>
+         {/* <div style={{ display: flag ? "block" : "none" }}> */}
           <p>&emsp;&emsp;&emsp;સ્પાઇનલ કોર્ડ ઇન્જરી(SCI) એ કરોડરજ્જુની થતી ઇજા છે. જેમાં જે સ્થાન પર ઇજા થઇ હોઇ ત્યાથી શરીરનો નીચેનો ભાગ
             સ્પર્શ અને હલનચલનની શક્તિ ગુમાવી દે છે.આ સ્થિતિ(SCI) મુખ્યત્વે બે પ્રકારે ઓળખાય છે. એક પેરાપ્લેજીયા કે જેમાં કમર
             નીચેનો ભાગ નિષ્ક્રિય થઇ જાય છે અને બીજો પ્રકાર કોડ્રીપ્લેજીયા કે જેમાં ગરદન નીચેનો ભાગ નિષ્ક્રિય થઇ જાય છે. આ ઉપરાંત
@@ -92,6 +81,35 @@ const About = () => {
             ગુજરાતમાં એક સુવિધાયુક્ત રિહેબ કેન્દ્ર બનાવી શકાય.</p>
 
         </div>
+        ) :
+          (
+            <div>
+            {/* // <div style={{ display: flag ? 'none' : "block" }}> */}
+            <p>&emsp;&emsp;&emsp;Spinal cord injury is one type of injury that damage spinal cord. In this injury,
+              body below the spot of injury lost sensory as well as momentary ability.
+              This condition is mainly identifying as two types. One is paraplegia where
+              body below waste lost sensation and movement. Second is quadriplegia where body
+              below neck lost sensation and movement.
+            </p><p>&emsp;&emsp;&emsp;In such condition(SCI), person have to face multiple complication like bedsore,
+              deep vein thrombosis, frequent UTI, etc. Apart from this, to maintain mental stability is
+              another big challenge. Therefore, this condition(SCI) requires comprehensive rehab therapy
+              which encompass physiotherapy, nursing care, skin care and also a psychological counseling.</p>
+            <p>&emsp;&emsp;&emsp; Number of patient of SCI in India is increasing day by day due to rapid urbanization and
+              various life style disorder. Road accident, fall, violence and disease like cancer and t.b.
+              are major cause for spinal cord injury. According one estimate, around 25,000 to 30,000 spinal
+              cord injuries registered in India every year. In spite of this dark situation India has only
+              4 to 5 rehab Centre which can treat SCI patient properly. Therefore, it is a need of hour
+              that every state of India must have at least one well equipped rehab Centre.
+            </p><p>&emsp;&emsp;&emsp;To materialize this idea, initiative called GUJARAT SPINAL CENSUS is started. so that we
+              can find the exact number of SCI patients in Gujarat and evaluate their physical and financial
+              condition. By using this comprehensive data, we could get help of government, social
+              organization, private institute and individuals to have a proper rehab Centre in Gujarat.
+            </p>
+          </div>
+          )
+        }
+
+
       </div>
 
     </>
