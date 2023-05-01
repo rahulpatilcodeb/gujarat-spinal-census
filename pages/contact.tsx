@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const schema = Yup.object().shape({

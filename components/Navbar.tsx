@@ -6,12 +6,10 @@ import { RootState } from "@/store/store";
 import { login, logout } from "@/store/userSlice";
 import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useTranslation } from 'next-i18next';
+// import { useTranslation } from 'next-i18next';
+import useTranslation from 'next-translate/useTranslation';
 import Select from "react-select";
-import About from "@/pages/about";
 import { currentlng } from "@/store/languageSlice";
-
-// import 
 
 
 
@@ -21,7 +19,8 @@ function Navbars() {
   const { pathname } = useRouter();
 
   const { t } = useTranslation('common');
-
+  // console.log("t", t);
+  // console.log("t",t("home"))
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
   );
@@ -134,7 +133,7 @@ function Navbars() {
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
               >
-                Home
+                {t('home')}
               </Link>
             ) : (
               <Link
@@ -142,7 +141,7 @@ function Navbars() {
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
               >
-                Home
+                {t('home')}
               </Link>
             )}
 
@@ -153,6 +152,7 @@ function Navbars() {
                 href="/contact"
                 onClick={handleChangeContactColor}
                 style={{ color: contactColor, fontSize: "18px" }}
+                locale="gu"
               >
                 {t('contact')}
                 {/* Contact */}
@@ -185,7 +185,7 @@ function Navbars() {
                 onClick={handleChangeAboutColor}
                 style={{ color: aboutColor, fontSize: "18px" }}
               >
-                About Us
+                {t('aboutUs')}
               </Link>
             )}
           </span>

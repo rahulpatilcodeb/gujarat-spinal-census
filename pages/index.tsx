@@ -4,6 +4,15 @@ import Register from "@/components/Register";
 import axios from "axios";
 import InjuryInfo from "@/components/InjuryInfo";
 import UserRegister from "@/components/userInfo";
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+// export async function getStaticProps({ locale }:any) {
+//   return {
+//     props: {
+//       ...(await serverSideTranslations(locale, ['common'])),
+//     }
+//   } 
+// }
 
 function Common() {
   const [step, setstep] = useState(1);
