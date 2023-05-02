@@ -3,6 +3,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -14,14 +15,17 @@ const schema = Yup.object().shape({
 
 function Contact(): JSX.Element {
   const router = useRouter();
+  const { locales, locale } = useRouter()
+  console.log(locales, locale)
+  // debugger;
   const formik = useFormik({
     initialValues: {
       contact: "",
       email: "",
       description: "",
     },
-    enableReinitialize:true,
-    validationSchema:schema,
+    enableReinitialize: true,
+    validationSchema: schema,
     onSubmit: (values) => {
       // console.log("this is onsubmit")
       handleSubmit();
@@ -38,14 +42,14 @@ function Contact(): JSX.Element {
       });
     router.push("/");
   }
-  function resetAll(){
-    formik.values.contact="";
-    formik.values.email="";
-    formik.values.description="";
+  function resetAll() {
+    formik.values.contact = "";
+    formik.values.email = "";
+    formik.values.description = "";
   }
 
   return (
-    <form noValidate className="container w-50" style={{marginBottom:"7%"}} onSubmit={formik.handleSubmit}>
+    <form noValidate className="container w-50" style={{ marginBottom: "7%" }} onSubmit={formik.handleSubmit}>
       <div className="col d-flex justify-content-center">
         <span>
           <b style={{ fontSize: "18px" }}>--Contact Us --</b>
@@ -114,7 +118,7 @@ function Contact(): JSX.Element {
       </div>
 
       <div className="d-flex justify-content-end mt-3 me-3">
-        <button type="reset" onClick={()=>{formik.resetForm()}} className="btn btn-outline-secondary me-3">
+        <button type="reset" onClick={() => { formik.resetForm() }} className="btn btn-outline-secondary me-3">
           Cancel
         </button>
         <button
@@ -131,6 +135,15 @@ function Contact(): JSX.Element {
       </div>
     </form>
   );
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
+  }
 }
 
 export default Contact;

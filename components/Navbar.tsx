@@ -6,10 +6,10 @@ import { RootState } from "@/store/store";
 import { login, logout } from "@/store/userSlice";
 import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-// import { useTranslation } from 'next-i18next';
-import useTranslation from 'next-translate/useTranslation';
 import Select from "react-select";
 import { currentlng } from "@/store/languageSlice";
+import { useTranslation } from "react-i18next";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 
 
@@ -18,7 +18,10 @@ function Navbars() {
   const dispatch = useDispatch();
   const { pathname } = useRouter();
 
-  const { t } = useTranslation('common');
+  let { locale, locales, push } = useRouter()
+  const router = useRouter();
+
+  const { t: translate } = useTranslation('common')
   // console.log("t", t);
   // console.log("t",t("home"))
   let { user: users, islogin: Ilogin } = useSelector(
@@ -85,14 +88,18 @@ function Navbars() {
 
   }, [Ilogin]);
   const NewValue = (e: any) => {
+    locale = e.value
+    console.log("loccases", locale, e.value);
+    if (locale === 'gu') router.push('/gu/');
+    else router.push('/');
     dispatch(
       currentlng({ language: e.value })
     );
   }
 
   const opt: any = [
-    { value: 'gujarati', label: 'ગુજરાતી' },
-    { value: 'english', label: 'English' }
+    { value: 'gu', label: 'ગુજરાતી' },
+    { value: 'en', label: 'English' }
   ]
 
 
@@ -119,11 +126,12 @@ function Navbars() {
           <span className="pe-3">
             <Select options={opt}
               defaultValue={() => {
-                return opt.find((o: any) => o.value == lng)
+                return opt.find((o: any) => o.value == locale)
               }}
               id="lng"
               name="language"
               onChange={NewValue}
+
             />
           </span>
           <span>
@@ -132,16 +140,19 @@ function Navbars() {
                 href="/"
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
+                locale={locale}
+
               >
-                {t('home')}
+                {translate('home')}
               </Link>
             ) : (
               <Link
                 href="/admin/patients"
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
+                locale={locale}
               >
-                {t('home')}
+                {translate('home')}
               </Link>
             )}
 
@@ -152,9 +163,9 @@ function Navbars() {
                 href="/contact"
                 onClick={handleChangeContactColor}
                 style={{ color: contactColor, fontSize: "18px" }}
-                locale="gu"
+                locale={locale}
               >
-                {t('contact')}
+                {translate('contact')}
                 {/* Contact */}
 
               </Link>
@@ -164,8 +175,10 @@ function Navbars() {
                 className="ms-2"
                 href="/admin/contact"
                 style={{ color: contactColor, fontSize: "18px" }}
+                locale={locale}
+
               >
-                {t('contact')}
+                {translate('contact')}
                 {/* Contact */}
               </Link>
             )}
@@ -184,8 +197,10 @@ function Navbars() {
                 href="/about"
                 onClick={handleChangeAboutColor}
                 style={{ color: aboutColor, fontSize: "18px" }}
+                locale={locale}
+
               >
-                {t('aboutUs')}
+                {translate('about')}
               </Link>
             )}
           </span>
@@ -194,6 +209,8 @@ function Navbars() {
       </div>
     </>
   );
-}
+};
+
+
 
 export default Navbars;

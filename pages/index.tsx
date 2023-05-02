@@ -4,6 +4,8 @@ import Register from "@/components/Register";
 import axios from "axios";
 import InjuryInfo from "@/components/InjuryInfo";
 import UserRegister from "@/components/userInfo";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 // import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 // export async function getStaticProps({ locale }:any) {
@@ -15,6 +17,10 @@ import UserRegister from "@/components/userInfo";
 // }
 
 function Common() {
+
+  const { locales, locale, push } = useRouter()
+  console.log(locales, locale)
+  // debugger;
   const [step, setstep] = useState(1);
   const [formData, setFormData] = useState<any>({
     file: null,
@@ -123,6 +129,15 @@ function Common() {
       );
     default:
       return <div></div>;
+  }
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
   }
 }
 export default Common;

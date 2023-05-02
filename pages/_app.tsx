@@ -8,7 +8,8 @@ import { persistor, store } from '../store/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Head from 'next/head';
 import image from '@/public/gsc.svg'
-// import { appWithTranslation } from 'next-i18next';
+import { appWithTranslation } from 'next-i18next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const App = ({ Component, pageProps }: AppProps) => {
 
@@ -30,5 +31,15 @@ const App = ({ Component, pageProps }: AppProps) => {
     </>
   );
 }
-// export default appWithTranslation(App);
-export default App;
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
+  }
+}
+
+export default appWithTranslation(App);
+// export default App;
