@@ -6,6 +6,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
+// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+
+
 
 const url = "https://gsc-project-1.s3.ap-south-1.amazonaws.com/";
 
@@ -14,8 +18,11 @@ const UserRegister = ({
   nextStep,
   values,
   setFormData,
+  // translate,
 }: any) => {
   const [initValue, setInitValue] = useState(values);
+
+  const { t: translate } = useTranslation('common')
 
 
   const schema = Yup.object().shape({
@@ -35,7 +42,7 @@ const UserRegister = ({
     email: Yup.string()
       .required("Email i  s a required field")
       .email("Invalid email format"),
-    description: Yup.string().required("Please enter description!"),
+    // description: Yup.string().required("Please enter description!"),
     gender: Yup.string().required("Please enter gender here"),
     bpl: Yup.string().required("Do you have bpl card!"),
     qualification: Yup.string().required("Please enter your Qualification!"),
@@ -78,15 +85,74 @@ const UserRegister = ({
     fileSelect?.click();
   }
   const options = [
-    { value: "Ahmedabad", label: "Ahmedabad" },
-    { value: "Amreli", label: "Amreli" },
+    { value: "Anand", label: "Anand" },
+    { value: "Aravalli", label: "Aravalli" },
+    { value: "Banaskantha", label: "Banaskantha" },
     { value: "Bharuch", label: "Bharuch" },
     { value: "Bhavnagar", label: "Bhavnagar" },
+    { value: "Botad", label: "Botad" },
+    { value: "Chhota Udaipur", label: "Chhota Udaipur" },
+    { value: "Dahod", label: "Dahod" },
+    { value: "Dang", label: "Dang" },
+    { value: "Devbhoomi Dwarka", label: "Devbhoomi Dwarka" },
+    { value: "Gandhinagar", label: "Gandhinagar" },
+    { value: "Gir Somnath", label: "Gir Somnath" },
     { value: "Jamnagar", label: "Jamnagar" },
+    { value: "Junagadh", label: "Junagadh" },
+    { value: "Kutch", label: "Kutch" },
+    { value: "Kheda", label: "Kheda" },
+    { value: "Mahisagar", label: "Mahisagar" },
     { value: "Mehsana", label: "Mehsana" },
+    { value: "Morbi", label: "Morbi" },
+    { value: "Narmada", label: "Narmada" },
+    { value: "Navsari", label: "Navsari" },
+    { value: "Panchmahal", label: "Panchmahal" },
+    { value: "Patan", label: "Patan" },
+    { value: "Porbandar", label: "Porbandar" },
     { value: "Rajkot", label: "Rajkot" },
+    { value: "Sabarkantha", label: "Sabarkantha" },
     { value: "Surat", label: "Surat" },
+    { value: "Surendranagar", label: "Surendranagar" },
+    { value: "Tapi", label: "Tapi" },
+    { value: "Vadodara", label: "Vadodara" },
+    { value: "Valsad", label: "Valsad" },
   ];
+
+  const optionsG = [
+    { value: "અમદાવાદ", label: "અમદાવાદ" },
+    { value: "વડોદરા", label: "વડોદરા" },
+    { value: "આણંદ", label: "આણંદ" },
+    { value: "છોટાઉદેપુર", label: "છોટાઉદેપુર" },
+    { value: "દાહોદ", label: "દાહોદ" },
+    { value: "ખેડા", label: "ખેડા" },
+    { value: "મહીસાગર", label: "મહીસાગર" },
+    { value: "પંચમહાલ", label: "પંચમહાલ" },
+    { value: "ગાંધીનગર", label: "ગાંધીનગર" },
+    { value: "અરવલ્લી", label: "અરવલ્લી" },
+    { value: "બનાસકાંઠા", label: "બનાસકાંઠા" },
+    { value: "મહેસાણા", label: "મહેસાણા" },
+    { value: "પાટણ", label: "પાટણ" },
+    { value: "સાબરકાંઠા", label: "સાબરકાંઠા" },
+    { value: "કચ્છ", label: "કચ્છ" },
+    { value: "રાજકોટ", label: "રાજકોટ" },
+    { value: "અમરેલી", label: "અમરેલી" },
+    { value: "ભાવનગર", label: "ભાવનગર" },
+    { value: "બોટાદ", label: "બોટાદ" },
+    { value: "દેવભૂમિ દ્વારકા", label: "દેવભૂમિ દ્વારકા" },
+    { value: "ગીર સોમનાથ", label: "ગીર સોમનાથ" },
+    { value: "જામનગર", label: "જામનગર" },
+    { value: "જુનાગઢ", label: "જુનાગઢ" },
+    { value: "મોરબી", label: "મોરબી" },
+    { value: "પોરબંદર", label: "પોરબંદર" },
+    { value: "સુરેન્દ્રનગર", label: "સુરેન્દ્રનગર" },
+    { value: "સુરત", label: "સુરત" },
+    { value: "ભરૂચ", label: "ભરૂચ" },
+    { value: "ડાંગ", label: "ડાંગ" },
+    { value: "નર્મદા", label: "નર્મદા" },
+    { value: "નવસારી", label: "નવસારી" },
+    { value: "તાપી", label: "તાપી" },
+    { value: "વલસાડ", label: "વલસાડ" }
+  ]
 
 
   return (
@@ -110,7 +176,7 @@ const UserRegister = ({
             >
               1
             </span>
-            <span>Personal Details -</span>
+            <span>{translate('Personal Details')} -</span>
           </div>
         </div>
         <div>
@@ -125,7 +191,7 @@ const UserRegister = ({
             >
               2
             </span>
-            <span>Injury Details -</span>
+            <span>{translate('Injury Details')} -</span>
           </div>
         </div>
       </div>
@@ -140,6 +206,7 @@ const UserRegister = ({
         <div className="d-flex justify-content-center align-items-center">
           <div>
             <img
+
               className="manImg mt-1"
               style={{
                 width: "50px ",
@@ -217,7 +284,11 @@ const UserRegister = ({
                   fontSize: "18px",
                 }}
               >
-                First Name
+
+                {translate('First Name')}
+                {/* {translate('home')} */}
+
+
               </label>
 
               <input
@@ -228,7 +299,7 @@ const UserRegister = ({
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="fname"
-                placeholder="First name"
+                placeholder={translate('First Name') as string}
                 aria-label="First name"
               />
               {formik.touched.fname && formik.errors.fname && (
@@ -246,7 +317,7 @@ const UserRegister = ({
                   fontSize: "18px",
                 }}
               >
-                Last Name
+                {translate('Last Name')}
               </label>
               <label className="text-danger"> *</label>
               <input
@@ -257,7 +328,7 @@ const UserRegister = ({
                 type="text"
                 className={`form-control ${styles.tcolor}`}
                 id="Lname"
-                placeholder="Last name"
+                placeholder={translate('Last Name') as string}
                 aria-label="Last name"
               />
               {formik.touched.lname && formik.errors.lname && (
@@ -280,7 +351,7 @@ const UserRegister = ({
                   fontSize: "18px",
                 }}
               >
-                Date of Birth
+                {translate('Date of Birth')}
               </label>
               <label className="text-danger"> *</label>
 
@@ -298,7 +369,7 @@ const UserRegister = ({
                   {(formik.errors.dob).toString()}
                 </p>
               )}
-              
+
             </div>
             <div className="col">
               <label
@@ -309,7 +380,7 @@ const UserRegister = ({
                   fontSize: "18px",
                 }}
               >
-                Mobile Number
+                {translate('contact number')}
               </label>
               <label className="text-danger"> *</label>
 
@@ -344,7 +415,7 @@ const UserRegister = ({
                 fontSize: "18px",
               }}
             >
-              Gender
+              {translate('gender')}
             </label>
             <div className="custom-control ">
               <div className="row">
@@ -363,7 +434,7 @@ const UserRegister = ({
                     htmlFor="male"
                     style={{ width: "100%" }}
                   >
-                    Male
+                    {translate('male')}
                   </label>
                   <input
                     onBlur={formik.handleBlur}
@@ -391,7 +462,8 @@ const UserRegister = ({
                     htmlFor="female"
                     style={{ width: "100%" }}
                   >
-                    Female
+                    {translate('female')}
+
                   </label>
                   <input
                     onBlur={formik.handleBlur}
@@ -419,7 +491,9 @@ const UserRegister = ({
                     htmlFor="others"
                     style={{ width: "100%" }}
                   >
-                    Others
+                    {translate('others')}
+
+
                   </label>
                   <input
                     value="other"
@@ -449,7 +523,9 @@ const UserRegister = ({
                 fontSize: "18px",
               }}
             >
-              Email address
+              {translate('e-mail address')}
+
+
             </label>
             <input
               onChange={formik.handleChange}
@@ -476,7 +552,9 @@ const UserRegister = ({
                 fontSize: "18px",
               }}
             >
-              Qualification
+              {translate('Educational Qualification')}
+
+
             </label>
 
             <textarea
@@ -504,7 +582,9 @@ const UserRegister = ({
                 fontSize: "18px",
               }}
             >
-              Address
+              {translate('address')}
+
+
             </label>
             <textarea
               onBlur={formik.handleBlur}
@@ -532,7 +612,9 @@ const UserRegister = ({
                 fontSize: "18px",
               }}
             >
-              District
+              {translate('District')}
+
+
             </label>
             {/* <Select
               onChange={formik.handleChange}
@@ -585,7 +667,9 @@ const UserRegister = ({
                 fontSize: "18px",
               }}
             >
-              Bpl Card Holder
+              {translate('BPL')}
+
+
             </label>
             <div className="custom-control ">
               <div className="row">
@@ -604,7 +688,9 @@ const UserRegister = ({
                     htmlFor="bpl"
                     style={{ width: "100%" }}
                   >
-                    Yes
+                    {translate('yes')}
+
+
                   </label>
                   <input
                     onBlur={formik.handleBlur}
@@ -632,7 +718,9 @@ const UserRegister = ({
                     htmlFor="bplno"
                     style={{ width: "100%" }}
                   >
-                    No
+                    {translate('no')}
+
+
                   </label>
                   <input
                     onBlur={formik.handleBlur}
@@ -665,7 +753,9 @@ const UserRegister = ({
                   fontSize: "18px",
                 }}
               >
-                Description
+                {translate('Description')}
+
+
               </label>
               <textarea
                 onChange={formik.handleChange}
@@ -677,11 +767,11 @@ const UserRegister = ({
                 value={formik.values.description}
                 style={{ overflow: "hidden:", resize: "none" }}
               ></textarea>
-              {formik.touched.description && formik.errors.description && (
+              {/* {formik.touched.description && formik.errors.description && (
                 <p style={{ color: "red" }} className="error">
                   {(formik.errors.description).toString()}
                 </p>
-              )}
+              )} */}
             </div>
             <div className="d-flex justify-content-end mb-5">
               <button
@@ -705,5 +795,7 @@ const UserRegister = ({
     </>
   );
 };
+
+
 
 export default UserRegister;

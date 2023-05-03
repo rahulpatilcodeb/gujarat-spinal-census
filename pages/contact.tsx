@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 const schema = Yup.object().shape({
   email: Yup.string()
@@ -14,6 +15,7 @@ const schema = Yup.object().shape({
 });
 
 function Contact(): JSX.Element {
+  const { t: translate } = useTranslation('common');
   const router = useRouter();
   const { locales, locale } = useRouter()
   console.log(locales, locale)
@@ -58,7 +60,7 @@ function Contact(): JSX.Element {
 
       <div className="m-3">
         <label className="mb-1">
-          Mobile Number
+          {translate('contact number')}
         </label>
         <input
           required
@@ -79,7 +81,8 @@ function Contact(): JSX.Element {
       </div>
       <div className="m-3">
         <label className="mb-1">
-          Email Address
+          {translate('e-mail address')}
+
         </label>
         <input
           onChange={formik.handleChange}
@@ -89,7 +92,8 @@ function Contact(): JSX.Element {
           type="text"
           id="email"
           value={formik.values.email}
-          placeholder="Email Address"
+          placeholder={translate('e-mail address') as string}
+
         />
         <p style={{ color: "red" }} className="error">
           {formik.errors.email && formik.touched.email && formik.errors.email}
@@ -97,7 +101,8 @@ function Contact(): JSX.Element {
       </div>
       <div className="m-3">
         <label className="mb-1" htmlFor="description">
-          Description
+          {translate('Description')}
+
         </label>
         <input
           onChange={formik.handleChange}
@@ -108,7 +113,8 @@ function Contact(): JSX.Element {
           type="text"
           id="description"
           value={formik.values.description}
-          placeholder="Description"
+          placeholder={translate('Description') as string}
+
         />
         <p style={{ color: "red" }} className="error">
           {formik.errors.description &&

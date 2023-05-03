@@ -6,15 +6,7 @@ import InjuryInfo from "@/components/InjuryInfo";
 import UserRegister from "@/components/userInfo";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-// export async function getStaticProps({ locale }:any) {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale, ['common'])),
-//     }
-//   } 
-// }
 
 function Common() {
 
@@ -38,10 +30,10 @@ function Common() {
     description: "",
     injuryYear: "",
     injuryReason: "",
-    injuryType: "",
-    injuryLevel: "",
-    implantFixation: "",
     injuryStatus: "",
+    // injuryLevel: "",
+    // implantFixation: "",
+    // injuryStatus: "",
     physicalStatus: "",
     financialStatus: "",
     independent: "",
@@ -90,6 +82,7 @@ function Common() {
                   setFormData={setFormData}
                   handleFormData={handleInputData}
                   values={formData}
+                // translate={translate}
                 />
               </Col>
             </Row>
@@ -109,6 +102,7 @@ function Common() {
                   values={formData}
                   onsubmit={onsubmit}
                   setFormData={setFormData}
+                // translate={translate}
                 />
               </Col>
             </Row>

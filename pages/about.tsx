@@ -60,7 +60,7 @@ const About = ({ language }: any) => {
 
   return (
     <>
-      <h1>Locale: {locale}</h1>
+      {/* <h1>Locale: {locale}</h1>
 
       <h2>{translate('home')}</h2>
 
@@ -74,7 +74,7 @@ const About = ({ language }: any) => {
         <Link href='/' locale={locale}>
           Go to home
         </Link>
-      </h2>
+      </h2> */}
       {/* <button onClick={(e) => { setFlag(!flag) }}>language</button> */}
 
       <div className="" style={{ width: "100%", fontSize: "15px", paddingLeft: "300px", paddingRight: "300px" }} >

@@ -86,12 +86,16 @@ function Navbars() {
       router.push("/contact")
     }
 
+
   }, [Ilogin]);
+
+  const path = router.asPath
+  console.log(path)
   const NewValue = (e: any) => {
     locale = e.value
     console.log("loccases", locale, e.value);
-    if (locale === 'gu') router.push('/gu/');
-    else router.push('/');
+    if (locale === 'en') router.replace('/' + path, undefined, { locale: e.value });
+    else router.push('/gu' + path, undefined, { locale: e.value });
     dispatch(
       currentlng({ language: e.value })
     );
@@ -123,7 +127,7 @@ function Navbars() {
           </span>
         </div>
         <div className="col d-flex justify-content-end me-5 my-3  align-items-center">
-          <span className="pe-3">
+          {!Ilogin ? <span className="pe-3">
             <Select options={opt}
               defaultValue={() => {
                 return opt.find((o: any) => o.value == locale)
@@ -133,7 +137,7 @@ function Navbars() {
               onChange={NewValue}
 
             />
-          </span>
+          </span> : ""}
           <span>
             {!Ilogin ? (
               <Link

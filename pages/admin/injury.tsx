@@ -110,7 +110,7 @@ const Injury = ({ prevStep, value, page }: any) => {
                           fontSize: "18px",
                         }}
                       >
-                        Injury Type
+                        Injury Status
                       </label>
                       <div className="row mb-4 ">
                         <div
@@ -127,10 +127,10 @@ const Injury = ({ prevStep, value, page }: any) => {
                             className="custom-control-label"
                             htmlFor="ItypeP"
                           >
-                            Paraplagia
+                            Paraplegia
                           </label>
                           {`${user.injuryType}` &&
-                            `${user.injuryType}` === "Paraplagia" ? (
+                            `${user.injuryType}` === "Paraplegia" ? (
                             <input
                               type="radio"
                               className="custom-control-input"
@@ -177,7 +177,7 @@ const Injury = ({ prevStep, value, page }: any) => {
                         </div>
                       </div>
 
-                      <div className="mb-4" aria-readonly>
+                      {/* <div className="mb-4" aria-readonly>
                         <label
                           htmlFor="Ilevel"
                           className="form-label"
@@ -343,7 +343,7 @@ const Injury = ({ prevStep, value, page }: any) => {
                             />
                           )}
                         </div>
-                      </div>
+                      </div> */}
                       <label
                         htmlFor="exampleFormControlTextarea1"
                         className="form-label"
