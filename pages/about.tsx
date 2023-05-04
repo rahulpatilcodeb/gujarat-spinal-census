@@ -22,38 +22,11 @@ const About = ({ language }: any) => {
     token: token,
   } = useSelector((state: RootState) => state.users);
 
-  const {
-    language: lng
-  } = useSelector((state: RootState) => state.language);
-  console.log("locales", locale, locales)
-
-  // const [flag, setFlag] = useState(false)
-
-
-  // const toggle = (e: any) => {
-  //   // e.preventDefault()
-  //   flag = !flag
-  //   // router.push("/about");
-
-  //   console.log('flag', flag)
-  // }
   useEffect(() => {
-    console.log(locales, locale)
-
-    // debugger;
     if (Ilogin) {
-      // console.log("login",Ilogin,user,token)
       router.push("/admin/login");
     }
-    // router.push("/about");
-    console.log("lngs", lng)
-  }, [Ilogin, lng])
-
-  const handleClick = (l: any) => {
-    // debugger;
-    console.log("ll", l)
-    // push("/", undefined, { locale: l })
-  }
+  }, [Ilogin])
 
 
 
@@ -75,7 +48,6 @@ const About = ({ language }: any) => {
           Go to home
         </Link>
       </h2> */}
-      {/* <button onClick={(e) => { setFlag(!flag) }}>language</button> */}
 
       <div className="" style={{ width: "100%", fontSize: "15px", paddingLeft: "300px", paddingRight: "300px" }} >
 

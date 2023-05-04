@@ -1,21 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { stat } from "fs";
-// import { getCookie } from "cookies-next";
 
 const initialState = {
   user:null as any,
   islogin:false as boolean,
   token:"" as string,
 }
-// const initialState = getCookie("token")
-//   ? {
-//       user: null as any,
-//       islogin: true as boolean,
-//     }
-//   : {
-//       user: null as any,
-//       islogin: false as boolean,
-//     };
 
 export const userSlice = createSlice({
   name: "users",
@@ -23,9 +12,6 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-      // console.log("this is slice:",action);
-      // console.log(action)
-      console.log(action.payload);
       state.token = action.payload.token;
       state.user = action.payload.user;
       state.islogin = true;

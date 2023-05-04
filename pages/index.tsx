@@ -10,9 +10,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 function Common() {
 
-  const { locales, locale, push } = useRouter()
-  console.log(locales, locale)
-  // debugger;
   const [step, setstep] = useState(1);
   const [formData, setFormData] = useState<any>({
     file: null,
@@ -39,17 +36,7 @@ function Common() {
     independent: "",
   });
 
-  useEffect(() => {
-    // console.log("in formdata", formData)
-  }, [formData])
-  // console.log("hzsudhui", formData);
-
-  useEffect(() => {
-    // console.log("this is in useEffect", formData.file?.name);
-
-  }, [formData.file]);
-
-
+ 
   const nextStep = () => {
     setstep(step + 1);
   };
@@ -82,7 +69,6 @@ function Common() {
                   setFormData={setFormData}
                   handleFormData={handleInputData}
                   values={formData}
-                // translate={translate}
                 />
               </Col>
             </Row>
@@ -102,7 +88,6 @@ function Common() {
                   values={formData}
                   onsubmit={onsubmit}
                   setFormData={setFormData}
-                // translate={translate}
                 />
               </Col>
             </Row>

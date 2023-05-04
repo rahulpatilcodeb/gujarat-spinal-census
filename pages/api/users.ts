@@ -30,7 +30,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // console.log(req.headers.authorization);
     switch (req.method) {
       case "GET":
         if (!req.headers.authorization) {
@@ -47,7 +46,6 @@ export default async function handler(
             data: posts,
           });
         }
-        // return res.send("Session expired");
         break;
       case "POST":
         const user = new User({

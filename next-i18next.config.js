@@ -7,4 +7,3 @@ module.exports = {
   },
   localePath: path.resolve("./public/locales"),
 };
-console.log("path", path.resolve("./public/locales"));

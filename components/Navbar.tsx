@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { currentlng } from "@/store/languageSlice";
 import { useTranslation } from "react-i18next";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 
 
@@ -22,18 +21,12 @@ function Navbars() {
   const router = useRouter();
 
   const { t: translate } = useTranslation('common')
-  // console.log("t", t);
-  // console.log("t",t("home"))
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
-  );
-  let { language: lng } = useSelector(
-    (state: RootState) => state.language
   );
   const [homeColor, setHomeColor] = useState("#6BC17A");
   const [contactColor, setContactColor] = useState("#181C32")
   const [aboutColor, setAboutColor] = useState("#181C32");
-  // const [ language, setLanguage] = useState<any>("english")
 
   // to update the current color of link.
   const handleChangeHomeColor = () => {
@@ -62,7 +55,6 @@ function Navbars() {
 
   // to check user loged in or not.
   useEffect(() => {
-    // console.log(Ilogin);
     if (Ilogin) {
       if (pathname == "/admin/patients") {
         handleChangeHomeColor();
@@ -74,7 +66,6 @@ function Navbars() {
         router.push("/admin/patients");
       }
     }
-    console.log(pathname);
     if (pathname == "/") {
       handleChangeHomeColor();
       router.push("/");
@@ -90,11 +81,9 @@ function Navbars() {
   }, [Ilogin]);
 
   const path = router.asPath
-  console.log(path)
   const NewValue = (e: any) => {
     locale = e.value
-    console.log("loccases", locale, e.value);
-    if (locale === 'en') router.replace('/' + path, undefined, { locale: e.value });
+    if (locale === 'en') router.replace('' + path, undefined, { locale: e.value });
     else router.push('/gu' + path, undefined, { locale: e.value });
     dispatch(
       currentlng({ language: e.value })

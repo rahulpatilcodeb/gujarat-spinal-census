@@ -23,7 +23,6 @@ export default function Patients() {
   const [currentPage, setCurrentPage] = useState<any>(1);
   let { query: page } = router;
   const activepage = parseInt(`${page.pages}`);
-  // console.log("active page number", activepage)
   const [reqObj, setReqObj] = useState<any>({
     filter: {
       fname: undefined,

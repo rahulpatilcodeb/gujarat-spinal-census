@@ -17,7 +17,6 @@ export default async function handler(
     switch (req.method) {
       case "GET":
         const posts = await admin.find();
-        // console.log(posts);
         res.json({
           data: posts,
         });
@@ -27,22 +26,16 @@ export default async function handler(
           email: req.body.email,
           password: req.body.password,
         });
-        // console.log(req.body.email, req.body.password);
         const user = await admin.findOne({ email: req.body.email });
         let valid
         if(user){
-
-          // console.log(user);
           valid = await bcrypt.compare(Admin.password, user.password);
-          // console.log(valid);
         }
 
         if (req.body.email != undefined && user !== null && valid) {
           let useris, Payload;
           try {
             if (user) {
-              // console.log("in the try block");
-
               const jtoken = jwt.sign({ email: user.email }, secretKey, {
                 expiresIn: "18000000",
               });
@@ -52,7 +45,6 @@ export default async function handler(
               };
 
               Payload = useris;
-              // console.log(Payload);
 
               return res.json({
                 payload: Payload,

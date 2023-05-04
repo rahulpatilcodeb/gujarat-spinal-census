@@ -40,7 +40,6 @@ const Home = () => {
         'Authorization': `Bearer ${token}`
       }
     }).then((resp) => {
-      // console.log(resp.data, "resp");
       setPosts(resp.data.post);
       setTotalCount(resp.data.count)
     })
@@ -58,13 +57,9 @@ const Home = () => {
 
   }
 
-  // }catch(err)
-  // {
-  //   console.log(err)
-  // }
+
 
   useEffect(() => {
-    // try {
     if (!Ilogin) {
       router.push("/admin/login");
     } else {
@@ -72,11 +67,7 @@ const Home = () => {
       apiCall();
 
     }
-    // }
-    // finally {
-    //   console.log("error")
-    //   setLoading(false);
-    // }
+  
   }, [Ilogin, currentPage]);
 
 

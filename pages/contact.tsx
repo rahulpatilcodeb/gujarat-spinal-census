@@ -18,8 +18,6 @@ function Contact(): JSX.Element {
   const { t: translate } = useTranslation('common');
   const router = useRouter();
   const { locales, locale } = useRouter()
-  console.log(locales, locale)
-  // debugger;
   const formik = useFormik({
     initialValues: {
       contact: "",
@@ -29,13 +27,11 @@ function Contact(): JSX.Element {
     enableReinitialize: true,
     validationSchema: schema,
     onSubmit: (values) => {
-      // console.log("this is onsubmit")
       handleSubmit();
     },
   });
 
   async function handleSubmit() {
-    console.log("this is handlesubmit")
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formik.values)
       .then(() => alert("Thank You !! \n We will reach to you soon"))

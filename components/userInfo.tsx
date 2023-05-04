@@ -7,7 +7,6 @@ import * as Yup from "yup";
 import Link from "next/link";
 import Select from "react-select";
 import { useTranslation } from "react-i18next";
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 
 
@@ -18,7 +17,6 @@ const UserRegister = ({
   nextStep,
   values,
   setFormData,
-  // translate,
 }: any) => {
   const [initValue, setInitValue] = useState(values);
 
@@ -58,7 +56,6 @@ const UserRegister = ({
           return true;
         }
       }).test('file', 'file size should less than 3MB', (value: any) => {
-        // console.log(value.size<=1024 * 1024)
 
         return !value || (value && value.size <= 1024 * 1024 * 3)
       })
@@ -71,7 +68,6 @@ const UserRegister = ({
     validationSchema: schema,
     onSubmit: (values) => {
       setFormData(formik.values)
-      // console.log("values", values, "formik values", formik.values);
       nextStep();
     },
   });
@@ -120,41 +116,6 @@ const UserRegister = ({
     { value: "Valsad", label: translate("Valsad") }
   ];
 
-  const optionsG = [
-    { value: "Ahmedabad", label: translate("Ahmedabad") },
-    { value: "Vadodara", label: translate("Vadodara") },
-    { value: "Anand", label: translate("Anand") },
-    { value: "Chota Udepur", label: translate("Chota Udepur") },
-    { value: "Dahod", label: translate("Dahod") },
-    { value: "Kheda", label: translate("Kheda") },
-    { value: "Mahisagar", label: translate("Mahisagar") },
-    { value: "Panchmahal", label: translate("Panchmahal") },
-    { value: "Gandhinagar", label: translate("Gandhinagar") },
-    { value: "Aravalli", label: translate("Aravalli") },
-    { value: "Banaskantha", label: translate("Banaskantha") },
-    { value: "Mehsana", label: translate("Mehsana") },
-    { value: "Patan", label: translate("Patan") },
-    { value: "Sabarkantha", label: translate("Sabarkantha") },
-    { value: "Kutch", label: translate("Kutch") },
-    { value: "Rajkot", label: translate("Rajkot") },
-    { value: "Amreli", label: translate("Amreli") },
-    { value: "Bhavnagar", label: translate("Bhavnagar") },
-    { value: "Botad", label: translate("Botad") },
-    { value: "Devbhoomi Dwarka", label: translate("Devbhoomi Dwarka") },
-    { value: "Gir Somnath", label: translate("Gir Somnath") },
-    { value: "Jamnagar", label: translate("Jamnagar") },
-    { value: "Junagadh", label: translate("Junagadh") },
-    { value: "Morbi", label: translate("Morbi") },
-    { value: "Porbandar", label: translate("Porbandar") },
-    { value: "Surendranagar", label: translate("Surendranagar") },
-    { value: "Surat", label: translate("Surat") },
-    { value: "Bharuch", label: translate("Bharuch") },
-    { value: "Dang", label: translate("Dang") },
-    { value: "Narmada", label: translate("Narmada") },
-    { value: "Navsari", label: translate("Navsari") },
-    { value: "Tapi", label: translate("Tapi") },
-    { value: "Valsad", label: translate("Valsad") }
-  ]
 
 
   return (
@@ -245,7 +206,6 @@ const UserRegister = ({
               onBlur={formik.handleBlur}
               onChange={(e: any) => {
                 formik.setFieldValue("file", e.target.files[0]);
-                // console.log(e.target.files[0]);
               }}
               style={{ marginLeft: "10px ", display: "none" }}
               type="file"
