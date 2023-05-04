@@ -13,7 +13,6 @@ const customAxios = axios.create({
 const requestHandler = (request: any) => {
   // Token will be dynamic so we can use any app-specific way to always
   // fetch the new token before making the call
-  // console.log("store.getState().loginData :>> ", store.getState());
   if (store.getState().users.islogin) {
     request.headers.Authorization = `${store.getState().users.token}`;
   }
@@ -23,14 +22,12 @@ const responseHandler = (response: any) => {
   if (response.status === 401) {
     window.location.pathname = "/admin/login";
   }
-  // console.log("response :>> ", response);
   return response.data;
 };
 const errorHandler = (error: any) => {
   if (error.response.status === 401) {
     window.location.pathname = "/admin/login";
   }
-  console.log("error :>> ", error);
   return Promise.reject(
     error?.response?.data?.message || error?.response?.data || error
   );

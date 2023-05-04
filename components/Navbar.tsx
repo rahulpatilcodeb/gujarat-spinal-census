@@ -3,14 +3,24 @@ import "@/styles/Home.module.css";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { logout } from "@/store/userSlice";
+import { login, logout } from "@/store/userSlice";
 import router, { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Select from "react-select";
+import { currentlng } from "@/store/languageSlice";
+import { useTranslation } from "react-i18next";
+
+
+
 
 function Navbars() {
   const dispatch = useDispatch();
   const { pathname } = useRouter();
 
+  let { locale, locales, push } = useRouter()
+  const router = useRouter();
+
+  const { t: translate } = useTranslation('common')
   let { user: users, islogin: Ilogin } = useSelector(
     (state: RootState) => state.users
   );
@@ -38,12 +48,13 @@ function Navbars() {
   //logout function performs action in redux.
   function handleClick(e: any) {
     e.preventDefault();
-    dispatch(logout());
+    dispatch(logout(e.value));
   }
+
+
 
   // to check user loged in or not.
   useEffect(() => {
-    // console.log(Ilogin);
     if (Ilogin) {
       if (pathname == "/admin/patients") {
         handleChangeHomeColor();
@@ -55,7 +66,6 @@ function Navbars() {
         router.push("/admin/patients");
       }
     }
-    console.log(pathname);
     if (pathname == "/") {
       handleChangeHomeColor();
       router.push("/");
@@ -67,7 +77,24 @@ function Navbars() {
       router.push("/contact")
     }
 
+
   }, [Ilogin]);
+
+  const path = router.asPath
+  const NewValue = (e: any) => {
+    locale = e.value
+    if (locale === 'en') router.replace('' + path, undefined, { locale: e.value });
+    else router.push('/gu' + path, undefined, { locale: e.value });
+    dispatch(
+      currentlng({ language: e.value })
+    );
+  }
+
+  const opt: any = [
+    { value: 'gu', label: 'ગુજરાતી' },
+    { value: 'en', label: 'English' }
+  ]
+
 
   return (
     <>
@@ -88,23 +115,37 @@ function Navbars() {
             ></img> */}
           </span>
         </div>
-        <div className="col d-flex justify-content-end me-5 my-3">
+        <div className="col d-flex justify-content-end me-5 my-3  align-items-center">
+          {!Ilogin ? <span className="pe-3">
+            <Select options={opt}
+              defaultValue={() => {
+                return opt.find((o: any) => o.value == locale)
+              }}
+              id="lng"
+              name="language"
+              onChange={NewValue}
+
+            />
+          </span> : ""}
           <span>
             {!Ilogin ? (
               <Link
                 href="/"
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
+                locale={locale}
+
               >
-                Home
+                {translate('home')}
               </Link>
             ) : (
               <Link
                 href="/admin/patients"
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
+                locale={locale}
               >
-                Home
+                {translate('home')}
               </Link>
             )}
 
@@ -115,8 +156,11 @@ function Navbars() {
                 href="/contact"
                 onClick={handleChangeContactColor}
                 style={{ color: contactColor, fontSize: "18px" }}
+                locale={locale}
               >
-                Contact
+                {translate('contact')}
+                {/* Contact */}
+
               </Link>
             ) : (
               <Link
@@ -124,8 +168,11 @@ function Navbars() {
                 className="ms-2"
                 href="/admin/contact"
                 style={{ color: contactColor, fontSize: "18px" }}
+                locale={locale}
+
               >
-                Contact
+                {translate('contact')}
+                {/* Contact */}
               </Link>
             )}
             <button
@@ -143,15 +190,20 @@ function Navbars() {
                 href="/about"
                 onClick={handleChangeAboutColor}
                 style={{ color: aboutColor, fontSize: "18px" }}
+                locale={locale}
+
               >
-                About Us
+                {translate('about')}
               </Link>
             )}
           </span>
+
         </div>
       </div>
     </>
   );
-}
+};
+
+
 
 export default Navbars;

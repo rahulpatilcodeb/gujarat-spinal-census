@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import Select from "react-select";
+import { useTranslation } from "react-i18next";
 
 const InjuryInfo = ({
   nextStep,
@@ -17,16 +18,18 @@ const InjuryInfo = ({
   const schema = Yup.object().shape({
     injuryYear: Yup.number().required("Please enter year").max(date, "Invalid data"),
     injuryReason: Yup.string().required("Please enter reason"),
-    injuryType: Yup.string().required("Please select type"),
-    injuryLevel: Yup.string().required("Please select level"),
-    implantFixation: Yup.string().required("please choose one value"),
-    injuryStatus: Yup.string().required("please select your injury status"),
+    injuryStatus: Yup.string().required("Please select type"),
+    // injuryLevel: Yup.string().required("Please select level"),
+    // implantFixation: Yup.string().required("please choose one value"),
+    // injuryStatus: Yup.string().required("please select your injury status"),
     physicalStatus: Yup.string().required("Please select"),
     financialStatus: Yup.string().required("Please select"),
   });
 
   const [initValue, setInitValue] = useState(values);
   const [loading, setLoading] = useState(false);
+
+  const { t: translate } = useTranslation("common");
 
   const fileupload = async (file: any) => {
     try {
@@ -40,9 +43,9 @@ const InjuryInfo = ({
       console.log("error", error);
     }
   };
-  useEffect(()=> {
+  useEffect(() => {
     window.scrollTo(0, 0)
-  },[])
+  }, [])
 
   function handlePrev() {
     setFormData(formik.values)
@@ -64,7 +67,7 @@ const InjuryInfo = ({
           values.avatar = values.file.name;
           await axios
             .post(`${process.env.NEXT_PUBLIC_API_URL}/users`, values)
-            .catch((err) => { console.error(err) });
+            .catch((err: any) => { console.error(err) });
           nextStep()
         } catch (err) {
           console.log("error", err)
@@ -106,7 +109,7 @@ const InjuryInfo = ({
                 >
                   1
                 </span>
-                <span>Personal Details -</span>
+                <span>{translate('Personal Details')} -</span>
               </div>
             </div>
             <div style={{ marginLeft: "50px " }}>
@@ -122,7 +125,7 @@ const InjuryInfo = ({
                 >
                   2
                 </span>
-                <span>Injury Details -</span>
+                <span>{translate('Injury Details')} -</span>
               </div>
             </div>
           </div>
@@ -142,7 +145,7 @@ const InjuryInfo = ({
                     fontSize: "18px",
                   }}
                 >
-                  Injury Year
+                  {translate('injury year')}
                 </label>
                 <label className="text-danger"> *</label>
                 <input
@@ -173,7 +176,7 @@ const InjuryInfo = ({
                     fontSize: "18px",
                   }}
                 >
-                  Injury Reason
+                  {translate('injury reason')}
                 </label>
                 <textarea
                   required
@@ -183,7 +186,7 @@ const InjuryInfo = ({
                   value={formik.values.injuryReason}
                   className={`form-control ${styles.tcolor}`}
                   id="Ireason"
-                  placeholder="Road Accident"
+                  placeholder={translate('road accident') as string}
                   rows={1}
                 ></textarea>
                 {formik.touched.injuryReason && formik.errors.injuryReason && (
@@ -200,7 +203,7 @@ const InjuryInfo = ({
                   fontSize: "18px",
                 }}
               >
-                Injury Type
+                {translate('injury status')}
               </label>
               <div className="row mb-4 ">
                 <div
@@ -218,17 +221,17 @@ const InjuryInfo = ({
                     htmlFor="ItypeP"
                     style={{ width: "100%" }}
                   >
-                    Paraplagia
+                    {translate('paraplegia')}
                   </label>
                   <input
                     required
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    checked={formik.values.injuryType == "Paraplagia"}
+                    checked={formik.values.injuryStatus == "Paraplegia"}
                     type="radio"
-                    name="injuryType"
+                    name="injuryStatus"
                     className="custom-control-input"
-                    value="Paraplagia"
+                    value="Paraplegia"
                     id="ItypeP"
                   />
                 </div>
@@ -247,27 +250,27 @@ const InjuryInfo = ({
                     htmlFor="ItypeQ"
                     style={{ width: "100%" }}
                   >
-                    Quadriplegia
+                    {translate('Quadriplegia')}
                   </label>
                   <input
                     required
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    checked={formik.values.injuryType == "Quadriplegia"}
+                    checked={formik.values.injuryStatus == "Quadriplegia"}
                     type="radio"
-                    name="injuryType"
+                    name="injuryStatus"
                     className="custom-control-input"
                     value="Quadriplegia"
                     id="ItypeQ"
                   />
                 </div>
-                {formik.touched.injuryType && formik.errors.injuryType && (
+                {formik.touched.injuryStatus && formik.errors.injuryStatus && (
                   <p style={{ color: "red" }} className="error">
-                    {formik.errors.injuryType.toString()}
+                    {formik.errors.injuryStatus.toString()}
                   </p>
                 )}
               </div>
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label
                   htmlFor="Ilevel"
                   className="form-label"
@@ -307,7 +310,7 @@ const InjuryInfo = ({
                   >
                     low
                   </option>
-                </select> */}
+                </select> //add here"*}" after removing *} at /div of this div
                 <Select
                   defaultValue={options.find(
                     (e) => formik.values.injuryLevel == e.value
@@ -324,8 +327,8 @@ const InjuryInfo = ({
                     {formik.errors.injuryLevel.toString()}
                   </p>
                 )}
-              </div>
-              <label
+              </div> */}
+              {/* <label
                 htmlFor="ImplantFix"
                 className="form-label"
                 style={{
@@ -409,7 +412,7 @@ const InjuryInfo = ({
                   fontSize: "18px",
                 }}
               >
-                Injury Status
+                {translate('Injury Status')}
               </label>
               <div className="row mb-4">
                 <div
@@ -483,8 +486,8 @@ const InjuryInfo = ({
                   fontSize: "18px",
                 }}
               >
-                Physical Status
-              </label>
+                {translate('Physical Status')}
+              </label> */}
               <div className="row mb-4">
                 <div
                   className="col d-flex justify-content-between align-items-center"
@@ -501,7 +504,8 @@ const InjuryInfo = ({
                     htmlFor="PhysicalStatus"
                     style={{ width: "100%" }}
                   >
-                    Dependent
+                    {translate('Dependent')}
+
                   </label>
                   <input
                     required
@@ -530,7 +534,8 @@ const InjuryInfo = ({
                     htmlFor="PhysicalStatusno"
                     style={{ width: "100%" }}
                   >
-                    Independent
+                    {translate('Independent')}
+
                   </label>
                   <input
                     required
@@ -558,7 +563,7 @@ const InjuryInfo = ({
                   fontSize: "18px",
                 }}
               >
-                Financial Status
+                {translate('Financial Status')}
               </label>
               <div className="row mb-4">
                 <div
@@ -576,7 +581,7 @@ const InjuryInfo = ({
                     htmlFor="Financialdep"
                     style={{ width: "100%" }}
                   >
-                    Dependent
+                    {translate('Dependent')}
                   </label>
                   <input
                     required
@@ -605,7 +610,7 @@ const InjuryInfo = ({
                     htmlFor="FinancialInd"
                     style={{ width: "100%" }}
                   >
-                    Independent
+                    {translate('Independent')}
                   </label>
                   <input
                     required
@@ -644,7 +649,7 @@ const InjuryInfo = ({
                       htmlFor="independentJob"
                       style={{ width: "100%" }}
                     >
-                      Job
+                      {translate('Job')}
                     </label>
                     <input
                       required
@@ -673,7 +678,7 @@ const InjuryInfo = ({
                       htmlFor="independentBus"
                       style={{ width: "100%" }}
                     >
-                      Business
+                      {translate('Business')}
                     </label>
                     <input
                       required

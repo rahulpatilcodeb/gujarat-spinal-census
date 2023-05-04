@@ -12,24 +12,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // console.log(req.headers.authorization);
     switch (req.method) {
-      case "GET":
-      // const verified = jwt.verify(req.headers.authorization, setcretKey);
-      // console.log(verified.email);
-      // const admins = await admin.find({ email: verified.email });
-      // console.log(admins);
-      // if (admins[0].email != undefined) {
-      // console.log("thisi starting of get");
-      // const posts = await User.find();
-      // const users = posts[0].count;
-      // console.log(posts[0].count, "this is posts");
-      // return res.json({
-      //   data: users,
-      // });
-      // }
-      // return res.send("Session expired");
-      // break;
+      
       case "POST":
         console.log("this is filete", req.body.body.filter);
 
@@ -43,14 +27,11 @@ export default async function handler(
         {
           delete req.body.body.filter.injuryType;
         }
-        console.log(req.body.body.filter)
-        // console.log("this s token", req.headers);
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(" ")[1];
         // console.log("this is token", token);
         const verified = jwt.verify(token, setcretKey);
         // const verified = jwt.verify(req.headers.authorization, setcretKey);
-        console.log(verified.email);
         const admins = await admin.find({ email: verified.email });
         // console.log(admins);
         if (admins[0].email != undefined) {

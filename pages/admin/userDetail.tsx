@@ -34,10 +34,10 @@ function UserDetail() {
       try {
         axios
           .post(`${process.env.NEXT_PUBLIC_API_URL}/user`, example.id)
-          .then((response) => {
+          .then((response:any) => {
             setUserData(response.data.data);
           })
-          .catch((err) => console.log(err));
+          .catch((err:any) => console.log(err));
       } catch (err) {
         console.log(`error`, err);
       } finally {

@@ -19,7 +19,6 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    // console.log(Ilogin);
     if (Ilogin) {
       router.push("/admin/patients");
     }
@@ -38,11 +37,9 @@ const Login = () => {
         }
       );
       const datadb = await response.json();
-      // console.log(datadb);
       if (response.ok) {
-        // console.log("first if", datadb.payload.name);
         if (datadb.payload.name != undefined) {
-          
+
           dispatch(
             login({ user: datadb.payload.name, token: datadb.payload.key })
           );
@@ -56,7 +53,6 @@ const Login = () => {
     } catch (error) {
       setLoading(false)
       toast.error("Please provide correct input!");
-      // alert(`Please provide correct input!`);
     } finally {
       setLoading(false)
     }

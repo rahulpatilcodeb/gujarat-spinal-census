@@ -4,8 +4,12 @@ import Register from "@/components/Register";
 import axios from "axios";
 import InjuryInfo from "@/components/InjuryInfo";
 import UserRegister from "@/components/userInfo";
+import { useRouter } from "next/router";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+
 
 function Common() {
+
   const [step, setstep] = useState(1);
   const [formData, setFormData] = useState<any>({
     file: null,
@@ -23,26 +27,16 @@ function Common() {
     description: "",
     injuryYear: "",
     injuryReason: "",
-    injuryType: "",
-    injuryLevel: "",
-    implantFixation: "",
     injuryStatus: "",
+    // injuryLevel: "",
+    // implantFixation: "",
+    // injuryStatus: "",
     physicalStatus: "",
     financialStatus: "",
     independent: "",
   });
 
-  useEffect(() => {
-    // console.log("in formdata", formData)
-  }, [formData])
-  // console.log("hzsudhui", formData);
-
-  useEffect(() => {
-    // console.log("this is in useEffect", formData.file?.name);
-
-  }, [formData.file]);
-
-
+ 
   const nextStep = () => {
     setstep(step + 1);
   };
@@ -114,6 +108,15 @@ function Common() {
       );
     default:
       return <div></div>;
+  }
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
   }
 }
 export default Common;
