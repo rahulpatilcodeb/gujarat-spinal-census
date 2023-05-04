@@ -14,22 +14,22 @@ const InjuryInfo = ({
   setFormData,
 }: any) => {
 
+  const { t: translate } = useTranslation("common");
   const date = new Date().getFullYear()
   const schema = Yup.object().shape({
-    injuryYear: Yup.number().required("Please enter year").max(date, "Invalid data"),
-    injuryReason: Yup.string().required("Please enter reason"),
-    injuryStatus: Yup.string().required("Please select type"),
-    // injuryLevel: Yup.string().required("Please select level"),
-    // implantFixation: Yup.string().required("please choose one value"),
-    // injuryStatus: Yup.string().required("please select your injury status"),
-    physicalStatus: Yup.string().required("Please select"),
-    financialStatus: Yup.string().required("Please select"),
+    injuryYear: Yup.number().required(translate("Please enter year!") as string).max(date, translate("Invalid data!") as string),
+    injuryReason: Yup.string().required(translate("Please enter reason!") as string),
+    injuryStatus: Yup.string().required(translate("Please select type!") as string),
+    // injuryLevel: Yup.string().required(translate("Please select level") as string),
+    // implantFixation: Yup.string().required(translate("please choose one value") as string),
+    // injuryStatus: Yup.string().required(translate("please select your injury status") as string),
+    physicalStatus: Yup.string().required(translate("Please select physical status!") as string),
+    financialStatus: Yup.string().required(translate("Please select financial status!") as string),
   });
 
   const [initValue, setInitValue] = useState(values);
   const [loading, setLoading] = useState(false);
 
-  const { t: translate } = useTranslation("common");
 
   const fileupload = async (file: any) => {
     try {
@@ -478,7 +478,7 @@ const InjuryInfo = ({
                     {formik.errors.injuryStatus.toString()}
                   </p>
                 )}
-              </div>
+              </div>*/}
               <label
                 className="form-label"
                 style={{
@@ -487,7 +487,7 @@ const InjuryInfo = ({
                 }}
               >
                 {translate('Physical Status')}
-              </label> */}
+              </label>
               <div className="row mb-4">
                 <div
                   className="col d-flex justify-content-between align-items-center"

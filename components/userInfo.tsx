@@ -25,26 +25,26 @@ const UserRegister = ({
 
   const schema = Yup.object().shape({
     fname: Yup.string()
-      .min(3, "Too Short!")
-      .max(12, "Too Long!")
-      .required("Please enter your first name!"),
-    lname: Yup.string().required("Please enter your Last name!"),
-    address: Yup.string().required("Please enter your address!"),
+      .min(3, translate("Too Short!")as string)
+      .max(12, translate("Too Long!")as string)
+      .required(translate("Please enter your first name!")as string),
+    lname: Yup.string().required(translate("Please enter your Last name!")as string),
+    address: Yup.string().required(translate("Please enter your address!")as string),
     contact: Yup.number()
-      .positive("can not be negative")
-      .required("Please enter your phone number!"),
-    district: Yup.string().required("please select district"),
+      .positive(translate("Can not be negative")as string)
+      .required(translate("Please enter your phone number!")as string),
+    district: Yup.string().required(translate("Please select district!")as string),
     dob: Yup.date()
-      .max(new Date(), "date can not exceeds current time")
-      .required("please select your date of birth"),
+      .max(new Date(), translate("Date can not exceeds current time!")as string)
+      .required(translate("Please select your date of birth!")as string),
     email: Yup.string()
-      .required("Email i  s a required field")
-      .email("Invalid email format"),
+      .required(translate("Email is a required field!")as string)
+      .email(translate("Invalid email format!")as string),
     // description: Yup.string().required("Please enter description!"),
-    gender: Yup.string().required("Please enter gender here"),
-    bpl: Yup.string().required("Do you have bpl card!"),
-    qualification: Yup.string().required("Please enter your Qualification!"),
-    file: Yup.mixed().required("please select an image").test("file", "Unsupported File Format",
+    gender: Yup.string().required(translate("Please enter gender here!")as string),
+    bpl: Yup.string().required(translate("Do you have bpl card!")as string),
+    qualification: Yup.string().required(translate("Please enter your Qualification!")as string),
+    file: Yup.mixed().required(translate("Please select an image!")as string).test("file", translate("Unsupported File Format!")as string,
       (value: any) => {
         if (value) {
           return (
@@ -55,7 +55,7 @@ const UserRegister = ({
         } else {
           return true;
         }
-      }).test('file', 'file size should less than 3MB', (value: any) => {
+      }).test('file', translate('File size should less than 3MB!')as string, (value: any) => {
 
         return !value || (value && value.size <= 1024 * 1024 * 3)
       })
@@ -221,9 +221,9 @@ const UserRegister = ({
                 onClick={linkClick}
                 id="fileSelect"
               >
-                Click here
+                {translate("Click here")}
               </Link>{" "}
-              to select picture from media
+              {translate("To select picture from media!")}
             </p>
           </div>
         </div>

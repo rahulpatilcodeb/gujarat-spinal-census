@@ -6,16 +6,16 @@ import * as Yup from "yup";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 
-const schema = Yup.object().shape({
-  email: Yup.string()
-    .required("Email is a required field")
-    .email("Invalid email format"),
-  description: Yup.string().required("Please enter description here!"),
-  contact: Yup.string().required("Please enter your phone number!"),
-});
 
 function Contact(): JSX.Element {
   const { t: translate } = useTranslation('common');
+  const schema = Yup.object().shape({
+    email: Yup.string()
+      .required(translate("Email is a required field!")as string)
+      .email(translate("Invalid email format!")as string),
+    description: Yup.string().required(translate("Please enter description here!")as string),
+    contact: Yup.string().required(translate("Please enter your phone number!")as string),
+  });
   const router = useRouter();
   const { locales, locale } = useRouter()
   const formik = useFormik({
