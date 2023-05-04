@@ -122,7 +122,6 @@ const About = ({ language }: any) => {
 };
 
 export async function getStaticProps({ locale }: any) {
-  console.log("loacaless", locale, locale[0])
   return {
     props: {
       ...(await serverSideTranslations(locale, ['common'])),
