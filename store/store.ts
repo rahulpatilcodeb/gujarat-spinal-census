@@ -4,13 +4,14 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import userSlice from "./userSlice";
 import filterSlice from "./filterSlice";
+import languageSlice from "./languageSlice";
 
 // for storing in local storage
 const persistConfig = {
   key: "root",
   storage,
   // whitelist: ["users"],
-}; 
+};
 // const rootPersistConfig = {
 // 	key: 'root',
 // 	storage,
@@ -19,7 +20,8 @@ const persistConfig = {
 
 const reducer = combineReducers({
   users: userSlice,
-  filter:filterSlice,
+  filter: filterSlice,
+  language: languageSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

@@ -1,35 +1,37 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/router";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
-const schema = Yup.object().shape({
-  email: Yup.string()
-    .required("Email is a required field")
-    .email("Invalid email format"),
-  description: Yup.string().required("Please enter description here!"),
-  contact: Yup.string().required("Please enter your phone number!"),
-});
 
 function Contact(): JSX.Element {
+  const { t: translate } = useTranslation('common');
+  const schema = Yup.object().shape({
+    email: Yup.string()
+      .required(translate("Email is a required field!")as string)
+      .email(translate("Invalid email format!")as string),
+    description: Yup.string().required(translate("Please enter description here!")as string),
+    contact: Yup.string().required(translate("Please enter your phone number!")as string),
+  });
   const router = useRouter();
+  const { locales, locale } = useRouter()
   const formik = useFormik({
     initialValues: {
       contact: "",
       email: "",
       description: "",
     },
-    enableReinitialize:true,
-    validationSchema:schema,
+    enableReinitialize: true,
+    validationSchema: schema,
     onSubmit: (values) => {
-      // console.log("this is onsubmit")
       handleSubmit();
     },
   });
 
   async function handleSubmit() {
-    console.log("this is handlesubmit")
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formik.values)
       .then(() => alert("Thank You !! \n We will reach to you soon"))
@@ -38,14 +40,14 @@ function Contact(): JSX.Element {
       });
     router.push("/");
   }
-  function resetAll(){
-    formik.values.contact="";
-    formik.values.email="";
-    formik.values.description="";
+  function resetAll() {
+    formik.values.contact = "";
+    formik.values.email = "";
+    formik.values.description = "";
   }
 
   return (
-    <form noValidate className="container w-50" style={{marginBottom:"7%"}} onSubmit={formik.handleSubmit}>
+    <form noValidate className="container w-50" style={{ marginBottom: "7%" }} onSubmit={formik.handleSubmit}>
       <div className="col d-flex justify-content-center">
         <span>
           <b style={{ fontSize: "18px" }}>--Contact Us --</b>
@@ -54,7 +56,7 @@ function Contact(): JSX.Element {
 
       <div className="m-3">
         <label className="mb-1">
-          Mobile Number
+          {translate('contact number')}
         </label>
         <input
           required
@@ -75,7 +77,8 @@ function Contact(): JSX.Element {
       </div>
       <div className="m-3">
         <label className="mb-1">
-          Email Address
+          {translate('e-mail address')}
+
         </label>
         <input
           onChange={formik.handleChange}
@@ -85,7 +88,8 @@ function Contact(): JSX.Element {
           type="text"
           id="email"
           value={formik.values.email}
-          placeholder="Email Address"
+          placeholder={translate('e-mail address') as string}
+
         />
         <p style={{ color: "red" }} className="error">
           {formik.errors.email && formik.touched.email && formik.errors.email}
@@ -93,7 +97,8 @@ function Contact(): JSX.Element {
       </div>
       <div className="m-3">
         <label className="mb-1" htmlFor="description">
-          Description
+          {translate('Description')}
+
         </label>
         <input
           onChange={formik.handleChange}
@@ -104,7 +109,8 @@ function Contact(): JSX.Element {
           type="text"
           id="description"
           value={formik.values.description}
-          placeholder="Description"
+          placeholder={translate('Description') as string}
+
         />
         <p style={{ color: "red" }} className="error">
           {formik.errors.description &&
@@ -114,7 +120,7 @@ function Contact(): JSX.Element {
       </div>
 
       <div className="d-flex justify-content-end mt-3 me-3">
-        <button type="reset" onClick={()=>{formik.resetForm()}} className="btn btn-outline-secondary me-3">
+        <button type="reset" onClick={() => { formik.resetForm() }} className="btn btn-outline-secondary me-3">
           Cancel
         </button>
         <button
@@ -131,6 +137,15 @@ function Contact(): JSX.Element {
       </div>
     </form>
   );
+}
+
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      // Will be passed to the page component as props
+    },
+  }
 }
 
 export default Contact;

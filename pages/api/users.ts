@@ -30,7 +30,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    // console.log(req.headers.authorization);
     switch (req.method) {
       case "GET":
         if (!req.headers.authorization) {
@@ -47,7 +46,6 @@ export default async function handler(
             data: posts,
           });
         }
-        // return res.send("Session expired");
         break;
       case "POST":
         const user = new User({
@@ -65,10 +63,10 @@ export default async function handler(
           description: req.body.description,
           injuryYear: req.body.injuryYear,
           injuryReason: req.body.injuryReason,
-          injuryType: req.body.injuryType,
-          injuryLevel: req.body.injuryLevel,
-          implantFixation: req.body.implantFixation,
-          injuryStatus: req.body.injuryStatus,
+          injuryType: req.body.injuryStatus,
+          // injuryLevel: req.body.injuryLevel,
+          // implantFixation: req.body.implantFixation,
+          // injuryStatus: req.body.injuryStatus,
           physicalStatus: req.body.physicalStatus,
           financialStatus: req.body.financialStatus,
           independent: req.body.independent,
