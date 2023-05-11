@@ -194,10 +194,10 @@ export default function Patients() {
               <option value="Dang">Dang</option>
               <option value="Devbhoomi Dwarka">Devbhoomi Dwarka</option>
               <option value="Gandhinagar">Gandhinagar</option>
-              <option value="Gir Somnath">Gir Somnath              </option>
+              <option value="Gir Somnath">Gir Somnath</option>
               <option value="Jamnagar">Jamnagar</option>
               <option value="Junagadh">Junagadh</option>
-              <option value="Kutch">Kutch</option>s
+              <option value="Kutch">Kutch</option>
               <option value="Kheda">Kheda</option>
               <option value="Mahisagar">Mahisagar</option>
               <option value="Mehsana">Mehsana</option>
@@ -215,9 +215,6 @@ export default function Patients() {
               <option value="Banaskantha">Banaskantha</option>
               <option value="Botad">Botad</option>
               <option value="Chhota Udaipur">Chhota Udaipur</option>
-
-
-
 
             </select>
           </div>
