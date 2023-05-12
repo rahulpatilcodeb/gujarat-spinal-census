@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import Select from "react-select";
 import { currentlng } from "@/store/languageSlice";
 import { useTranslation } from "react-i18next";
+import { indexOf } from "lodash";
 
 
 
@@ -55,6 +56,7 @@ function Navbars() {
 
   // to check user loged in or not.
   useEffect(() => {
+    console.log(pathname.indexOf("admin") !== -1)
     if (Ilogin) {
       if (pathname == "/admin/patients") {
         handleChangeHomeColor();
@@ -62,8 +64,6 @@ function Navbars() {
       } else if (pathname == "/admin/contact") {
         handleChangeContactColor();
         router.push("/admin/contact");
-      } else {
-        router.push("/admin/patients");
       }
     }
     if (pathname == "/") {
@@ -100,9 +100,7 @@ function Navbars() {
     <>
       <div className="my-3 d-flex justify-content-between">
         <div className="col ms-5">
-
           <span>
-
             <button className="btn gsc" onClick={(e) => { router.push("/"); handleChangeHomeColor() }} style={{ border: "none" }}>
               <img src={logo.src} width="100px" />
             </button>
@@ -115,8 +113,8 @@ function Navbars() {
             ></img> */}
           </span>
         </div>
-        <div className="col d-flex justify-content-end me-5 my-3  align-items-center">
-          {!Ilogin ? <span className="pe-3">
+        <div className="col d-flex justify-content-end me-5 my-3  align-items-center" style={{ whiteSpace: "nowrap" }}>
+          {pathname.indexOf("admin") == -1 ? <span className="pe-3">
             <Select options={opt}
               defaultValue={() => {
                 return opt.find((o: any) => o.value == locale)
@@ -128,9 +126,9 @@ function Navbars() {
             />
           </span> : ""}
           <span>
-            {!Ilogin ? (
+            {pathname.indexOf("admin") !== -1 && Ilogin ? (
               <Link
-                href="/"
+                href="/admin/patients"
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
                 locale={locale}
@@ -140,7 +138,7 @@ function Navbars() {
               </Link>
             ) : (
               <Link
-                href="/admin/patients"
+                href="/"
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
                 locale={locale}
@@ -150,19 +148,7 @@ function Navbars() {
             )}
 
 
-            {!Ilogin ? (
-              <Link
-                className="ms-2"
-                href="/contact"
-                onClick={handleChangeContactColor}
-                style={{ color: contactColor, fontSize: "18px" }}
-                locale={locale}
-              >
-                {translate('contact')}
-                {/* Contact */}
-
-              </Link>
-            ) : (
+            {pathname.indexOf("admin") !== -1 && Ilogin ? (
               <Link
                 onClick={handleChangeContactColor}
                 className="ms-2"
@@ -173,8 +159,37 @@ function Navbars() {
               >
                 {translate('contact')}
                 {/* Contact */}
+
+              </Link>
+            ) : (
+
+              <Link
+                className="ms-2"
+                href="/contact"
+                onClick={handleChangeContactColor}
+                style={{ color: contactColor, fontSize: "18px" }}
+                locale={locale}
+              >
+                {translate('contact')}
+                {/* Contact */}
               </Link>
             )}
+
+          </span>
+          <span className="d-flex align-items-center">
+            {(pathname.indexOf("admin") == -1 || !Ilogin)
+              && (
+                <Link
+                  className="ms-2"
+                  href="/about"
+                  onClick={handleChangeAboutColor}
+                  style={{ color: aboutColor, fontSize: "18px", }}
+                  locale={locale}
+
+                >
+                  {translate('about')}
+                </Link>
+              )}
             <button
               style={{ display: Ilogin ? "inline" : "none" }}
               className="btn btn-sm btn-primary ms-2 "
@@ -182,20 +197,6 @@ function Navbars() {
             >
               Logout
             </button>
-          </span>
-          <span>
-            {!Ilogin && (
-              <Link
-                className="ms-2"
-                href="/about"
-                onClick={handleChangeAboutColor}
-                style={{ color: aboutColor, fontSize: "18px" }}
-                locale={locale}
-
-              >
-                {translate('about')}
-              </Link>
-            )}
           </span>
 
         </div>

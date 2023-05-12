@@ -5,13 +5,12 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import Link from "next/link";
 
 
 // let flag = true;
 const About = ({ language }: any) => {
 
-  const { locale, locales, push } = useRouter()
+  const { locale,  } = useRouter()
   const router = useRouter();
 
   const { t: translate } = useTranslation('common')
@@ -22,11 +21,11 @@ const About = ({ language }: any) => {
     token: token,
   } = useSelector((state: RootState) => state.users);
 
-  useEffect(() => {
-    if (Ilogin) {
-      router.push("/admin/login");
-    }
-  }, [Ilogin])
+  // useEffect(() => {
+  //   if (Ilogin) {
+  //     router.push("/admin/login");
+  //   }
+  // }, [Ilogin])
 
 
 

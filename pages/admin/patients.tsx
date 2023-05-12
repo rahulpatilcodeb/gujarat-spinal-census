@@ -75,6 +75,7 @@ export default function Patients() {
   };
 
   useEffect(() => {
+    console.log(APIData?.length)
     if (Ilogin) {
       searchItems(reqObj);
     }
@@ -279,36 +280,38 @@ export default function Patients() {
               );
             })
           )}
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <div>
-              <p>
-                {reqObj.page} of {Math.ceil(totalCount / pageSize)}
-              </p>
-            </div>
-            <div>
-              <ReactPaginate
-                pageCount={Math.ceil(totalCount / pageSize)}
-                previousLabel={"<"}
-                nextLabel={">"}
-                breakLabel={"..."}
-                marginPagesDisplayed={0}
-                pageRangeDisplayed={2}
-                onPageChange={handlePageClick}
-                containerClassName={"pagination justify-content-center"}
-                pageClassName={"page-item"}
-                pageLinkClassName={"page-link"}
-                previousClassName={"page-item"}
-                previousLinkClassName={"page-link"}
-                nextClassName={"page-item"}
-                nextLinkClassName={"page-link"}
-                breakClassName={"page-item"}
-                breakLinkClassName={"page-link"}
-                activeClassName={"active"}
-                forcePage={reqObj.page - 1}
+          {APIData.length ? (
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <p>
+                  {reqObj.page} of {Math.ceil(totalCount / pageSize)}
+                </p>
+              </div>
+              <div>
+                <ReactPaginate
+                  pageCount={Math.ceil(totalCount / pageSize)}
+                  previousLabel={"<"}
+                  nextLabel={">"}
+                  breakLabel={"..."}
+                  marginPagesDisplayed={0}
+                  pageRangeDisplayed={2}
+                  onPageChange={handlePageClick}
+                  containerClassName={"pagination justify-content-center"}
+                  pageClassName={"page-item"}
+                  pageLinkClassName={"page-link"}
+                  previousClassName={"page-item"}
+                  previousLinkClassName={"page-link"}
+                  nextClassName={"page-item"}
+                  nextLinkClassName={"page-link"}
+                  breakClassName={"page-item"}
+                  breakLinkClassName={"page-link"}
+                  activeClassName={"active"}
+                  forcePage={reqObj.page - 1}
 
-              />
+                />
+              </div>
             </div>
-          </div>
+          ) : (<p className="d-flex justify-content-center"><strong>No Records Found</strong></p>)}
         </div>
       </div>
       <ToastContainer />

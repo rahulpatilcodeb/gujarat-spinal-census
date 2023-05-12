@@ -11,7 +11,7 @@ function Footer() {
       <footer
         className="d-flex justify-content-between"
         style={{
-          zIndex:10,
+          zIndex: 10,
           // position: "fixed",
           left: "0",
           bottom: "0",

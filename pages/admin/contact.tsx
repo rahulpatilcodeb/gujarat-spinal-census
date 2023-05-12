@@ -48,7 +48,7 @@ const Home = () => {
 
         console.log(err.response.data == "jwt expired")
         if (err.response.data == "jwt expired") {
-           toast.error("Session Expired!");
+          toast.error("Session Expired!");
           dispatch(logout());
         }
       }).finally(() => {
@@ -67,7 +67,7 @@ const Home = () => {
       apiCall();
 
     }
-  
+
   }, [Ilogin, currentPage]);
 
 
@@ -144,38 +144,38 @@ const Home = () => {
           </table>
         </div>
       )}
-      <div
-        className="px-5"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <div>
-          <p>
-            {currentPage} of {Math.ceil(totalCount / pageSize)}
-          </p>
+      {posts.length ? (
+        <div
+          className="px-5"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <><div>
+            <p>
+              {currentPage} of {Math.ceil(totalCount / pageSize)}
+            </p>
+          </div><div>
+              <ReactPaginate
+                pageCount={pageCount}
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                marginPagesDisplayed={0}
+                pageRangeDisplayed={3}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"} />
+            </div></>
         </div>
-        <div>
-          <ReactPaginate
-            pageCount={pageCount}
-            previousLabel={"<"}
-            nextLabel={">"}
-            breakLabel={"..."}
-            marginPagesDisplayed={0}
-            pageRangeDisplayed={3}
-            onPageChange={handlePageClick}
-            containerClassName={"pagination justify-content-center"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link"}
-            previousClassName={"page-item"}
-            previousLinkClassName={"page-link"}
-            nextClassName={"page-item"}
-            nextLinkClassName={"page-link"}
-            breakClassName={"page-item"}
-            breakLinkClassName={"page-link"}
-            activeClassName={"active"}
-          />
-        </div>
-      </div>
-      ;
+      ) : (
+        <div className="d-flex justify-content-center text-bold font-weight-700"><strong>No Records Found</strong></div>)}
       <ToastContainer />
     </>
   );

@@ -26,8 +26,8 @@ const Login = () => {
 
   async function onSubmit(e: any) {
     e.preventDefault();
-    setLoading(true)
     try {
+      setLoading(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/adminlogin`,
         {
@@ -39,20 +39,24 @@ const Login = () => {
       const datadb = await response.json();
       if (response.ok) {
         if (datadb.payload.name != undefined) {
-
+          toast.success("Login Success");
+          await new Promise((resolve, reject) => {
+            setTimeout(() => {
+              return resolve("");
+            }, 1500);
+          })
           dispatch(
             login({ user: datadb.payload.name, token: datadb.payload.key })
           );
           setLoading(false)
-          toast.success("Login Success");
           router.push("/admin/patients");
         }
       } else {
-        return alert("invalid input");
+        return toast.error("invalid input");
       }
     } catch (error) {
       setLoading(false)
-      toast.error("Please provide correct input!");
+      toast.error("Please provide correct Credentials!");
     } finally {
       setLoading(false)
     }

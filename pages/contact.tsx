@@ -1,20 +1,22 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Contact(): JSX.Element {
   const { t: translate } = useTranslation('common');
   const schema = Yup.object().shape({
     email: Yup.string()
-      .required(translate("Email is a required field!")as string)
-      .email(translate("Invalid email format!")as string),
-    description: Yup.string().required(translate("Please enter description here!")as string),
-    contact: Yup.string().required(translate("Please enter your phone number!")as string),
+      .required(translate("Email is a required field!") as string)
+      .email(translate("Invalid email format!") as string),
+    description: Yup.string().required(translate("Please enter description here!") as string),
+    contact: Yup.string().required(translate("Please enter your phone number!") as string),
   });
   const router = useRouter();
   const { locales, locale } = useRouter()
@@ -34,11 +36,11 @@ function Contact(): JSX.Element {
   async function handleSubmit() {
     await axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/contact`, formik.values)
-      .then(() => alert("Thank You !! \n We will reach to you soon"))
+      .then(() => toast.success("We will reach to you soon!"))
       .catch((err: any) => {
         console.error(err);
       });
-    router.push("/");
+    // router.push("/");
   }
   function resetAll() {
     formik.values.contact = "";
@@ -47,7 +49,7 @@ function Contact(): JSX.Element {
   }
 
   return (
-    <form noValidate className="container w-50" style={{ marginBottom: "7%" }} onSubmit={formik.handleSubmit}>
+    <><form noValidate className="container w-50" style={{ marginBottom: "7%" }} onSubmit={formik.handleSubmit}>
       <div className="col d-flex justify-content-center">
         <span>
           <b style={{ fontSize: "18px" }}>--Contact Us --</b>
@@ -67,8 +69,7 @@ function Contact(): JSX.Element {
           type="text"
           id="contact"
           placeholder="+91"
-          value={formik.values.contact}
-        />
+          value={formik.values.contact} />
         <p className="error" style={{ color: "red" }}>
           {formik.errors.contact &&
             formik.touched.contact &&
@@ -88,9 +89,7 @@ function Contact(): JSX.Element {
           type="text"
           id="email"
           value={formik.values.email}
-          placeholder={translate('e-mail address') as string}
-
-        />
+          placeholder={translate('e-mail address') as string} />
         <p style={{ color: "red" }} className="error">
           {formik.errors.email && formik.touched.email && formik.errors.email}
         </p>
@@ -109,9 +108,7 @@ function Contact(): JSX.Element {
           type="text"
           id="description"
           value={formik.values.description}
-          placeholder={translate('Description') as string}
-
-        />
+          placeholder={translate('Description') as string} />
         <p style={{ color: "red" }} className="error">
           {formik.errors.description &&
             formik.touched.description &&
@@ -120,7 +117,7 @@ function Contact(): JSX.Element {
       </div>
 
       <div className="d-flex justify-content-end mt-3 me-3">
-        <button type="reset" onClick={() => { formik.resetForm() }} className="btn btn-outline-secondary me-3">
+        <button type="reset" onClick={() => { formik.resetForm(); }} className="btn btn-outline-secondary me-3">
           Cancel
         </button>
         <button
@@ -136,6 +133,8 @@ function Contact(): JSX.Element {
         </button>
       </div>
     </form>
+      <ToastContainer />
+    </>
   );
 }
 
