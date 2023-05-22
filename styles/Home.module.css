@@ -13,3 +13,7 @@ select.tcolor {
   width: 50px;
   justify-content: center;
 } */
+
+.navbar {
+  background-color: blueviolet;
+}
