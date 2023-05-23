@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     margin-block-start: 10px;
+    padding-right: 10px;
 }
 
 .menu-conatiner {
@@ -24,6 +25,7 @@
     outline-width: none;
 }
 
+
 @media (max-width: 768px) {
     .menu-conatiner {
         display: none;
@@ -32,11 +34,16 @@
         align-items: center;
     }
 
+    .menu-conatiner .Link {
+        text-decoration: none;
+    }
+
     .navbar {
         /* background-color: rgb(226, 107, 43); */
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-right: 5px;
     }
 
     .menu-icon {
@@ -45,12 +52,17 @@
     }
 
     .icon-menu-option {
-        bottom: 760px;
+
         position: absolute;
+        top: 80px;
+        right: 5px;
+        background-color: white;
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
-        z-index: 5;
+
     }
+
+
 }

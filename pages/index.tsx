@@ -1,11 +1,10 @@
-import { Container, Row, Col } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import Register from "@/components/Register";
-import axios from "axios";
 import InjuryInfo from "@/components/InjuryInfo";
+import Register from "@/components/Register";
 import UserRegister from "@/components/userInfo";
-import { useRouter } from "next/router";
+import styles from '@/styles/personal.module.css';
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 
 
 function Common() {
@@ -36,7 +35,7 @@ function Common() {
     independent: "",
   });
 
- 
+
   const nextStep = () => {
     setstep(step + 1);
   };
@@ -60,10 +59,10 @@ function Common() {
   switch (step) {
     case 1:
       return (
-        <div>
-          <Container className="w-50">
+        <div className={`${styles['personal-detail-box']}`}>
+          <Container style={{ justifyContent: "center" }}>
             <Row>
-              <Col className="custom-margin">
+              <Col>
                 <UserRegister
                   nextStep={nextStep}
                   setFormData={setFormData}
@@ -78,9 +77,9 @@ function Common() {
     case 2:
       return (
         <div>
-          <Container className="w-50">
+          <Container >
             <Row>
-              <Col className="custom-margin">
+              <Col className="">
                 <InjuryInfo
                   nextStep={nextStep}
                   prevStep={prevStep}
@@ -96,10 +95,10 @@ function Common() {
       );
     case 3:
       return (
-        <div className="App">
-          <Container className="w-75">
+        <div >
+          <Container >
             <Row>
-              <Col md={{ span: 6, offset: 3 }} className="custom-margin">
+              <Col md={{ span: 6, offset: 3 }} >
                 <Register />
               </Col>
             </Row>

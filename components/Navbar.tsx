@@ -1,15 +1,14 @@
 import logo from "@/public/logo.png";
+import { currentlng } from "@/store/languageSlice";
+import { RootState } from "@/store/store";
+import { logout } from "@/store/userSlice";
 import styles from "@/styles/navbar.module.css";
 import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { login, logout } from "@/store/userSlice";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Select from "react-select";
-import { currentlng } from "@/store/languageSlice";
 import { useTranslation } from "react-i18next";
-import { indexOf } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
 
 
 
@@ -138,6 +137,7 @@ function Navbars() {
                 style={{ color: homeColor, fontSize: "18px" }}
                 locale={locale}
 
+
               >
                 {translate('home')}
               </Link>
@@ -232,7 +232,7 @@ function Navbars() {
                 <Link
                   href="/admin/patients"
                   onClick={handleChangeHomeColor}
-                  style={{ color: homeColor, fontSize: "18px" }}
+                  style={{ color: homeColor, fontSize: "18px", textDecoration: "none" }}
                   locale={locale}
 
                 >
@@ -242,7 +242,7 @@ function Navbars() {
                 <Link
                   href="/"
                   onClick={handleChangeHomeColor}
-                  style={{ color: homeColor, fontSize: "18px" }}
+                  style={{ color: homeColor, fontSize: "18px", textDecoration: "none" }}
                   locale={locale}
                 >
                   {translate('home')}
@@ -259,7 +259,7 @@ function Navbars() {
                   onClick={handleChangeContactColor}
                   className="ms-2"
                   href="/admin/contact"
-                  style={{ color: contactColor, fontSize: "18px" }}
+                  style={{ color: contactColor, fontSize: "18px", textDecoration: "none" }}
                   locale={locale}
 
                 >
@@ -273,7 +273,7 @@ function Navbars() {
                   className="ms-2"
                   href="/contact"
                   onClick={handleChangeContactColor}
-                  style={{ color: contactColor, fontSize: "18px" }}
+                  style={{ color: contactColor, fontSize: "18px", textDecoration: "none" }}
                   locale={locale}
                 >
                   {translate('contact')}
@@ -290,7 +290,7 @@ function Navbars() {
                     className="ms-2"
                     href="/about"
                     onClick={handleChangeAboutColor}
-                    style={{ color: aboutColor, fontSize: "18px", }}
+                    style={{ color: aboutColor, fontSize: "18px", textDecoration: "none" }}
                     locale={locale}
 
                   >
