@@ -1,15 +1,14 @@
 import logo from "@/public/logo.png";
-import "@/styles/Home.module.css";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { login, logout } from "@/store/userSlice";
-import router, { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Select from "react-select";
 import { currentlng } from "@/store/languageSlice";
+import { RootState } from "@/store/store";
+import { logout } from "@/store/userSlice";
+import styles from "@/styles/navbar.module.css";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { indexOf } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+import Select from "react-select";
 
 
 
@@ -28,6 +27,7 @@ function Navbars() {
   const [homeColor, setHomeColor] = useState("#6BC17A");
   const [contactColor, setContactColor] = useState("#181C32")
   const [aboutColor, setAboutColor] = useState("#181C32");
+  const [menu, setMenu] = useState(false);
 
   // to update the current color of link.
   const handleChangeHomeColor = () => {
@@ -95,13 +95,17 @@ function Navbars() {
     { value: 'en', label: 'English' }
   ]
 
+  function handleMenu() {
+    setMenu(!menu)
+  }
+
 
   return (
     <>
-      <div className="my-3 d-flex justify-content-between">
-        <div className="col ms-5">
+      <div className={`${styles.navbar}`}>
+        <div className="col">
           <span>
-            <button className="btn gsc" onClick={(e) => { router.push("/"); handleChangeHomeColor() }} style={{ border: "none" }}>
+            <button className="btn gsc" onClick={(e) => { router.push("/"); handleChangeHomeColor() }} >
               <img src={logo.src} width="100px" />
             </button>
 
@@ -113,7 +117,7 @@ function Navbars() {
             ></img> */}
           </span>
         </div>
-        <div className="col d-flex justify-content-end me-5 my-3  align-items-center" style={{ whiteSpace: "nowrap" }}>
+        <div className={`${styles["menu-conatiner"]}`} style={{ whiteSpace: "nowrap" }}>
           {pathname.indexOf("admin") == -1 ? <span className="pe-3">
             <Select options={opt}
               defaultValue={() => {
@@ -132,6 +136,7 @@ function Navbars() {
                 onClick={handleChangeHomeColor}
                 style={{ color: homeColor, fontSize: "18px" }}
                 locale={locale}
+
 
               >
                 {translate('home')}
@@ -200,11 +205,115 @@ function Navbars() {
           </span>
 
         </div>
+        <div className={`${styles['menu-icon']}`} style={{ paddingRight: "10px" }}>
+          {pathname.indexOf("admin") == -1 ? <span className="pe-3">
+            <Select options={opt}
+              defaultValue={() => {
+                return opt.find((o: any) => o.value == locale)
+              }}
+              id="lng"
+              name="language"
+              onChange={NewValue}
+
+            />
+          </span> : ""}
+          {<svg onClick={handleMenu} viewBox="0 0 100 80" width="20" height="20">
+            <rect width="100" height="10"></rect>
+            <rect y="25" width="100" height="10"></rect>
+            <rect y="50" width="100" height="10"></rect>
+          </svg>}
+        </div>
       </div>
+      <div style={{ display: "flex", justifyContent: "end", alignItems: 'end' }}>
+        {menu && <div className={`${styles['icon-menu-option']}`}>
+          <div>
+            <span>
+              {pathname.indexOf("admin") !== -1 && Ilogin ? (
+                <Link
+                  href="/admin/patients"
+                  onClick={handleChangeHomeColor}
+                  style={{ color: homeColor, fontSize: "18px", textDecoration: "none" }}
+                  locale={locale}
+
+                >
+                  {translate('home')}
+                </Link>
+              ) : (
+                <Link
+                  href="/"
+                  onClick={handleChangeHomeColor}
+                  style={{ color: homeColor, fontSize: "18px", textDecoration: "none" }}
+                  locale={locale}
+                >
+                  {translate('home')}
+                </Link>
+              )}
+            </span>
+          </div><div>
+
+
+            <span>
+
+              {pathname.indexOf("admin") !== -1 && Ilogin ? (
+                <Link
+                  onClick={handleChangeContactColor}
+                  className="ms-2"
+                  href="/admin/contact"
+                  style={{ color: contactColor, fontSize: "18px", textDecoration: "none" }}
+                  locale={locale}
+
+                >
+                  {translate('contact')}
+                  {/* Contact */}
+
+                </Link>
+              ) : (
+
+                <Link
+                  className="ms-2"
+                  href="/contact"
+                  onClick={handleChangeContactColor}
+                  style={{ color: contactColor, fontSize: "18px", textDecoration: "none" }}
+                  locale={locale}
+                >
+                  {translate('contact')}
+                  {/* Contact */}
+                </Link>
+              )}
+
+            </span>
+          </div><div>
+            <span className="d-flex align-items-center">
+              {(pathname.indexOf("admin") == -1 || !Ilogin)
+                && (
+                  <Link
+                    className="ms-2"
+                    href="/about"
+                    onClick={handleChangeAboutColor}
+                    style={{ color: aboutColor, fontSize: "18px", textDecoration: "none" }}
+                    locale={locale}
+
+                  >
+                    {translate('about')}
+                  </Link>
+                )}
+            </span>
+            <button
+              style={{ display: Ilogin ? "inline" : "none" }}
+              className="btn btn-sm btn-primary ms-2 "
+              onClick={handleClick}
+            >
+              Logout
+            </button>
+          </div>
+        </div >
+        }
+      </div >
+
+
     </>
   );
 };
-
 
 
 export default Navbars;
