@@ -1,16 +1,15 @@
 import { RootState } from "@/store/store";
-import { login } from "@/store/userSlice";
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { useSelector } from "react-redux";
+import styles from "@/styles/about.module.css"
 
 
 // let flag = true;
 const About = ({ language }: any) => {
 
-  const { locale,  } = useRouter()
+  const { locale, } = useRouter()
   const router = useRouter();
 
   const { t: translate } = useTranslation('common')
@@ -48,7 +47,7 @@ const About = ({ language }: any) => {
         </Link>
       </h2> */}
 
-      <div className="" style={{ width: "100%", fontSize: "15px", paddingLeft: "300px", paddingRight: "300px" }} >
+      <div className={`${styles['main-container']}`} >
 
         {/* <div className="toggle-button-cover" style={{ display: "block" }}>
           <div className="button-cover">

@@ -1,0 +1,11 @@
+.main-container {
+    margin: auto;
+    width: 60%;
+
+}
+
+@media (max-width : 768px) {
+    .main-container {
+        width: 70%;
+    }
+}
